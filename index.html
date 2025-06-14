@@ -1,14 +1,147 @@
 <!DOCTYPE html>
+<html lang="en">
 
-<header>
-    <h1> You've reached the homepage of wazwer!! >:D </h1>
-</header>
+<head>
+    <meta charset="UTF-8">
+    <title>wazwer</title>
+    <style>
+        body {
+            background-color: #2c2935;
+            color: white;
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 30px;
+        }
 
-<body style="background-color: #332935;">
+        a {
+            color: #fcd063;
+            text-decoration: none;
+        }
 
-    <img src="images/wazwer_emblem.png" alt="wazwer logo" width="400">
-    <img src="images/kascade_logo.png" alt="Kascade logo" width="400">
-    <img src="images/Links_Header.png" alt="Links header" width="400">
+        a:hover {
+            text-decoration: underline;
+        }
 
+        .center {
+            text-align: center;
+        }
+
+        .emblem {
+            width: 400px;
+            max-width: 90%;
+            height: auto;
+        }
+
+        .nameplate {
+            font-family: Impact, Chicago, sans-serif;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 1px;
+            margin: 20px 0;
+        }
+
+        .nameplate .line {
+            color: #ffffff;
+        }
+
+        .chevron-block {
+            font-family: monospace;
+            display: inline-block;
+            background: repeating-linear-gradient(45deg,
+                    /* Angle of the stripes */
+                    #000000 0px,
+                    #000000 6px,
+                    #fcd063 6px,
+                    #fcd063 12px);
+            background-size: 200% 100%;
+            /* Wider than 100% for motion loop */
+            background-position: 100% 0%;
+            /* Start at right */
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: stripes-left-right 6s linear infinite;
+            letter-spacing: 0;
+        }
+
+        .nameplate .nameColor {
+            color: #bf006c;
+            margin: 0 8px;
+        }
+
+        .pink-star {
+            color: #ea5b94;
+        }
+
+        @keyframes stripes-left-right {
+            0% {
+                background-position: 100% 0%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        .link-bar {
+            height: 60px;
+            /* Adjust to match your image's height */
+            background: url('images/Links_Header.png') repeat-x left center;
+            background-size: auto 100%;
+            /* tile width-wise, scale to bar height */
+            margin: 40px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <p>
+        Congratulations! You've reached WAZWER's webpage >:D
+    </p>
+
+    <div class="center">
+        <img src="images/wazwer_emblem.png" alt="wazwer emblem" class="emblem">
+    </div>
+
+    <div class="nameplate">
+        <span class="line">-</span>
+        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+        <span class="nameColor">_Kascade-wazwer-Em</span>
+        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+        <span class="nameColor">any pronouns</span>
+        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+        <span class="nameColor">1997</span>
+        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+        <span class="line">-</span>
+    </div>
+
+    <p class="center">⚙️ Currently gearing up for AF 2025 ⚙️</p>
+
+    <p>
+        Hey there! You can call me Em, or you can call me by my handle (wazwer) or my fursona's name (Kascade). I like
+        'em all, it's up to you :)
+    </p>
+
+    <p>
+        <span class="pink-star">★</span> Big fan of Grungy Sci-fi, Anthros (obviously :P), Robots, Anime and 90s CG. I'm
+        designing a world for my characters to live in based on these themes.
+    </p>
+
+    <p>
+        I’ll be thrilled if you draw art of my characters! 😁 All favs are appreciated!
+    </p>
+
+    <div class="link-bar"></div>
+
+    <p>
+        <strong>Find me on everything here:</strong><br>
+        <a href="https://linktr.ee/wazwer" target="_blank">https://linktr.ee/wazwer</a>
+    </p>
+    <p>
+        Visit ToyHouse to check out the world link on the left for more info about
+        <a href="https://toyhou.se/~world/185817.world-lore" target="_blank">the world my characters exist in</a>.
+    </p>
 </body>
 
+</html>
