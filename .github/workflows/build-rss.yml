@@ -1,12 +1,25 @@
-- name: Set up Python
-  uses: actions/setup-python@v4
-  with:
-    python-version: '3.x'
+name: Build RSS Feed
 
-- name: Install dependencies
-  run: pip install feedparser
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
 
-- name: Generate RSS snippet
-  run: python scripts/fetch_rss.py
+jobs:
+  generate-rss:
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install feedparser
+
+      - name: Generate RSS snippet
+        run: python scripts/fetch_rss.py
