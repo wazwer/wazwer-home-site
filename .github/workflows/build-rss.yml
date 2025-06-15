@@ -7,4 +7,6 @@
   run: pip install feedparser
 
 - name: Generate RSS snippet
-  run: python fetch_rss.py
+  run: python scripts/fetch_rss.py
+
+

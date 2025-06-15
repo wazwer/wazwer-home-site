@@ -6,9 +6,18 @@
 </head>
 
 <body>
+    <!-- Server-generated at deploy time -->
+    <div class="rss-feed">
+        <!--#include virtual="rss.html" --> <!-- (if using SSI) -->
+        OR
+        <iframe src="rss.html" width="100%" height="300"></iframe>
+    </div>
+
     <iframe
         src="https://skissors.github.io/PetzPark/widget.html?seed=7645&theme=win95&textColor=ffffff&outlineColor=000000&background=https://skissors.github.io/PetzPark/wallpaper/Paw_Print.png&winColor1=000080&winColor2=1084d0"
-        style="width: 250px; height:250px; border: none"></iframe>
+        style="width: 250px; height:250px; border: none">
+    </iframe>
+
     <footer style="text-align: center; margin-top: 2em;">
         <a href="sitemap.html">Site Map</a>
     </footer>
