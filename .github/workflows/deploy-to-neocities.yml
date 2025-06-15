@@ -1,0 +1,26 @@
+name: Deploy to Neocities
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v3
+
+      - name: Install curl
+        run: sudo apt-get install curl
+
+      - name: Deploy to Neocities
+        run: |
+          curl -F "file=@index.html" -F "api_key=${{ secrets.NEOCITIES_API_KEY }}" https://neocities.org/api/upload
+          curl -F "file=@style.css" -F "api_key=${{ secrets.NEOCITIES_API_KEY }}" https://neocities.org/api/upload
+
+          find images -type f | while read file; do
+            curl -F "file=@$file" -F "api_key=${{ secrets.NEOCITIES_API_KEY }}" https://neocities.org/api/upload
+          done
