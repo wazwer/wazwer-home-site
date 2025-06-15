@@ -14,24 +14,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v3
-
-      - name: Install curl
-        run: sudo apt-get install curl
+      - uses: actions/checkout@v4
 
       - name: Deploy to Neocities
-        run: |
-          echo "Uploading index.html"
-          curl -F "index.html=@index.html" \
-               -F "api_key=${{ secrets.NEOCITIES_API_KEY }}" \
-               https://neocities.org/api/upload
-
-          echo "Uploading image files..."
-          find images -type f -print0 | while IFS= read -r -d '' file; do
-            filename=$(basename "$file")
-            echo "Uploading $file → $filename"
-            curl -F "${filename}=@${file}" \
-                 -F "api_key=${{ secrets.NEOCITIES_API_KEY }}" \
-                 https://neocities.org/api/upload
-          done
+        uses: bcomnes/deploy-to-neocities@v3
+        with:
+          api_key: ${{ secrets.NEOCITIES_API_KEY }}
+          dist_dir: public               # deploy public folder
+          cleanup: false
+          preview_before_deploy: true
