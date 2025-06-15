@@ -85,12 +85,19 @@
         }
 
         .link-bar {
-            height: 60px;
+            height: 40px;
             /* Adjust to match your image's height */
             background: url('images/Links_Header.png') repeat-x left center;
             background-size: auto 100%;
             /* tile width-wise, scale to bar height */
-            margin: 40px 0;
+            position: absolute;
+            left: 0;
+            width: 100%;
+        }
+
+        .link-bar-spacer {
+            height: 40px;
+            /* match the height of your link-bar */
         }
     </style>
 </head>
@@ -133,7 +140,7 @@
     </p>
 
     <div class="link-bar"></div>
-
+    <div class="link-bar-spacer"></div>
     <p>
         <strong>Find me on everything here:</strong><br>
         <a href="https://linktr.ee/wazwer" target="_blank">https://linktr.ee/wazwer</a>
