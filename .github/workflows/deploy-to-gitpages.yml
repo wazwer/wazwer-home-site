@@ -22,9 +22,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Upload public/ as GitHub Pages artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v2   
         with:
-          path: public  # deploy folder
+          path: public
 
   deploy:
     needs: build
