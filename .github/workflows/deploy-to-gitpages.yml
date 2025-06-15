@@ -21,12 +21,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Upload site manually with v4
-        uses: actions/upload-artifact@v4
+      # If you have a build step (like npm run build), add it here.
+      # Example:
+      # - name: Install dependencies
+      #   run: npm ci
+      # - name: Build site
+      #   run: npm run build
+
+      - name: Upload static site artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v2
         with:
-          name: github-pages
           path: public
-          overwrite: true
 
   deploy:
     needs: build
