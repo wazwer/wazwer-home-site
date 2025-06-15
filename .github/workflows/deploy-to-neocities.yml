@@ -3,12 +3,12 @@ name: Deploy to Neocities
 on:
   push:
     branches:
-      - main 
-      
-concurrency: # prevent concurrent deploys doing strange things
+      - main
+
+concurrency:
   group: deploy-to-neocities
   cancel-in-progress: true
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -22,13 +22,16 @@ jobs:
 
       - name: Deploy to Neocities
         run: |
+          echo "Uploading index.html"
           curl -F "index.html=@index.html" \
                -F "api_key=${{ secrets.NEOCITIES_API_KEY }}" \
                https://neocities.org/api/upload
-      
+
+          echo "Uploading image files..."
           find images -type f -print0 | while IFS= read -r -d '' file; do
-            echo "Uploading $file"
-            curl -F "${file}=@${file}" \
+            filename=$(basename "$file")
+            echo "Uploading $file → $filename"
+            curl -F "${filename}=@${file}" \
                  -F "api_key=${{ secrets.NEOCITIES_API_KEY }}" \
                  https://neocities.org/api/upload
           done
