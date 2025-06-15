@@ -19,7 +19,6 @@ jobs:
       - name: Deploy to Neocities
         run: |
           curl -F "file=@index.html" -F "api_key=${{ secrets.NEOCITIES_API_KEY }}" https://neocities.org/api/upload
-          curl -F "file=@style.css" -F "api_key=${{ secrets.NEOCITIES_API_KEY }}" https://neocities.org/api/upload
 
           find images -type f | while read file; do
             curl -F "file=@$file" -F "api_key=${{ secrets.NEOCITIES_API_KEY }}" https://neocities.org/api/upload
