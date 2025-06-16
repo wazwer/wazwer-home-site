@@ -1,25 +1,27 @@
 name: Build and Deploy
 
-# Trigger on push to main branch or manual run
+# Trigger only when run manually from GitHub UI
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+    inputs:
+      deploy_to_neocities:
+        description: 'Deploy to Neocities?'
+        required: false
+        default: 'false'  # Optional toggle for Neocities deploy
 
-# Required permissions for GitHub Pages deployment
+# Permissions required for Pages + deploy tooling
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Avoid overlapping runs
+# Ensure only one deploy runs at a time
 concurrency:
   group: "build-and-deploy"
   cancel-in-progress: false
 
 jobs:
-  # Job 1: Generate RSS HTML snippet
+  # Job 1: Build the RSS HTML snippet
   build-rss:
     runs-on: ubuntu-latest
     steps:
@@ -35,18 +37,18 @@ jobs:
         run: pip install feedparser
 
       - name: Generate RSS snippet
-        run: python scripts/fetch_rss.py  # creates public/rss.html
+        run: python scripts/fetch_rss.py  # Writes to public/rss.html
 
-      - name: Upload RSS output as artifact for other jobs
+      - name: Upload RSS-enhanced public folder as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: public-folder              # artifact name
-          path: public/                    # directory to pass between jobs
+          name: public-folder              # Artifact name
+          path: public/                    # RSS output dir to pass between jobs
 
-  # Job 2: Deploy site to GitHub Pages
+  # Job 2: Deploy to GitHub Pages
   deploy_gitpages:
     runs-on: ubuntu-latest
-    needs: [build-rss]  # wait for RSS build to finish
+    needs: [build-rss]  # Must wait until RSS is generated
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -54,42 +56,43 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download RSS-enhanced public folder
+      - name: Download public folder artifact
         uses: actions/download-artifact@v4
         with:
           name: public-folder
-          path: public                    # restore files to public/
+          path: public
 
       - name: Setup GitHub Pages environment
         uses: actions/configure-pages@v5
 
-      - name: Upload site for deployment
+      - name: Upload public folder for deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'public'                 # deploy this folder to GitHub Pages
+          path: 'public'
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
-  # Job 3: Deploy site to Neocities
+  # Job 3: Conditionally deploy to Neocities (only if selected)
   deploy_neocities:
+    if: ${{ github.event.inputs.deploy_to_neocities == 'true' }}  # Only run if input is true
     runs-on: ubuntu-latest
-    needs: [build-rss]  # also depends on RSS build
+    needs: [build-rss]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download RSS-enhanced public folder
+      - name: Download public folder artifact
         uses: actions/download-artifact@v4
         with:
           name: public-folder
-          path: public                  # restore files to public/
+          path: public
 
       - name: Deploy to Neocities
         uses: bcomnes/deploy-to-neocities@v3
         with:
-          api_key: ${{ secrets.NEOCITIES_API_KEY }}  # secure key from repo secrets
-          dist_dir: public                           # upload this directory
+          api_key: ${{ secrets.NEOCITIES_API_KEY }}  # Your API key in repo secrets
+          dist_dir: public                           # Folder to deploy
           cleanup: false
           preview_before_deploy: true
