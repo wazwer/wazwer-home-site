@@ -28,7 +28,7 @@ for item in root.findall(".//item"):
 # Output HTML file
 with open("public/rss.html", "w", encoding="utf-8") as f:
     f.write("<div class='rss-feed'>\n")
-    for entry in feed.entries[:5]:
+    for entry in feed.entries[:10]:
         data = link_to_data.get(entry.link, {})
         image = data.get("image")
         description = data.get("description", "").strip()
