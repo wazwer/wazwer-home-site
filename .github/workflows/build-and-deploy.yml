@@ -34,7 +34,7 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install feedparser
+        run: pip install feedparser requests
 
       - name: Generate RSS snippet
         run: python scripts/fetch_rss.py  # Writes to public/rss.html
