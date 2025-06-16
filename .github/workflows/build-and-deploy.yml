@@ -1,0 +1,95 @@
+name: Build and Deploy
+
+# Trigger on push to main branch or manual run
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Required permissions for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Avoid overlapping runs
+concurrency:
+  group: "build-and-deploy"
+  cancel-in-progress: false
+
+jobs:
+  # Job 1: Generate RSS HTML snippet
+  build-rss:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install feedparser
+
+      - name: Generate RSS snippet
+        run: python scripts/fetch_rss.py  # creates public/rss.html
+
+      - name: Upload RSS output as artifact for other jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-folder              # artifact name
+          path: public/                    # directory to pass between jobs
+
+  # Job 2: Deploy site to GitHub Pages
+  deploy_gitpages:
+    runs-on: ubuntu-latest
+    needs: [build-rss]  # wait for RSS build to finish
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download RSS-enhanced public folder
+        uses: actions/download-artifact@v4
+        with:
+          name: public-folder
+          path: public                    # restore files to public/
+
+      - name: Setup GitHub Pages environment
+        uses: actions/configure-pages@v5
+
+      - name: Upload site for deployment
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'                 # deploy this folder to GitHub Pages
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Job 3: Deploy site to Neocities
+  deploy_neocities:
+    runs-on: ubuntu-latest
+    needs: [build-rss]  # also depends on RSS build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download RSS-enhanced public folder
+        uses: actions/download-artifact@v4
+        with:
+          name: public-folder
+          path: public                  # restore files to public/
+
+      - name: Deploy to Neocities
+        uses: bcomnes/deploy-to-neocities@v3
+        with:
+          api_key: ${{ secrets.NEOCITIES_API_KEY }}  # secure key from repo secrets
+          dist_dir: public                           # upload this directory
+          cleanup: false
+          preview_before_deploy: true
