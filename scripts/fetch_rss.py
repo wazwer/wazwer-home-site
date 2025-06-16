@@ -27,14 +27,27 @@ for item in root.findall(".//item"):
 
 # Output HTML file
 with open("public/rss.html", "w", encoding="utf-8") as f:
-    f.write("<div class='rss-feed'>\n")
+    f.write("""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RSS Feed</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 1em; }
+        .rss-entry { margin-bottom: 1em; }
+    </style>
+</head>
+<body>
+<div class='rss-feed'>
+""")
+
     for entry in feed.entries[:10]:
         data = link_to_data.get(entry.link, {})
         image = data.get("image")
         description = data.get("description", "").strip()
         pub_date = data.get("pubDate", "").strip()
 
-        f.write("<div class='rss-entry' style='margin-bottom: 1em;'>\n")
+        f.write("<div class='rss-entry'>\n")
 
         if image:
             f.write(f"<img src='{image}' alt='cover' style='max-width: 100px; display: block;' />\n")
@@ -48,4 +61,6 @@ with open("public/rss.html", "w", encoding="utf-8") as f:
             f.write(f"<p>{description}</p>\n")
 
         f.write("</div>\n")
-    f.write("</div>\n")
+
+    f.write("</div>\n</body>\n</html>")
+
