@@ -125,6 +125,16 @@
             border-left: 12px solid #111;
             z-index: 12;
         }
+
+        .button {
+            width: 81px;
+            height: 33px;
+        }
+
+        .double-height-button {
+            width: 110px;
+            height: 85px;
+        }
     </style>
 </head>
 
@@ -134,7 +144,7 @@
     <div class="center">
         <img src="images/wazwer_emblem.png" alt="wazwer emblem" class="emblem">
     </div>
-    
+
     <div class="nameplate">
         <span class="line">-</span>
         <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
@@ -164,11 +174,12 @@
             I’ll be thrilled if you draw art of my characters! 😁 All favs are appreciated!
         </p>
     </div>
-    
+
     <div class="link-bar">
         <img src="images/PixelKascade.png" class="pixel-kascade-overlay">
         <!-- Status message is configured in python build script -->
-        <iframe src="https://wazwer.com/status.html" style="border: none; width: 400px; height: 25px; position: absolute; bottom: 250px; left: 80%; transform: translateX(-550px); "></iframe>
+        <iframe src="https://wazwer.com/status.html"
+            style="border: none; width: 400px; height: 25px; position: absolute; bottom: 250px; left: 80%; transform: translateX(-550px); "></iframe>
         <!-- for previs 
         <iframe src="status.html" style="border: none; width: 400px; height: 25px; position: absolute; bottom: 250px; left: 80%; transform: translateX(-550px); "></iframe>-->
         <div class="status-triangle"></div>
@@ -184,15 +195,37 @@
     </p>
 
 
-    <div>
-        <a href="https://www.mabsland.com/Adoption.html"><img src="images/stamps/Censor_Ma.gif"></a>
-        <a href="https://neocities.org/site/wazwer"><img src="images/stamps/neocities.gif"></a>
-        <a href="https://www.wazwer.com/"><img src="images/stamps/wazwer.gif"></a>
+    <div style="display: flex; align-items: flex-start; gap: 10px;">
+        <div>
+            <a href="https://www.mabsland.com/Adoption.html">
+                <img src="images/buttons/Censor_Ma.gif">
+            </a>
+        </div>
+
+        <!-- buttons grid -->
+        <div style="display: grid; grid-template-columns: repeat(4, auto); gap: 5px;">
+            <a href="https://neocities.org/site/wazwer"><img class="button" src="images/buttons/neocities-2.gif"></a>
+            <a href="https://syntheticfruits.neocities.org/"><img class="button" src="images/buttons/syntheticfruits2.gif"></a>
+            <a href="https://mileshouse.neocities.org/"><img class="button" src="images/buttons/kiophen.gif"></a>
+            <a href="https://www.sonicsatam.com/"><img class="button" src="images/buttons/fansunitedforsatam.png"></a>
+            <a href="https://www.wazwer.com/"><img class="button" src="images/buttons/wazwer.gif"></a>
+            <a href="https://www.saturdaymorningsonic.com/"><img class="button" src="images/buttons/saturdaymorningsonic.png"></a>
+            <a href="https://www.sonicgear.org/"><img class="button" src="images/buttons/sonicgear.jpg"></a>
+            
+            
+        </div>
+
+        <div>
+            <a href="https://archive.org/">
+                <img class="double-height-button" src="images/buttons/internetarchive.jpg">
+            </a>
+        </div>
     </div>
 
+
+
     <footer style="text-align: center; margin-top: 2em;">
-        <a href="sitemap.html">- Site Map -</a> <a href="https://neocities.org/site/wazwer">- Follow this page on
-            Neocities -</a> - (c) est. 2025 -
+        <a href="sitemap.html">- Site Map -</a> 
     </footer>
 </body>
 
