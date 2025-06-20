@@ -70,10 +70,6 @@
             margin: 0 8px;
         }
 
-        .pink-star {
-            color: #ea5b94;
-        }
-
         @keyframes stripes-left-right {
             0% {
                 background-position: 100% 0%;
@@ -84,9 +80,23 @@
             }
         }
 
+        .pixel-kascade-overlay {
+            position: absolute;
+            /* or absolute if inside a wrapper */
+            bottom: -320px;
+            /* matches the height of the link bar so she sits on it */
+            left: 80%;
+            transform: translateX(-400px);
+            height: 800px;
+            width: auto;
+            z-index: 11;
+            pointer-events: none;
+            /* avoid blocking links */
+        }
+
         .link-bar {
             height: 40px;
-            /* Adjust to match your image's height */
+            /* Adjust to match image's height */
             background: url('images/Links_Header.png') repeat-x left center;
             background-size: auto 100%;
             /* tile width-wise, scale to bar height */
@@ -97,21 +107,34 @@
 
         .link-bar-spacer {
             height: 40px;
-            /* match the height of your link-bar */
+            /* match the height of link-bar */
+        }
+
+        .status-triangle {
+            position: absolute;
+            /*CSS triangle trick */
+            bottom: 250px;
+            /* match iframe's vertical position */
+            left: 80%;
+            transform: translateX(-150px);
+            /* offset to the right edge of iframe + spacing */
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 12px solid #111;
+            z-index: 12;
         }
     </style>
 </head>
 
 <body>
     <!-- want to add this https://www.scmplayer.net/ -->
-    <p>
-        Congratulations! You've reached WAZWER's webpage >:D
-    </p>
 
     <div class="center">
         <img src="images/wazwer_emblem.png" alt="wazwer emblem" class="emblem">
     </div>
-
+    
     <div class="nameplate">
         <span class="line">-</span>
         <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
@@ -123,27 +146,33 @@
         <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
         <span class="line">-</span>
     </div>
+    <div class="link-bar-spacer"></div>
+    <div style="max-width: 60%;">
+        <p>
+            Hey there! You can call me Em, or you can call me by my handle (wazwer) or my fursona's name (Kascade). I
+            like
+            'em all, it's up to you :)
+        </p>
 
-    <p class="center"><iframe src="https://wazwer.com/status.html" style="border: none; width: 500px; height: 25px;"></iframe></p>
-    <!-- for previs 
-    <p class="center"><iframe src="status.html" style="border: none; width: 500px; height: 25px;"></iframe></p>
-    -->
+        <p>
+            <span style="color: #ea5b94;">★</span> Big fan of Grungy Sci-fi, Anthros (obviously :P), Robots, Anime and
+            90s CG. I'm
+            designing a world for my characters to live in based on these themes.
+        </p>
 
-    <p>
-        Hey there! You can call me Em, or you can call me by my handle (wazwer) or my fursona's name (Kascade). I like
-        'em all, it's up to you :)
-    </p>
-
-    <p>
-        <span class="pink-star">★</span> Big fan of Grungy Sci-fi, Anthros (obviously :P), Robots, Anime and 90s CG. I'm
-        designing a world for my characters to live in based on these themes.
-    </p>
-
-    <p>
-        I’ll be thrilled if you draw art of my characters! 😁 All favs are appreciated!
-    </p>
-
-    <div class="link-bar"></div>
+        <p>
+            I’ll be thrilled if you draw art of my characters! 😁 All favs are appreciated!
+        </p>
+    </div>
+    
+    <div class="link-bar">
+        <img src="images/PixelKascade.png" class="pixel-kascade-overlay">
+        <!-- Status message is configured in python build script -->
+        <iframe src="https://wazwer.com/status.html" style="border: none; width: 400px; height: 25px; position: absolute; bottom: 250px; left: 80%; transform: translateX(-550px); "></iframe>
+        <!-- for previs 
+        <iframe src="status.html" style="border: none; width: 400px; height: 25px; position: absolute; bottom: 250px; left: 80%; transform: translateX(-550px); "></iframe>-->
+        <div class="status-triangle"></div>
+    </div>
     <div class="link-bar-spacer"></div>
     <p>
         <strong>Find me on everything here:</strong><br>
@@ -154,10 +183,16 @@
         <a href="https://toyhou.se/~world/185817.world-lore" target="_blank">the world my characters exist in</a>.
     </p>
 
-    <a href="https://neocities.org/site/wazwer">Follow this page on Neocities</a>
-    
+
+    <div>
+        <a href="https://www.mabsland.com/Adoption.html"><img src="images/stamps/Censor_Ma.gif"></a>
+        <a href="https://neocities.org/site/wazwer"><img src="images/stamps/neocities.gif"></a>
+        <a href="https://www.wazwer.com/"><img src="images/stamps/wazwer.gif"></a>
+    </div>
+
     <footer style="text-align: center; margin-top: 2em;">
-        <a href="sitemap.html">Site Map</a>
+        <a href="sitemap.html">- Site Map -</a> <a href="https://neocities.org/site/wazwer">- Follow this page on
+            Neocities -</a> - (c) est. 2025 -
     </footer>
 </body>
 

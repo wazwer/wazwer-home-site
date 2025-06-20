@@ -3,16 +3,26 @@
 
 <head>
     <style>
+        html,
         body {
             margin: 0;
-            font-family: sans-serif;
-            font-size: 16px;
-            background-color: #131314;
-            text-align: left;
-            color: #ffffff;
+            padding: 0;
+            background: transparent;
         }
 
         .status-line {
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            height: 25px;
+            background-color: #111;
+            color: rgb(179, 255, 226);
+            font-family: 'Courier New';
+            font-size: 16px;
+        }
+
+        .status-text {
+            display: inline-block;
             padding-left: 12px;
             /* <-- Indent from left */
         }
@@ -20,7 +30,22 @@
 </head>
 
 <body>
-    <div class="status-line">STATUS: ⚙️ Currently gearing up for AF 2025 ⚙️</div>
+    <div class="status-line" id="statusLine">
+        <span class="status-text">STATUS: ⚙️ Loading... ⚙️</span>
+    </div>
+
+    <script>
+        const messages = [
+            "⚙️ Currently gearing up for AF 2025 ⚙️",
+            "I was on a snooze cruise I guess!",
+            "Creepy 💀 and Cute 🎀 Parts Pack",
+            "Static shock to the cyborg brain ⚡"
+        ];
+
+        const i = new Date().getSeconds() % messages.length;
+        document.getElementById("statusLine").innerHTML =
+            `<span class="status-text">${messages[i]}</span>`;
+    </script>
 </body>
 
 </html>
