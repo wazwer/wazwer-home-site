@@ -27,59 +27,6 @@
             text-align: center;
         }
 
-        .emblem {
-            width: 400px;
-            max-width: 90%;
-            height: auto;
-        }
-
-        .nameplate {
-            font-family: Impact, Chicago, sans-serif;
-            font-size: 24px;
-            text-align: center;
-            letter-spacing: 1px;
-            margin: 20px 0;
-        }
-
-        .nameplate .line {
-            color: #ffffff;
-        }
-
-        .chevron-block {
-            font-family: monospace;
-            display: inline-block;
-            background: repeating-linear-gradient(45deg,
-                    /* Angle of the stripes */
-                    #000000 0px,
-                    #000000 6px,
-                    #fcd063 6px,
-                    #fcd063 12px);
-            background-size: 200% 100%;
-            /* Wider than 100% for motion loop */
-            background-position: 100% 0%;
-            /* Start at right */
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            animation: stripes-left-right 6s linear infinite;
-            letter-spacing: 0;
-        }
-
-        .nameplate .nameColor {
-            color: #bf006c;
-            margin: 0 8px;
-        }
-
-        @keyframes stripes-left-right {
-            0% {
-                background-position: 100% 0%;
-            }
-
-            100% {
-                background-position: 0% 0%;
-            }
-        }
-
         .pixel-kascade-overlay {
             position: absolute;
             /* or absolute if inside a wrapper */
@@ -103,6 +50,7 @@
             position: absolute;
             left: 0;
             width: 100%;
+            z-index: 2;
         }
 
         .link-bar-spacer {
@@ -139,41 +87,16 @@
 </head>
 
 <body>
-    <!-- want to add this https://www.scmplayer.net/ -->
-
-    <div class="center">
-        <img src="images/wazwer_emblem.png" alt="wazwer emblem" class="emblem">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 870px; overflow: hidden; z-index: -1;">
+        <div
+            style="position: absolute; top: -100px; left: 0; width: 100%; height: 100%; background: url('images/Test1_dither.png') center center; background-size: cover;">
+        </div>
     </div>
 
-    <div class="nameplate">
-        <span class="line">-</span>
-        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-        <span class="nameColor">_Kascade-wazwer-Em</span>
-        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-        <span class="nameColor">any pronouns</span>
-        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-        <span class="nameColor">1997</span>
-        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-        <span class="line">-</span>
+    <div style="text-align: center;">
+        <img src="images/wazwer_emblem.png" alt="wazwer emblem" style="width: 400px; z-index: 4;">
     </div>
-    <div class="link-bar-spacer"></div>
-    <div style="max-width: 60%;">
-        <p>
-            Hey there! You can call me Em, or you can call me by my handle (wazwer) or my fursona's name (Kascade). I
-            like
-            'em all, it's up to you :)
-        </p>
-
-        <p>
-            <span style="color: #ea5b94;">★</span> Big fan of Grungy Sci-fi, Anthros (obviously :P), Robots, Anime and
-            90s CG. I'm
-            designing a world for my characters to live in based on these themes.
-        </p>
-
-        <p>
-            I’ll be thrilled if you draw art of my characters! 😁 All favs are appreciated!
-        </p>
-    </div>
+    <div style="height: 320px;"></div>
 
     <div class="link-bar">
         <img src="images/PixelKascade.png" class="pixel-kascade-overlay">
@@ -184,16 +107,14 @@
         <iframe src="status.html" style="border: none; width: 400px; height: 25px; position: absolute; bottom: 250px; left: 80%; transform: translateX(-550px); "></iframe>-->
         <div class="status-triangle"></div>
     </div>
+    </div>
     <div class="link-bar-spacer"></div>
-    <p>
-        <strong>Find me on everything here:</strong><br>
-        <a href="https://linktr.ee/wazwer" target="_blank">https://linktr.ee/wazwer</a>
-    </p>
-    <p>
-        Visit ToyHouse to check out the world link on the left for more info about
-        <a href="https://toyhou.se/~world/185817.world-lore" target="_blank">the world my characters exist in</a>.
-    </p>
 
+    <div>
+        <a href="about.html"><img src="images/about-button.png"></a>
+        <a href="games.html"><img src="images/reviews-button.png"></a>
+        <a href="art.html"><img src="images/art-button.png"></a>
+    </div>
 
     <div style="display: flex; align-items: flex-start; gap: 10px;">
         <div>
@@ -205,14 +126,16 @@
         <!-- buttons grid -->
         <div style="display: grid; grid-template-columns: repeat(4, auto); gap: 5px;">
             <a href="https://neocities.org/site/wazwer"><img class="button" src="images/buttons/neocities-2.gif"></a>
-            <a href="https://syntheticfruits.neocities.org/"><img class="button" src="images/buttons/syntheticfruits2.gif"></a>
+            <a href="https://syntheticfruits.neocities.org/"><img class="button"
+                    src="images/buttons/syntheticfruits2.gif"></a>
             <a href="https://mileshouse.neocities.org/"><img class="button" src="images/buttons/kiophen.gif"></a>
             <a href="https://www.sonicsatam.com/"><img class="button" src="images/buttons/fansunitedforsatam.png"></a>
             <a href="https://www.wazwer.com/"><img class="button" src="images/buttons/wazwer.gif"></a>
-            <a href="https://www.saturdaymorningsonic.com/"><img class="button" src="images/buttons/saturdaymorningsonic.png"></a>
+            <a href="https://www.saturdaymorningsonic.com/"><img class="button"
+                    src="images/buttons/saturdaymorningsonic.png"></a>
             <a href="https://www.sonicgear.org/"><img class="button" src="images/buttons/sonicgear.jpg"></a>
-            
-            
+
+
         </div>
 
         <div>
@@ -225,7 +148,7 @@
 
 
     <footer style="text-align: center; margin-top: 2em;">
-        <a href="sitemap.html">- Site Map -</a> 
+        <a href="sitemap.html">- Site Map -</a>
     </footer>
 </body>
 
