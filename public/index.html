@@ -61,7 +61,7 @@
         .status-triangle {
             position: absolute;
             /*CSS triangle trick */
-            bottom: 250px;
+            bottom: 240px;
             /* match iframe's vertical position */
             left: 80%;
             transform: translateX(-150px);
@@ -87,7 +87,7 @@
 </head>
 
 <body>
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 870px; overflow: hidden; z-index: -1;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 770px; overflow: hidden; z-index: -1;">
         <div
             style="position: absolute; top: -100px; left: 0; width: 100%; height: 100%; background: url('images/pipes_bg.png') center center; background-size: cover;">
         </div>
@@ -96,13 +96,13 @@
     <div style="text-align: center;">
         <img src="images/wazwer_emblem.png" alt="wazwer emblem" style="width: 400px; z-index: 4;">
     </div>
-    <div style="height: 320px;"></div>
+    <div style="height: 220px;"></div>
 
     <div class="link-bar">
         <img src="images/PixelKascade.png" class="pixel-kascade-overlay">
         <!-- Status message is configured in python build script -->
         <iframe src="https://wazwer.com/status.html"
-            style="border: none; width: 400px; height: 25px; position: absolute; bottom: 250px; left: 80%; transform: translateX(-550px); "></iframe>
+            style="border: none; width: 400px; height: 25px; position: absolute; bottom: 240px; left: 80%; transform: translateX(-550px); "></iframe>
         <!-- for previs 
         <iframe src="status.html" style="border: none; width: 400px; height: 25px; position: absolute; bottom: 250px; left: 80%; transform: translateX(-550px); "></iframe>-->
         <div class="status-triangle"></div>
