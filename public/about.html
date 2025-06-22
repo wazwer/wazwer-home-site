@@ -74,7 +74,31 @@
 
 
 <body>
+    <div style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;"> <img id="audio-toggle" src="images/audio_mute.png" alt="Play Audio"
+        style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
+        playing: <a href="https://www.youtube.com/watch?v=023a0SVk4ZY"> FM Skyline - Subterranean</a>
+    </div>
+    <audio id="bg-audio" src="sounds/subterranean.mp3" loop></audio>
 
+    <script>
+        const audio = document.getElementById('bg-audio');
+        const img = document.getElementById('audio-toggle');
+        let isPlaying = false;
+
+        audio.volume = 0.5;
+
+        img.addEventListener('click', () => {
+            if (!isPlaying) {
+                audio.play();
+                img.src = 'images/audio_play.png'; // change image to pause
+            } else {
+                audio.pause();
+                img.src = 'images/audio_mute.png'; // change image to play
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
+        <div style="height: 100px;"></div>
     <div class="nameplate">
         <span class="line">-</span>
         <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
@@ -86,7 +110,7 @@
         <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
         <span class="line">-</span>
     </div>
-    <div class="link-bar-spacer"></div>
+    <div style="height: 50px;"></div>
     <div style="max-width: 60%;">
         <p>
             Hey there! You can call me Em, or you can call me by my handle (wazwer) or my fursona's name (Kascade). I
