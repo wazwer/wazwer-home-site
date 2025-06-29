@@ -58,7 +58,7 @@ with open("public/rss.html", "w", encoding="utf-8") as f:
             f.write(f"<p style='font-size: 0.9em; color: gray;'>{pub_date}</p>\n")
 
         if description:
-            f.write(f"<p>{description}</p>\n")
+            f.write(f"<p color: white;'>{description}</p>\n")
 
         f.write("</div>\n")
 
