@@ -87,15 +87,28 @@
 </head>
 
 <body>
-    <div style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;"> <img id="audio-toggle" src="images/audio_mute.png" alt="Play Audio"
-        style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
-        playing: <a href="https://www.youtube.com/watch?v=023a0SVk4ZY"> FM Skyline - Subterranean</a>
+    <div style="position: fixed; top: 40px; left:120px; background-color: #191525; padding: 10px;">
+        <img id="audio-toggle" src="images/audio_mute.png" alt="Play Audio"
+            style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">
+        <div>
+            Now playing: <span id="now-playing">FM Skyline - Subterranean</span>
+        </div>
+        <div>
+            <a href="#" class="song-link" data-src="sounds/subterranean.mp3"
+                data-title="FM Skyline - Subterranean">Track 1</a> |
+            <a href="#" class="song-link" data-src="sounds/another-song.mp3" data-title="Cat System Corp - Marina">Track
+                2</a> |
+            <a href="#" class="song-link" data-src="sounds/yet-another.mp3"
+                data-title="Luxury Elite - Late Night Delight">Track 3</a>
+        </div>
     </div>
+
     <audio id="bg-audio" src="sounds/subterranean.mp3" loop></audio>
 
     <script>
         const audio = document.getElementById('bg-audio');
         const img = document.getElementById('audio-toggle');
+        const nowPlaying = document.getElementById('now-playing');
         let isPlaying = false;
 
         audio.volume = 0.5;
@@ -103,14 +116,29 @@
         img.addEventListener('click', () => {
             if (!isPlaying) {
                 audio.play();
-                img.src = 'images/audio_play.png'; // change image to pause
+                img.src = 'images/audio_play.png';
             } else {
                 audio.pause();
-                img.src = 'images/audio_mute.png'; // change image to play
+                img.src = 'images/audio_mute.png';
             }
             isPlaying = !isPlaying;
         });
+
+        document.querySelectorAll('.song-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const newSrc = link.getAttribute('data-src');
+                const newTitle = link.getAttribute('data-title');
+
+                audio.src = newSrc;
+                nowPlaying.textContent = newTitle;
+                audio.play();
+                img.src = 'images/audio_play.png';
+                isPlaying = true;
+            });
+        });
     </script>
+
 
 
     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 770px; overflow: hidden; z-index: -1;">
@@ -126,11 +154,12 @@
 
     <div class="link-bar">
         <img src="images/PixelKascade.png" class="pixel-kascade-overlay">
-        <!-- Status message is configured in python build script -->
+        <!-- Status message is configured in python build script 
         <iframe src="https://wazwer.com/status.html"
-            style="border: none; width: 450px; height: 25px; position: absolute; bottom: 240px; left: 80%; transform: translateX(-600px); "></iframe>
-        <!-- for previs 
-        <iframe src="status.html" style="border: none; width: 400px; height: 25px; position: absolute; bottom: 250px; left: 80%; transform: translateX(-550px); "></iframe>-->
+            style="border: none; width: 500px; height: 25px; position: absolute; bottom: 240px; left: 80%; transform: translateX(-650px); "></iframe>-->
+        <!-- for previs -->
+        <iframe src="status.html"
+            style="border: none; width: 500px; height: 25px; position: absolute; bottom: 240px; left: 80%; transform: translateX(-650px); "></iframe>
         <div class="status-triangle"></div>
     </div>
     </div>
