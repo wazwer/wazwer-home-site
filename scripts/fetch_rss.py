@@ -52,7 +52,7 @@ with open("public/rss.html", "w", encoding="utf-8") as f:
         if image:
             f.write(f"<img src='{image}' alt='cover' style='max-width: 100px; display: block;' />\n")
 
-        f.write(f"<p style='color:#fcd063; text-decoration: none;' ><a href='{entry.link}' target='_blank'><strong>{entry.title}</strong></a></p>\n")
+        f.write(f"<p><a href='{entry.link}' style='color:#fcd063; text-decoration: none;' target='_blank'><strong>{entry.title}</strong></a></p>\n")
 
         if pub_date:
             f.write(f"<p style='font-size: 0.9em; color: gray;'>{pub_date}</p>\n")
