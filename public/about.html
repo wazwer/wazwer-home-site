@@ -69,88 +69,99 @@
                 background-position: 0% 0%;
             }
         }
+
+        main {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            min-height: 70vh;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #83eec2;
+            background: #2e2e3e;
+        }
+
+        .controls {
+            border: 2px solid #83eec2;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .controls a {
+            color: #83eec2;
+            text-decoration: none;
+            border: 1px solid #83eec2;
+            padding: 0.5rem;
+            text-align: center;
+        }
+
+        .controls a:hover {
+            background: #83eec2;
+            color: #1e1e2f;
+        }
     </style>
 </head>
 
 
 <body>
-    <div style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;"> <img id="audio-toggle" src="images/audio_mute.png" alt="Play Audio"
-        style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
-        playing: <a href="https://www.youtube.com/watch?v=023a0SVk4ZY"> FM Skyline - Subterranean</a>
-    </div>
-    <audio id="bg-audio" src="sounds/subterranean.mp3" loop></audio>
+    <header>
+        <div
+            style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;">
+            <img id="audio-toggle" src="images/audio_mute.png" alt="Play Audio"
+                style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
+            playing: <a href="https://www.youtube.com/watch?v=eKpae_oto7s"> Falling Star - Flying Hands</a>
+        </div>
+        <audio id="bg-audio" src="https://wazwer.com/sounds/flyinghands.mp3" loop></audio>
+        <script>
+            const audio = document.getElementById('bg-audio');
+            const img = document.getElementById('audio-toggle');
+            let isPlaying = false;
 
-    <script>
-        const audio = document.getElementById('bg-audio');
-        const img = document.getElementById('audio-toggle');
-        let isPlaying = false;
+            audio.volume = 0.5;
 
-        audio.volume = 0.5;
+            img.addEventListener('click', () => {
+                if (!isPlaying) {
+                    audio.play();
+                    img.src = 'images/audio_play.png'; // change image to pause
+                } else {
+                    audio.pause();
+                    img.src = 'images/audio_mute.png'; // change image to play
+                }
+                isPlaying = !isPlaying;
+            });
+        </script>
 
-        img.addEventListener('click', () => {
-            if (!isPlaying) {
-                audio.play();
-                img.src = 'images/audio_play.png'; // change image to pause
-            } else {
-                audio.pause();
-                img.src = 'images/audio_mute.png'; // change image to play
-            }
-            isPlaying = !isPlaying;
-        });
-    </script>
         <div style="height: 100px;"></div>
-    <div class="nameplate">
-        <span class="line">-</span>
-        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-        <span class="nameColor">_Kascade-wazwer-Em</span>
-        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-        <span class="nameColor">any pronouns</span>
-        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-        <span class="nameColor">1997</span>
-        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-        <span class="line">-</span>
-    </div>
-    <div style="height: 50px;"></div>
-    <div style="max-width: 60%;">
-        <p>
-            Hey there! You can call me Em, or you can call me by my handle (wazwer) or my fursona's name (Kascade). I
-            like
-            'em all, it's up to you :)
-        </p>
+        <div class="nameplate">
+            <span class="line">◀</span>
+            <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+            <span class="nameColor">_Kascade-wazwer-Em</span>
+            <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+            <span class="nameColor">any pronouns</span>
+            <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+            <span class="nameColor">1997</span>
+            <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+            <span class="line">▶</span>
+        </div>
+        <div style="height: 50px;"></div>
+    </header>
 
-        <p>
-            <span style="color: #ea5b94;">★</span> Big fan of Grungy Sci-fi, Anthros (obviously :P), Robots, Anime and
-            90s CG.
-            <br>
-            I'm designing a world for my characters to live in based on these themes.
-        </p>
+    <main>
+        <iframe name="contentFrame" src="about:blank"></iframe>
+        <div class="controls">
+            <a href="about_this.html" target="contentFrame">About this site</a>
+            <a href="cool_sites.html" target="contentFrame">Cool Sites</a>
+            <a href="shrines.html" target="contentFrame">Shrines</a>
+            <a href="resources.html" target="contentFrame">Resources</a>
+        </div>
+    </main>
 
-    </div>
-
-    <p>
-        <strong>Find me on everything here:</strong><br>
-        <a href="https://linktr.ee/wazwer" target="_blank">https://linktr.ee/wazwer</a>
-    </p>
-    <p>
-        Visit ToyHouse to check out
-        <a href="https://toyhou.se/~world/185817.world-lore" target="_blank">the world my characters exist in</a>.
-    </p>
-
-    Link to this site :)
-    <br>
-    <img src="images/buttons/wazwer.gif">
-    <br>
-    <textarea cols="15"
-        style="height: 50px; width: 220px;background-color:rgb(31, 12, 25); color: #86facd;"> &lt;a href="https://wazwer.com/"&gt;&lt;img src="wazwer.gif"&gt;&lt;/a&gt;</textarea>
-    <!-- 
-    <p>
-    I made this page primarily to showcase my characters and world in a fun way, I hope you enjoy it as much as I do!
-    I love maximalism and skeumorphism, I really hate the trend of flat design. It's coroporate and bleh. So I decided
-    to be
-    the change I wanted to see!
-    </p>
-
-    like square corners don't like emoji - (c) est. 2025 - -->
     <footer style="text-align: center; margin-top: 2em;">
         <a href="sitemap.html">- Site Map -</a>
     </footer>
