@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>wazwer</title>
+    <script src="https://unpkg.com/webamp@1.4.0/built/webamp.bundle.min.js"></script>
     <style>
         body {
             background-color: #2c2935;
@@ -69,13 +70,53 @@
                 background-position: 0% 0%;
             }
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
 
 <body>
-    <div style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;"> <img id="audio-toggle" src="images/audio_mute.png" alt="Play Audio"
-        style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
+
+
+
+    
+    <div style="width:40px; height:40px; position:absolute;">
+        <div id="winamp-container"></div>
+        <script>
+            const Winamp = window.Webamp;
+            // All configuration options are optional.
+            const webamp = new Webamp({
+                // Optional.
+                initialTracks: [
+                    {
+                        metaData: {
+                            artist: "FM Skyline",
+                            title: "Subterranean",
+                        },
+                        url: "https://wazwer.com/sounds/subterranean.mp3",
+                    }, {
+                        metaData: {
+                            artist: "Falling Star",
+                            title: "Flying Hands",
+                        },
+                        url: "https://wazwer.com/sounds/flyinghands.mp3",
+                    },
+                ],
+                initialSkin: {
+                    url: "https://wazwer.com/sounds/sophia_peacemaker.wsz"
+                },
+            });
+            webamp.renderWhenReady(document.getElementById('winamp-container'));
+        </script>
+    </div>
+
+    <div
+        style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;">
+        <img id="audio-toggle" src="images/audio_mute.png" alt="Play Audio"
+            style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
         playing: <a href="https://www.youtube.com/watch?v=023a0SVk4ZY"> FM Skyline - Subterranean</a>
     </div>
     <audio id="bg-audio" src="sounds/subterranean.mp3" loop></audio>
@@ -98,7 +139,7 @@
             isPlaying = !isPlaying;
         });
     </script>
-        <div style="height: 100px;"></div>
+    <div style="height: 100px;"></div>
     <div class="nameplate">
         <span class="line">-</span>
         <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
@@ -111,6 +152,20 @@
         <span class="line">-</span>
     </div>
     <div style="height: 50px;"></div>
+
+    <button onclick="document.getElementById('sitesIframe').classList.toggle('hidden')">Cool Sites</button>
+    <button onclick="document.getElementById('shrinesIframe').classList.toggle('hidden')">Shrines</button>
+
+    <div style="position: fixed;">
+        <iframe id="sitesIframe" src="resources.html" width="600" height="400" class="hidden"
+            style="border:1px solid #ccc;"></iframe>
+    </div>
+
+    <div style="position: fixed;">
+        <iframe id="shrinesIframe" src="status.html" width="600" height="400" class="hidden"
+            style="border:1px solid #ccc;"></iframe>
+    </div>
+
     <div style="max-width: 60%;">
         <p>
             Hey there! You can call me Em, or you can call me by my handle (wazwer) or my fursona's name (Kascade). I
@@ -136,6 +191,9 @@
         <a href="https://toyhou.se/~world/185817.world-lore" target="_blank">the world my characters exist in</a>.
     </p>
 
+
+
+    This site on NeoCities:
     Link to this site :)
     <br>
     <img src="images/buttons/wazwer.gif">
