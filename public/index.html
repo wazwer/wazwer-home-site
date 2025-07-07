@@ -87,7 +87,7 @@
 </head>
 
 <body>
-    <div style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;"> <img id="audio-toggle" src="images/audio_mute.png" alt="Play Audio"
+    <div style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;"> <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
         style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
         playing: <a href="https://www.youtube.com/watch?v=023a0SVk4ZY"> FM Skyline - Subterranean</a>
     </div>
@@ -103,10 +103,10 @@
         img.addEventListener('click', () => {
             if (!isPlaying) {
                 audio.play();
-                img.src = 'images/audio_play.png'; // change image to pause
+                img.src = 'images/ui/audio_play.png'; // change image to pause
             } else {
                 audio.pause();
-                img.src = 'images/audio_mute.png'; // change image to play
+                img.src = 'images/ui/audio_mute.png'; // change image to play
             }
             isPlaying = !isPlaying;
         });
@@ -136,10 +136,10 @@
     </div>
     <div class="link-bar-spacer"></div>
 
-    <div>
-        <a href="about.html"><img src="images/about-button.png"></a>
-        <a href="games.html"><img src="images/reviews-button.png"></a>
-        <a href="art.html"><img src="images/art-button.png"></a>
+    <div style="max-width: 75%; ">
+        <a href="about.html"><img src="images/ui/about-button.png"></a>
+        <a href="games.html"><img src="images/ui/reviews-button.png"></a>
+        <a href="art.html"><img src="images/ui/art-button.png"></a>
     </div>
 
     <div style="display: flex; align-items: flex-start; gap: 10px;">
@@ -151,17 +151,17 @@
 
         <!-- buttons grid -->
         <div style="display: grid; grid-template-columns: repeat(4, auto); gap: 5px;">
-            <a href="https://neocities.org/site/wazwer"><img class="button" src="images/buttons/neocities-2.gif"></a>
-            <a href="https://syntheticfruits.neocities.org/"><img class="button" src="images/buttons/syntheticfruits2.gif"></a>
-            <a href="https://mileshouse.neocities.org/"><img class="button" src="images/buttons/kiophen.gif"></a>
-            <a href="https://www.sonicsatam.com/"><img class="button" src="images/buttons/fansunitedforsatam.png"></a>
-            <a href="https://www.wazwer.com/"><img class="button" src="images/buttons/wazwer.gif"></a>
-            <a href="https://www.saturdaymorningsonic.com/"><img class="button" src="images/buttons/saturdaymorningsonic.png"></a>
-            <a href="https://www.sonicgear.org/"><img class="button" src="images/buttons/sonicgear.jpg"></a>
+            <a href="https://neocities.org/site/wazwer" target="_blank"><img class="button" src="images/buttons/neocities-2.gif"></a>
+            <a href="https://syntheticfruits.neocities.org/" target="_blank"><img class="button" src="images/buttons/syntheticfruits2.gif"></a>
+            <a href="https://mileshouse.neocities.org/" target="_blank"><img class="button" src="images/buttons/kiophen.gif"></a>
+            <a href="https://www.sonicsatam.com/" target="_blank"><img class="button" src="images/buttons/fansunitedforsatam.png"></a>
+            <a href="https://www.wazwer.com/" target="_blank"><img class="button" src="images/buttons/wazwer.gif"></a>
+            <a href="https://www.saturdaymorningsonic.com/" target="_blank"><img class="button" src="images/buttons/saturdaymorningsonic.png"></a>
+            <a href="https://www.sonicgear.org/" target="_blank"><img class="button" src="images/buttons/sonicgear.jpg"></a>
         </div>
 
         <div>
-            <a href="https://archive.org/">
+            <a href="https://archive.org/" target="_blank">
                 <img class="double-height-button" src="images/buttons/internetarchive.jpg">
             </a>
         </div>

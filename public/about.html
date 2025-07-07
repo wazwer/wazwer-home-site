@@ -114,7 +114,7 @@
     <header>
         <div
             style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;">
-            <img id="audio-toggle" src="images/audio_mute.png" alt="Play Audio"
+            <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
                 style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
             playing: <a href="https://www.youtube.com/watch?v=eKpae_oto7s"> Falling Star - Flying Hands</a>
         </div>
@@ -129,10 +129,10 @@
             img.addEventListener('click', () => {
                 if (!isPlaying) {
                     audio.play();
-                    img.src = 'images/audio_play.png'; // change image to pause
+                    img.src = 'images/ui/audio_play.png'; // change image to pause
                 } else {
                     audio.pause();
-                    img.src = 'images/audio_mute.png'; // change image to play
+                    img.src = 'images/ui/audio_mute.png'; // change image to play
                 }
                 isPlaying = !isPlaying;
             });
