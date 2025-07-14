@@ -83,12 +83,53 @@
             width: 110px;
             height: 85px;
         }
+
+        .status-line {
+            position: absolute;
+            bottom: 240px;
+            left: 80%;
+            transform: translateX(-650px);
+            width: 500px;
+            height: 25px;
+            background-color: #111;
+            color: rgb(179, 255, 226);
+            font-family: 'Courier New';
+            font-size: 16px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        @keyframes slidePauseSlide {
+            0% {
+                transform: translateX(150%);
+            }
+
+            20% {
+                transform: translateX(0%);
+            }
+
+            80% {
+                transform: translateX(0%);
+            }
+
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        .status-text {
+            display: inline-block;
+            padding-left: 12px;
+            animation: slidePauseSlide 5s linear forwards;
+        }
     </style>
 </head>
 
 <body>
-    <div style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;"> <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
-        style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
+    <div
+        style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;">
+        <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
+            style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
         playing: <a href="https://www.youtube.com/watch?v=023a0SVk4ZY"> FM Skyline - Subterranean</a>
     </div>
     <audio id="bg-audio" src="https://wazwer.com/sounds/subterranean.mp3" loop></audio>
@@ -126,14 +167,13 @@
 
     <div class="link-bar">
         <img src="images/PixelKascade.png" class="pixel-kascade-overlay">
-        <!-- Status message is configured in python build script -->
-        <iframe src="https://wazwer.com/status.html"
-            style="border: none; width: 500px; height: 25px; position: absolute; bottom: 240px; left: 80%; transform: translateX(-650px); "></iframe>
-        <!-- for previs 
-        <iframe src="status.html" style="border: none; width: 400px; height: 25px; position: absolute; bottom: 250px; left: 80%; transform: translateX(-550px); "></iframe>-->
+
+        <div class="status-line" id="statusLine">
+            <span class="status-text" id="statusText">STATUS</span>
+        </div>
         <div class="status-triangle"></div>
     </div>
-    </div>
+
     <div class="link-bar-spacer"></div>
 
     <div style="max-width: 75%; ">
@@ -151,13 +191,19 @@
 
         <!-- buttons grid -->
         <div style="display: grid; grid-template-columns: repeat(4, auto); gap: 5px;">
-            <a href="https://neocities.org/site/wazwer" target="_blank"><img class="button" src="images/buttons/neocities-2.gif"></a>
-            <a href="https://syntheticfruits.neocities.org/" target="_blank"><img class="button" src="images/buttons/syntheticfruits2.gif"></a>
-            <a href="https://mileshouse.neocities.org/" target="_blank"><img class="button" src="images/buttons/kiophen.gif"></a>
-            <a href="https://www.sonicsatam.com/" target="_blank"><img class="button" src="images/buttons/fansunitedforsatam.png"></a>
+            <a href="https://neocities.org/site/wazwer" target="_blank"><img class="button"
+                    src="images/buttons/neocities-2.gif"></a>
+            <a href="https://syntheticfruits.neocities.org/" target="_blank"><img class="button"
+                    src="images/buttons/syntheticfruits2.gif"></a>
+            <a href="https://mileshouse.neocities.org/" target="_blank"><img class="button"
+                    src="images/buttons/kiophen.gif"></a>
+            <a href="https://www.sonicsatam.com/" target="_blank"><img class="button"
+                    src="images/buttons/fansunitedforsatam.png"></a>
             <a href="https://www.wazwer.com/" target="_blank"><img class="button" src="images/buttons/wazwer.gif"></a>
-            <a href="https://www.saturdaymorningsonic.com/" target="_blank"><img class="button" src="images/buttons/saturdaymorningsonic.png"></a>
-            <a href="https://www.sonicgear.org/" target="_blank"><img class="button" src="images/buttons/sonicgear.jpg"></a>
+            <a href="https://www.saturdaymorningsonic.com/" target="_blank"><img class="button"
+                    src="images/buttons/saturdaymorningsonic.png"></a>
+            <a href="https://www.sonicgear.org/" target="_blank"><img class="button"
+                    src="images/buttons/sonicgear.jpg"></a>
         </div>
 
         <div>
@@ -167,11 +213,47 @@
         </div>
     </div>
 
-
-
     <footer style="text-align: center; margin-top: 2em;">
         <a href="sitemap.html">- Site Map -</a>
     </footer>
+
+    <script>
+        const messages = [
+            "⚙️ Currently gearing up for AF 2025 ⚙️",
+            "I was on a snooze cruise I guess!",
+            "Creepy 💀 and Cute 🎀 Parts Pack",
+            "Genesis does what Nintendon't",
+            "The internet is a series of pipe dreams",
+            "Find the nabisco thing on nabisco things",
+            "For the colony, and oppressed ants everywhere!"
+        ];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        shuffle(messages);
+
+        let current = 0;
+        const statusText = document.getElementById('statusText');
+
+        function showNextMessage() {
+            statusText.style.animation = 'none'; // reset
+            void statusText.offsetWidth; // reflow
+            statusText.textContent = messages[current];
+            statusText.style.animation = 'slidePauseSlide 15s linear forwards';
+            current = (current + 1) % messages.length;
+        }
+
+        statusText.addEventListener('animationend', showNextMessage);
+
+        showNextMessage();
+    </script>
+
+
+
 </body>
 
 </html>
