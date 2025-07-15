@@ -6,31 +6,120 @@
     <title>Lava Lamp Simulation - Smoother</title>
     <style>
         body {
-            background: #000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: #2c2935;
+            color: white;
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 30px;
+        }
+
+        a {
+            color: #fcd063;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
 
         canvas {
-            width: 256px;
-            height: 512px;
+            height: 90vh;
+            aspect-ratio: 0.5;
+            /* half of height*/
             image-rendering: pixelated;
+
         }
 
         button {
             margin: 10px;
             padding: 5px 10px;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 
 <body>
-    <button id="toggleMode">Toggle debug mode</button>
-    <canvas id="canvas"></canvas>
+    <div
+        style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;">
+        <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
+            style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
+        playing: <a href="https://www.youtube.com/watch?v=kTpglKDyn4s" target="_blank"> 10 Hours Lava Flow, Kilauea
+            Hawaii </a>
+    </div>
+    <audio id="bg-audio" src="sounds/lava.mp3" loop></audio>
+    <script>
+        const audio = document.getElementById('bg-audio');
+        const img = document.getElementById('audio-toggle');
+        let isPlaying = false;
+        audio.volume = 0.5;
+        img.addEventListener('click', () => {
+            if (!isPlaying) {
+                audio.play();
+                img.src = 'images/ui/audio_play.png'; // change image to pause
+            } else {
+                audio.pause();
+                img.src = 'images/ui/audio_mute.png'; // change image to play
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
 
-<script src="lava.js"></script>
+    <div style="position: relative; top: 100px; width:30%; ">
+        <button id="aboutButton">About</button>
+        <div id="aboutPanel" class="hidden" style="height:60vh; overflow-y:scroll; padding-right: 20px;">
 
+            This is a lava lamp "simulation" I designed using cell automation. <br>
+            Why? Because all the other ways of animating a lava effect I could find online were either: <br>
+            <ul style="list-style-type: decimal;">
+                <li> Just moving metaballs around or</li>
+                <li> A full on houdini VFX sim which is not going to run in realtime. </li>
+            </ul>
+            I had a few requirements for it, it needed to: <br>
+            <ul style="list-style-type: upper-alpha;">
+                <li> Have cold wax collide with hot wax rather than merging with it (the physcial movement of the wax is
+                    what makes these lamps cool to watch). It also needs to be sufficiently blobby. </li>
+                <li> It has to run in realtime</li>
+                <li> The simulation needs to run indefinitely without getting stuck.</li>
+            </ul>
+            I've more or less got A and B down but I'm still working on C. <br>
+            In it's current state it's not very performant and will chug on mobile. I plan to eventually remake this in
+            3D
+            and I'll need to do some shader code for it so wish me luck! haha
+       
+        </div>
+    </div>
+
+    <div style="position: fixed; bottom: 100px;">
+        <a href="art.html">Exit Lava Room</a>
+    </div>
+
+    <div style="position: fixed; height: 90vh; left:50%; top:20px; transform: translateX(-200px); text-align: center;">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div style="position: fixed; right:100px; top:100px; width:400px; text-align: right;">
+        <button id="toggleSettings">Settings</button>
+        <div id="settingsPanel" class="hidden">
+            <!-- Hot Color
+                Cold Color
+                Smooth-->
+            <button id="toggleMode">Toggle Debug Mode</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('toggleSettings').addEventListener('click', () => {
+            document.getElementById('settingsPanel').classList.toggle('hidden');
+        });
+        document.getElementById('aboutButton').addEventListener('click', () => {
+            document.getElementById('aboutPanel').classList.toggle('hidden');
+        });
+    </script>
+    <script src="lava.js"></script>
 </body>
 
 </html>
