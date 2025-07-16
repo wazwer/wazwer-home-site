@@ -1,6 +1,7 @@
 import feedparser
 import xml.etree.ElementTree as ET
 import requests
+import datetime
 
 # Load raw RSS feed XML from Backloggd
 rss_url = "https://backloggd.com/u/wazwer/reviews/rss/"
@@ -40,6 +41,10 @@ with open("public/rss.html", "w", encoding="utf-8") as f:
 <body>
 <div class='rss-feed'>
 """)
+    
+    # Write the current fetch date
+    current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    f.write(f"<p style='font-size: 0.9em; color: gray;'>rss last fetched: {current_date}</p>\n")
 
     for entry in feed.entries[:10]:
         data = link_to_data.get(entry.link, {})
