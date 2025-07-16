@@ -3,6 +3,18 @@ let USE_UPSCALE_BLUR = true;
 
 let wax = Array.from({ length: H }, () => Array(W).fill(0));
 let heat = Array.from({ length: H }, () => Array(W).fill(0));
+let frame = 0;
+
+let HOT_COLOR = [255, 80, 0];    // default: #ff5000
+let COLD_COLOR = [180, 35, 0];  // default: #b42300ff
+
+// Helper: hex -> RGB array
+function hexToRGB(hex) {
+    let r = parseInt(hex.slice(1, 3), 16);
+    let g = parseInt(hex.slice(3, 5), 16);
+    let b = parseInt(hex.slice(5, 7), 16);
+    return [r, g, b];
+}
 
 // Fill bottom with wax and initial heat
 for (let y = H - 5; y < H; y++)
@@ -16,22 +28,41 @@ function linspace(a, b, n) {
 }
 
 function updateHeat() {
+    // Increment frame counter and wrap to prevent large numbers
+    frame = (frame + 1) % 10000;
+
+    //--------------------------------------
+    // Cool the top: always steady
+    //--------------------------------------
     let cool = linspace(1, 0.2, 10);
     for (let y = 0; y < 10; y++)
         for (let x = 0; x < W; x++)
             heat[y][x] -= 0.001 * cool[y];
 
-    let hot = linspace(0.2, 1, 15);
-    for (let y = H - 15; y < H; y++)
+    //--------------------------------------
+    // Animate the hot zone with a vertical oscillation
+    //--------------------------------------
+    let offset = Math.floor(Math.sin(frame * 0.02) * 5); // oscillates up/down by ±5 rows
+    let hotHeight = 15;
+    let hot = linspace(0.2, 1, hotHeight);
+    for (let y = H - hotHeight + offset; y < H + offset; y++) {
+        if (y < 0 || y >= H) continue; // stay in bounds
         for (let x = 0; x < W; x++)
-            heat[y][x] += 0.001 * hot[y - (H - 15)];
+            heat[y][x] += 0.001 * hot[Math.max(0, Math.min(hotHeight - 1, y - (H - hotHeight + offset)))];
+    }
 
+    //--------------------------------------
+    // Local center heat boost (Gaussian profile in X)
+    //--------------------------------------
     let xline = linspace(-1, 1, W);
     let profile = xline.map(v => Math.exp(-4 * v * v));
     for (let y = H - 5; y < H; y++)
         for (let x = 0; x < W; x++)
             heat[y][x] += 0.001 * profile[x];
 
+    //--------------------------------------
+    // Mild diffusion between neighboring wax pixels
+    //--------------------------------------
     let newHeat = heat.map(r => r.slice());
     for (let y = 1; y < H - 1; y++)
         for (let x = 1; x < W - 1; x++) {
@@ -46,6 +77,9 @@ function updateHeat() {
         }
     heat = newHeat;
 
+    //--------------------------------------
+    // Mild uniform heat loss + tiny random perturbation + clamp
+    //--------------------------------------
     for (let y = 0; y < H; y++)
         for (let x = 0; x < W; x++) {
             heat[y][x] -= 0.0001;
@@ -53,6 +87,7 @@ function updateHeat() {
             heat[y][x] = Math.max(0, Math.min(1, heat[y][x]));
         }
 }
+
 
 function countNeighbors(y, x, t) {
     let count = 0;
@@ -68,51 +103,92 @@ function countNeighbors(y, x, t) {
 
 function updateWax() {
     let indices = [];
+    // Build a shuffled list of all wax pixels to process in random order
     for (let y = 0; y < H; y++)
         for (let x = 0; x < W; x++)
             if (wax[y][x] === 1) indices.push([y, x]);
     shuffle(indices);
 
+    // Prepare new arrays to build the next state of the wax + heat
     let newWax = Array.from({ length: H }, () => Array(W).fill(0));
     let newHeat = Array.from({ length: H }, () => Array(W).fill(0));
 
     for (let [y, x] of indices) {
         let t = heat[y][x], dy = 0;
-        if (t > 0.6) dy = -1;
-        else if (t < 0.4) dy = 1;
+
+        // Determine vertical tendency based on temperature
+        // hotter wax rises, colder wax sinks
+        if (t > 0.7) dy = -1;
+        else if (t < 0.3) dy = 1;
         else if (t > 0.8 && Math.random() < 0.5) dy = -1;
 
+        // ----------------------------------------------------
+        // Handling isolated pixels (small clusters) to prevent stuck artifacts
+        // cold strays can randomly sink down
         let cluster = countNeighbors(y, x, t);
         if (cluster < 2 && t < 0.5 && Math.random() < 0.3) {
             let ny = y + 1;
-            if (ny < H - 1 && wax[ny][x] === 0 && newWax[ny][x] === 0) {
-                newWax[ny][x] = 1; newHeat[ny][x] = t; continue;
+            if (ny >= 0 && ny < H && x >= 0 && x < W) {
+                if (wax[ny][x] === 0 && newWax[ny][x] === 0) {
+                    newWax[ny][x] = 1;
+                    newHeat[ny][x] = t;
+                    continue; // done with this pixel
+                }
             }
         }
 
+        // hot strays can randomly rise up
+        if (cluster < 2 && t > 0.5 && Math.random() < 0.3) {
+            let ny = y - 1;
+            if (ny >= 0 && ny < H && x >= 0 && x < W) {
+                if (wax[ny][x] === 0 && newWax[ny][x] === 0) {
+                    newWax[ny][x] = 1;
+                    newHeat[ny][x] = t;
+                    continue;
+                }
+            }
+        }
+
+        // ----------------------------------------------------
+        // Normal wax movement: try to move in preferred vertical direction
         let moves = [];
         if (dy !== 0) {
             let ny = y + dy;
             if (ny > 0 && ny < H - 1) {
+                // try to move straight up or down
                 if (wax[ny][x] === 0 && newWax[ny][x] === 0) moves.push([ny, x]);
+                // try to move diagonally
                 for (let dx of shuffle([-1, 1])) {
                     let nx = x + dx;
                     if (nx > 0 && nx < W - 1 && wax[ny][nx] === 0 && newWax[ny][nx] === 0) moves.push([ny, nx]);
                 }
             }
-        } else moves.push([y, x]);
+        } else {
+            // no vertical movement, stay in place
+            moves.push([y, x]);
+        }
 
+        // ----------------------------------------------------
+        // Choose the move that keeps wax most clustered (surface tension effect)
         let best = [y, x], bestScore = -1;
         for (let [my, mx] of moves) {
             let score = countNeighbors(my, mx, t);
             if (score > bestScore) { bestScore = score; best = [my, mx]; }
         }
+
+        // If still very isolated, just stay in place
         if (bestScore < 3) best = [y, x];
 
-        newWax[best[0]][best[1]] = 1; newHeat[best[0]][best[1]] = t;
+        // Place wax and carry over temperature
+        newWax[best[0]][best[1]] = 1;
+        newHeat[best[0]][best[1]] = t;
     }
-    wax = newWax; heat = newHeat;
+
+    // Update global wax and heat arrays
+    wax = newWax;
+    heat = newHeat;
 }
+
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -141,6 +217,7 @@ function drawPixelRender() {
         for (let x = 0; x < W; x++) {
             let idx = (y * W + x) * 4;
             if (wax[y][x] === 1) {
+                // wax pixels: hot = red, cold = blue
                 img.data[idx] = heat[y][x] * 255;
                 img.data[idx + 2] = (1 - heat[y][x]) * 255;
                 img.data[idx + 3] = 255;
@@ -152,6 +229,7 @@ function drawPixelRender() {
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(off, 0, 0, canvas.width, canvas.height);
 }
+
 
 function drawSmoothRender() {
     let mask = document.createElement('canvas');
@@ -175,7 +253,7 @@ function drawSmoothRender() {
     let largeHot = document.createElement('canvas');
     largeHot.width = W * upscale;
     largeHot.height = H * upscale;
-    let largeHotCtx = largeHot.getContext('2d');
+    let largeHotCtx = largeHot.getContext('2d', { willReadFrequently: true });
 
     largeHotCtx.imageSmoothingEnabled = true; // replicate order=1 interpolation
     largeHotCtx.filter = 'none';
@@ -200,7 +278,10 @@ function drawSmoothRender() {
     let imgHot = largeHotCtx.getImageData(0, 0, largeHot.width, largeHot.height);
     for (let i = 0; i < imgHot.data.length; i += 4) {
         if (imgHot.data[i + 3] > 150) { // threshold ~0.1
-            imgHot.data[i] = 255; imgHot.data[i + 1] = 0; imgHot.data[i + 2] = 0; imgHot.data[i + 3] = 255;
+            imgHot.data[i] = HOT_COLOR[0];
+            imgHot.data[i + 1] = HOT_COLOR[1];
+            imgHot.data[i + 2] = HOT_COLOR[2];
+            imgHot.data[i + 3] = 255;
         } else {
             imgHot.data[i + 3] = 0;
         }
@@ -224,7 +305,7 @@ function drawSmoothRender() {
     let largeCold = document.createElement('canvas');
     largeCold.width = W * upscale;
     largeCold.height = H * upscale;
-    let largeColdCtx = largeCold.getContext('2d');
+    let largeColdCtx = largeCold.getContext('2d', { willReadFrequently: true });
 
     largeColdCtx.imageSmoothingEnabled = true;
     largeColdCtx.filter = 'none';
@@ -249,7 +330,10 @@ function drawSmoothRender() {
     let imgCold = largeColdCtx.getImageData(0, 0, largeCold.width, largeCold.height);
     for (let i = 0; i < imgCold.data.length; i += 4) {
         if (imgCold.data[i + 3] > 150) {
-            imgCold.data[i] = 0; imgCold.data[i + 1] = 0; imgCold.data[i + 2] = 255; imgCold.data[i + 3] = 255;
+            imgCold.data[i] = COLD_COLOR[0];
+            imgCold.data[i + 1] = COLD_COLOR[1];
+            imgCold.data[i + 2] = COLD_COLOR[2];
+            imgCold.data[i + 3] = 255;
         } else {
             imgCold.data[i + 3] = 0;
         }
@@ -277,4 +361,18 @@ function loop() {
     draw();
     setTimeout(loop, 30);
 }
+
 loop();
+
+window.addEventListener('DOMContentLoaded', () => {
+    const hotPicker = document.getElementById('hotColor');
+    const coldPicker = document.getElementById('coldColor');
+
+    hotPicker.addEventListener('input', () => {
+        HOT_COLOR = hexToRGB(hotPicker.value);
+    });
+
+    coldPicker.addEventListener('input', () => {
+        COLD_COLOR = hexToRGB(coldPicker.value);
+    });
+});

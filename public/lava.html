@@ -82,14 +82,14 @@
             <ul style="list-style-type: upper-alpha;">
                 <li> Have cold wax collide with hot wax rather than merging with it (the physcial movement of the wax is
                     what makes these lamps cool to watch). It also needs to be sufficiently blobby. </li>
-                <li> It has to run in realtime</li>
+                <li> It has to run in realtime.</li>
                 <li> The simulation needs to run indefinitely without getting stuck.</li>
             </ul>
             I've more or less got A and B down but I'm still working on C. <br>
             In it's current state it's not very performant and will chug on mobile. I plan to eventually remake this in
             3D
-            and I'll need to do some shader code for it so wish me luck! haha
-       
+            and I'll need to write some shader code for it so wish me luck! haha <br>
+            I think it's pretty cool to just chill and watch, which is why I have it up on the website. Enjoy! :D
         </div>
     </div>
 
@@ -104,9 +104,9 @@
     <div style="position: fixed; right:100px; top:100px; width:400px; text-align: right;">
         <button id="toggleSettings">Settings</button>
         <div id="settingsPanel" class="hidden">
-            <!-- Hot Color
-                Cold Color
-                Smooth-->
+            <!-- background color -->
+            <label>Wax Hot Color: <input type="color" id="hotColor" value="#ff5000"></label><br>
+            <label>Wax Cold Color: <input type="color" id="coldColor" value="#1450ff"></label><br>
             <button id="toggleMode">Toggle Debug Mode</button>
         </div>
     </div>
