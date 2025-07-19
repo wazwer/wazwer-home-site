@@ -55,7 +55,7 @@
         const audio = document.getElementById('bg-audio');
         const img = document.getElementById('audio-toggle');
         let isPlaying = false;
-        audio.volume = 0.5;
+        audio.volume = 0.6;
         img.addEventListener('click', () => {
             if (!isPlaying) {
                 audio.play();
@@ -74,18 +74,18 @@
 
             This is a lava lamp "simulation" I designed using cell automation. <br>
             Why? Because all the other ways of animating a lava effect I could find online were either: <br>
-            <ul style="list-style-type: decimal;">
+            <ul style="list-style-type: upper-alpha;">
                 <li> Just moving metaballs around or</li>
                 <li> A full on houdini VFX sim which is not going to run in realtime. </li>
             </ul>
             I had a few requirements for it, it needed to: <br>
-            <ul style="list-style-type: upper-alpha;">
+            <ul style="list-style-type: decimal;">
                 <li> Have cold wax collide with hot wax rather than merging with it (the physcial movement of the wax is
                     what makes these lamps cool to watch). It also needs to be sufficiently blobby. </li>
                 <li> It has to run in realtime.</li>
                 <li> The simulation needs to run indefinitely without getting stuck.</li>
             </ul>
-            I've more or less got A and B down but I'm still working on C. <br>
+            I've more or less got 1 and 2 down but I'm still working on 3. <br>
             In it's current state it's not very performant and will chug on mobile. I plan to eventually remake this in
             3D
             and I'll need to write some shader code for it so wish me luck! haha <br>
@@ -93,24 +93,21 @@
         </div>
     </div>
 
-    <div style="position: fixed; bottom: 100px;">
-        <a href="art.html">Exit Lava Room</a>
-    </div>
-
     <div style="position: fixed; height: 90vh; left:50%; top:20px; transform: translateX(-200px); text-align: center;">
         <canvas id="canvas"></canvas>
     </div>
-
     <div style="position: fixed; right:100px; top:100px; width:400px; text-align: right;">
         <button id="toggleSettings">Settings</button>
         <div id="settingsPanel" class="hidden">
             <!-- background color -->
-            <label>Wax Hot Color: <input type="color" id="hotColor" value="#ff5000"></label><br>
-            <label>Wax Cold Color: <input type="color" id="coldColor" value="#1450ff"></label><br>
+            <label>Wax Hot Color: <input type="color" id="hotColor" value="#e04700"></label><br>
+            <label>Wax Cold Color: <input type="color" id="coldColor" value="#8f2300"></label><br>
             <button id="toggleMode">Toggle Debug Mode</button>
         </div>
     </div>
-
+    <div style="position: fixed; bottom: 100px;">
+        <a href="art.html">Exit Lava Room</a>
+    </div>
     <script>
         document.getElementById('toggleSettings').addEventListener('click', () => {
             document.getElementById('settingsPanel').classList.toggle('hidden');

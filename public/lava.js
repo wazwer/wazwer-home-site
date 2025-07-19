@@ -5,8 +5,8 @@ let wax = Array.from({ length: H }, () => Array(W).fill(0));
 let heat = Array.from({ length: H }, () => Array(W).fill(0));
 let frame = 0;
 
-let HOT_COLOR = [255, 80, 0];    // default: #ff5000
-let COLD_COLOR = [180, 35, 0];  // default: #b42300ff
+let HOT_COLOR = [224, 71, 0];    // default: #e04700ff
+let COLD_COLOR = [143, 35, 0];  // default: #8f2300ff
 
 // Helper: hex -> RGB array
 function hexToRGB(hex) {
@@ -287,6 +287,8 @@ function drawSmoothRender() {
         }
     }
     largeHotCtx.putImageData(imgHot, 0, 0);
+
+
 
     //------------------------------------
     // COLD pass (same multi-stage blur + dimming)
