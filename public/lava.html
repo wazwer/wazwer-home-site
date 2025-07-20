@@ -75,7 +75,7 @@
             This is a lava lamp "simulation" I designed using cell automation. <br>
             Why? Because all the other ways of animating a lava effect I could find online were either: <br>
             <ul style="list-style-type: upper-alpha;">
-                <li> Just moving metaballs up and down or</li>
+                <li> Just moving metaballs up and down with no interaction or</li>
                 <li> A full on houdini VFX sim which is not going to run in realtime. </li>
             </ul>
             I had a few requirements for it, it needed to: <br>
@@ -101,7 +101,7 @@
         <div id="settingsPanel" class="hidden">
             <!-- background color -->
             <label>Wax Hot Color: <input type="color" id="hotColor" value="#e04700"></label><br>
-            <label>Wax Cold Color: <input type="color" id="coldColor" value="#8f2300"></label><br>
+            <label>Wax Cold Color: <input type="color" id="coldColor" value="#b43200"></label><br>
             <button id="toggleMode">Toggle Debug Mode</button>
         </div>
     </div>
@@ -116,7 +116,7 @@
             document.getElementById('aboutPanel').classList.toggle('hidden');
         });
     </script>
-    <img id="blur-texture" src="images/blurTex_op.png" style="display: none; ">
+    <img id="blur-texture" src="images/blurTex_col.png" style="display: none; ">
     <script src="lava.js"></script>
 </body>
 

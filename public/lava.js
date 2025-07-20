@@ -5,8 +5,10 @@ let wax = Array.from({ length: H }, () => Array(W).fill(0));
 let heat = Array.from({ length: H }, () => Array(W).fill(0));
 let frame = 0;
 
+
+
 let HOT_COLOR = [224, 71, 0];    // default: #e04700ff
-let COLD_COLOR = [143, 35, 0];  // default: #8f2300ff
+let COLD_COLOR = [180, 50, 0];  // default: #b43200ff
 
 // Helper: hex -> RGB array
 function hexToRGB(hex) {
@@ -284,14 +286,27 @@ function drawSmoothRender() {
     const data = imgHot.data;
 
     for (let i = 0; i < data.length; i += 4) {
-        const brightness = data[i + 3]; // red channel, assuming grayscale
+        const alpha = data[i + 3]; // alpha channel
+        const g = data[i + 1] / 255;       // green channel = Y up vector component (0 to 1)
 
-        if (brightness > 150) {
-            const strength = brightness / 255;
+        if (alpha > 200) {
+            const strength = alpha / 255;
 
-            data[i] = HOT_COLOR[0] * strength;
-            data[i + 1] = HOT_COLOR[1] * strength;
-            data[i + 2] = HOT_COLOR[2] * strength;
+            // Fake top-down shadow: stronger when "facing down" (i.e. G is low)
+            const shadow = 2.0 - g; // G=1 → top → shadow=0, G=0 → bottom → shadow=1
+
+            // Vertical global overlay: 0 at top, 1 at bottom
+            const y = Math.floor(i / 4 / largeHot.width);
+            const vertical = y / largeHot.height;
+
+            // You can curve this if needed:
+            const vShadow = 0.2 + 0.8 * Math.pow(vertical, 1.0);
+
+            const lit = strength * shadow * vShadow;
+
+            data[i] = HOT_COLOR[0] * lit;
+            data[i + 1] = HOT_COLOR[1] * lit;
+            data[i + 2] = HOT_COLOR[2] * lit;
             data[i + 3] = 255; // fully visible
         } else {
             data[i + 3] = 0; // fully transparent
@@ -335,16 +350,30 @@ function drawSmoothRender() {
     const dataCold = imgCold.data;
 
     for (let i = 0; i < dataCold.length; i += 4) {
-        const alpha = dataCold[i + 3];
+        const alpha = dataCold[i + 3]; // alpha channel
+        const g = dataCold[i + 1] / 255;       // green channel = Y up vector component (0 to 1)
 
-        if (alpha > 150) {
+        if (alpha > 200) {
             const strength = alpha / 255;
-            dataCold[i] = COLD_COLOR[0] * strength;
-            dataCold[i + 1] = COLD_COLOR[1] * strength;
-            dataCold[i + 2] = COLD_COLOR[2] * strength;
-            dataCold[i + 3] = 255;
+
+            // Fake top-down shadow: stronger when "facing down" (i.e. G is low)
+            const shadow = 2.0 - g; // G=1 → top → shadow=0, G=0 → bottom → shadow=1
+
+            // Vertical global overlay: 0 at top, 1 at bottom
+            const y = Math.floor(i / 4 / largeCold.width);
+            const vertical = y / largeCold.height;
+
+            // You can curve this if needed:
+            const vShadow = 0.2 + 0.8 * Math.pow(vertical, 1.0);
+
+            const lit = strength * shadow * vShadow;
+
+            dataCold[i] = COLD_COLOR[0] * lit;
+            dataCold[i + 1] = COLD_COLOR[1] * lit;
+            dataCold[i + 2] = COLD_COLOR[2] * lit;
+            dataCold[i + 3] = 255; // fully visible
         } else {
-            dataCold[i + 3] = 0;
+            dataCold[i + 3] = 0; // fully transparent
         }
     }
     largeColdCtx.putImageData(imgCold, 0, 0);
