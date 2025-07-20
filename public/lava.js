@@ -202,7 +202,11 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 function draw() {
-    if (USE_UPSCALE_BLUR) drawSmoothRender();
+
+    if (USE_UPSCALE_BLUR)
+        setTimeout(() => {
+            drawSmoothRender();
+        }, 100);
     else drawPixelRender();
 }
 
@@ -232,112 +236,115 @@ function drawPixelRender() {
 
 
 function drawSmoothRender() {
-    let mask = document.createElement('canvas');
-    mask.width = W; mask.height = H;
-    let maskCtx = mask.getContext('2d');
 
     //------------------------------------
     // HOT pass
     //------------------------------------
-    let hotData = maskCtx.createImageData(W, H);
-    for (let y = 0; y < H; y++)
-        for (let x = 0; x < W; x++) {
-            let idx = (y * W + x) * 4;
-            if (wax[y][x] === 1 && heat[y][x] > 0.51) {
-                hotData.data[idx] = 255; hotData.data[idx + 1] = 255; hotData.data[idx + 2] = 255; hotData.data[idx + 3] = 255;
-            }
-        }
-    maskCtx.putImageData(hotData, 0, 0);
-
-    // Direct upscale to final resolution like zoom
-    let largeHot = document.createElement('canvas');
+    const largeHot = document.createElement('canvas');
     largeHot.width = W * upscale;
     largeHot.height = H * upscale;
-    let largeHotCtx = largeHot.getContext('2d', { willReadFrequently: true });
+    const largeHotCtx = largeHot.getContext('2d');
 
-    largeHotCtx.imageSmoothingEnabled = true; // replicate order=1 interpolation
-    largeHotCtx.filter = 'none';
-    largeHotCtx.drawImage(mask, 0, 0, W, H, 0, 0, largeHot.width, largeHot.height);
+    largeHotCtx.clearRect(0, 0, largeHot.width, largeHot.height);
+    largeHotCtx.imageSmoothingEnabled = true;
 
-    // Now blur like gaussian_filter
-    // 4 stages of small blur + dimming
-    for (let pass = 0; pass < 4; pass++) {
-        largeHotCtx.filter = 'blur(4px)';
-        largeHotCtx.drawImage(largeHot, 0, 0);
+    const texSize = 32; // assume your blurTex.png is 32×32
+    const texHalf = texSize / 2;
 
-        let imgHot = largeHotCtx.getImageData(0, 0, largeHot.width, largeHot.height);
-        for (let i = 0; i < imgHot.data.length; i += 4) {
-            imgHot.data[i] *= 0.9;     // R
-            imgHot.data[i + 1] *= 0.9;   // G
-            imgHot.data[i + 2] *= 0.9;   // B
-            imgHot.data[i + 3] *= 0.9;   // A 
+    const gradientImg = document.getElementById('blur-texture'); // must exist in DOM
+
+    // Stamp blur texture at each hot wax pixel
+    for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+            if (wax[y][x] === 1 && heat[y][x] > 0.51) {
+                const px = x * upscale;
+                const py = y * upscale;
+
+                /*
+                // Optional: use heat to modulate opacity
+                const strength = (heat[y][x] - 0.5) * 2; // normalize to [0,1]
+                const alpha = Math.max(0, Math.min(1, strength)); */
+
+                largeHotCtx.save();
+                //largeHotCtx.globalAlpha = alpha;
+                largeHotCtx.drawImage(
+                    gradientImg,
+                    px - texHalf,
+                    py - texHalf,
+                    texSize,
+                    texSize
+                );
+                largeHotCtx.restore();
+            }
         }
-        largeHotCtx.putImageData(imgHot, 0, 0);
     }
-    // Threshold
-    let imgHot = largeHotCtx.getImageData(0, 0, largeHot.width, largeHot.height);
-    for (let i = 0; i < imgHot.data.length; i += 4) {
-        if (imgHot.data[i + 3] > 150) { // threshold ~0.1
-            imgHot.data[i] = HOT_COLOR[0];
-            imgHot.data[i + 1] = HOT_COLOR[1];
-            imgHot.data[i + 2] = HOT_COLOR[2];
-            imgHot.data[i + 3] = 255;
+
+    //Threshold
+    const imgHot = largeHotCtx.getImageData(0, 0, largeHot.width, largeHot.height);
+    const data = imgHot.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+        const brightness = data[i + 3]; // red channel, assuming grayscale
+
+        if (brightness > 150) {
+            const strength = brightness / 255;
+
+            data[i] = HOT_COLOR[0] * strength;
+            data[i + 1] = HOT_COLOR[1] * strength;
+            data[i + 2] = HOT_COLOR[2] * strength;
+            data[i + 3] = 255; // fully visible
         } else {
-            imgHot.data[i + 3] = 0;
+            data[i + 3] = 0; // fully transparent
         }
     }
     largeHotCtx.putImageData(imgHot, 0, 0);
 
-
-
     //------------------------------------
     // COLD pass (same multi-stage blur + dimming)
     //------------------------------------
-    maskCtx.clearRect(0, 0, W, H);
-    let coldData = maskCtx.createImageData(W, H);
-    for (let y = 0; y < H; y++)
-        for (let x = 0; x < W; x++) {
-            let idx = (y * W + x) * 4;
-            if (wax[y][x] === 1 && heat[y][x] <= 0.49) {
-                coldData.data[idx] = 255; coldData.data[idx + 1] = 255; coldData.data[idx + 2] = 255; coldData.data[idx + 3] = 255;
-            }
-        }
-    maskCtx.putImageData(coldData, 0, 0);
-
-    let largeCold = document.createElement('canvas');
+    const largeCold = document.createElement('canvas');
     largeCold.width = W * upscale;
     largeCold.height = H * upscale;
-    let largeColdCtx = largeCold.getContext('2d', { willReadFrequently: true });
+    const largeColdCtx = largeCold.getContext('2d');
 
+    largeColdCtx.clearRect(0, 0, largeCold.width, largeCold.height);
     largeColdCtx.imageSmoothingEnabled = true;
-    largeColdCtx.filter = 'none';
-    largeColdCtx.drawImage(mask, 0, 0, W, H, 0, 0, largeCold.width, largeCold.height);
 
-    // Now apply the same multi-stage blur + dimming
-    for (let pass = 0; pass < 4; pass++) {
-        largeColdCtx.filter = 'blur(4px)';
-        largeColdCtx.drawImage(largeCold, 0, 0);
+    // Stamp blur texture at each cold wax pixel
+    for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+            if (wax[y][x] === 1 && heat[y][x] <= 0.49) {
+                const px = x * upscale;
+                const py = y * upscale;
 
-        let imgCold = largeColdCtx.getImageData(0, 0, largeCold.width, largeCold.height);
-        for (let i = 0; i < imgCold.data.length; i += 4) {
-            imgCold.data[i] *= 0.9;     // R
-            imgCold.data[i + 1] *= 0.9;   // G
-            imgCold.data[i + 2] *= 0.9;   // B
-            imgCold.data[i + 3] *= 0.9;   // A
+                largeColdCtx.save();
+                largeColdCtx.drawImage(
+                    gradientImg,
+                    px - texHalf,
+                    py - texHalf,
+                    texSize,
+                    texSize
+                );
+                largeColdCtx.restore();
+            }
         }
-        largeColdCtx.putImageData(imgCold, 0, 0);
     }
 
     // Threshold on alpha to get final solid blobs
-    let imgCold = largeColdCtx.getImageData(0, 0, largeCold.width, largeCold.height);
-    for (let i = 0; i < imgCold.data.length; i += 4) {
-        if (imgCold.data[i + 3] > 150) {
-            imgCold.data[i] = COLD_COLOR[0];
-            imgCold.data[i + 1] = COLD_COLOR[1];
-            imgCold.data[i + 2] = COLD_COLOR[2];
-            imgCold.data[i + 3] = 255;
+    const imgCold = largeColdCtx.getImageData(0, 0, largeCold.width, largeCold.height);
+    const dataCold = imgCold.data;
+
+    for (let i = 0; i < dataCold.length; i += 4) {
+        const alpha = dataCold[i + 3];
+
+        if (alpha > 150) {
+            const strength = alpha / 255;
+            dataCold[i] = COLD_COLOR[0] * strength;
+            dataCold[i + 1] = COLD_COLOR[1] * strength;
+            dataCold[i + 2] = COLD_COLOR[2] * strength;
+            dataCold[i + 3] = 255;
         } else {
-            imgCold.data[i + 3] = 0;
+            dataCold[i + 3] = 0;
         }
     }
     largeColdCtx.putImageData(imgCold, 0, 0);
@@ -346,8 +353,9 @@ function drawSmoothRender() {
     //------------------------------------
     // Composite final image
     //------------------------------------
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = true;
     ctx.drawImage(largeHot, 0, 0, canvas.width, canvas.height);
     ctx.drawImage(largeCold, 0, 0, canvas.width, canvas.height);
 }
@@ -356,6 +364,7 @@ function drawSmoothRender() {
 document.getElementById('toggleMode').onclick = () => {
     USE_UPSCALE_BLUR = !USE_UPSCALE_BLUR;
 };
+
 
 function loop() {
     updateHeat();
