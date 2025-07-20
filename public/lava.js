@@ -1,8 +1,20 @@
-const W = 16, H = 32, upscale = 4;
+const W = 16, H = 32, upscale = 8;
 let USE_UPSCALE_BLUR = true;
 
 let wax = Array.from({ length: H }, () => Array(W).fill(0));
 let heat = Array.from({ length: H }, () => Array(W).fill(0));
+let frame = 0;
+
+let HOT_COLOR = [224, 71, 0];    // default: #e04700ff
+let COLD_COLOR = [143, 35, 0];  // default: #8f2300ff
+
+// Helper: hex -> RGB array
+function hexToRGB(hex) {
+    let r = parseInt(hex.slice(1, 3), 16);
+    let g = parseInt(hex.slice(3, 5), 16);
+    let b = parseInt(hex.slice(5, 7), 16);
+    return [r, g, b];
+}
 
 // Fill bottom with wax and initial heat
 for (let y = H - 5; y < H; y++)
@@ -16,22 +28,41 @@ function linspace(a, b, n) {
 }
 
 function updateHeat() {
+    // Increment frame counter and wrap to prevent large numbers
+    frame = (frame + 1) % 10000;
+
+    //--------------------------------------
+    // Cool the top: always steady
+    //--------------------------------------
     let cool = linspace(1, 0.2, 10);
     for (let y = 0; y < 10; y++)
         for (let x = 0; x < W; x++)
             heat[y][x] -= 0.001 * cool[y];
 
-    let hot = linspace(0.2, 1, 15);
-    for (let y = H - 15; y < H; y++)
+    //--------------------------------------
+    // Animate the hot zone with a vertical oscillation
+    //--------------------------------------
+    let offset = Math.floor(Math.sin(frame * 0.02) * 5); // oscillates up/down by ±5 rows
+    let hotHeight = 15;
+    let hot = linspace(0.2, 1, hotHeight);
+    for (let y = H - hotHeight + offset; y < H + offset; y++) {
+        if (y < 0 || y >= H) continue; // stay in bounds
         for (let x = 0; x < W; x++)
-            heat[y][x] += 0.001 * hot[y - (H - 15)];
+            heat[y][x] += 0.001 * hot[Math.max(0, Math.min(hotHeight - 1, y - (H - hotHeight + offset)))];
+    }
 
+    //--------------------------------------
+    // Local center heat boost (Gaussian profile in X)
+    //--------------------------------------
     let xline = linspace(-1, 1, W);
     let profile = xline.map(v => Math.exp(-4 * v * v));
     for (let y = H - 5; y < H; y++)
         for (let x = 0; x < W; x++)
             heat[y][x] += 0.001 * profile[x];
 
+    //--------------------------------------
+    // Mild diffusion between neighboring wax pixels
+    //--------------------------------------
     let newHeat = heat.map(r => r.slice());
     for (let y = 1; y < H - 1; y++)
         for (let x = 1; x < W - 1; x++) {
@@ -46,6 +77,9 @@ function updateHeat() {
         }
     heat = newHeat;
 
+    //--------------------------------------
+    // Mild uniform heat loss + tiny random perturbation + clamp
+    //--------------------------------------
     for (let y = 0; y < H; y++)
         for (let x = 0; x < W; x++) {
             heat[y][x] -= 0.0001;
@@ -53,6 +87,7 @@ function updateHeat() {
             heat[y][x] = Math.max(0, Math.min(1, heat[y][x]));
         }
 }
+
 
 function countNeighbors(y, x, t) {
     let count = 0;
@@ -68,51 +103,92 @@ function countNeighbors(y, x, t) {
 
 function updateWax() {
     let indices = [];
+    // Build a shuffled list of all wax pixels to process in random order
     for (let y = 0; y < H; y++)
         for (let x = 0; x < W; x++)
             if (wax[y][x] === 1) indices.push([y, x]);
     shuffle(indices);
 
+    // Prepare new arrays to build the next state of the wax + heat
     let newWax = Array.from({ length: H }, () => Array(W).fill(0));
     let newHeat = Array.from({ length: H }, () => Array(W).fill(0));
 
     for (let [y, x] of indices) {
         let t = heat[y][x], dy = 0;
-        if (t > 0.6) dy = -1;
-        else if (t < 0.4) dy = 1;
+
+        // Determine vertical tendency based on temperature
+        // hotter wax rises, colder wax sinks
+        if (t > 0.7) dy = -1;
+        else if (t < 0.3) dy = 1;
         else if (t > 0.8 && Math.random() < 0.5) dy = -1;
 
+        // ----------------------------------------------------
+        // Handling isolated pixels (small clusters) to prevent stuck artifacts
+        // cold strays can randomly sink down
         let cluster = countNeighbors(y, x, t);
         if (cluster < 2 && t < 0.5 && Math.random() < 0.3) {
             let ny = y + 1;
-            if (ny < H - 1 && wax[ny][x] === 0 && newWax[ny][x] === 0) {
-                newWax[ny][x] = 1; newHeat[ny][x] = t; continue;
+            if (ny >= 0 && ny < H && x >= 0 && x < W) {
+                if (wax[ny][x] === 0 && newWax[ny][x] === 0) {
+                    newWax[ny][x] = 1;
+                    newHeat[ny][x] = t;
+                    continue; // done with this pixel
+                }
             }
         }
 
+        // hot strays can randomly rise up
+        if (cluster < 2 && t > 0.5 && Math.random() < 0.3) {
+            let ny = y - 1;
+            if (ny >= 0 && ny < H && x >= 0 && x < W) {
+                if (wax[ny][x] === 0 && newWax[ny][x] === 0) {
+                    newWax[ny][x] = 1;
+                    newHeat[ny][x] = t;
+                    continue;
+                }
+            }
+        }
+
+        // ----------------------------------------------------
+        // Normal wax movement: try to move in preferred vertical direction
         let moves = [];
         if (dy !== 0) {
             let ny = y + dy;
             if (ny > 0 && ny < H - 1) {
+                // try to move straight up or down
                 if (wax[ny][x] === 0 && newWax[ny][x] === 0) moves.push([ny, x]);
+                // try to move diagonally
                 for (let dx of shuffle([-1, 1])) {
                     let nx = x + dx;
                     if (nx > 0 && nx < W - 1 && wax[ny][nx] === 0 && newWax[ny][nx] === 0) moves.push([ny, nx]);
                 }
             }
-        } else moves.push([y, x]);
+        } else {
+            // no vertical movement, stay in place
+            moves.push([y, x]);
+        }
 
+        // ----------------------------------------------------
+        // Choose the move that keeps wax most clustered (surface tension effect)
         let best = [y, x], bestScore = -1;
         for (let [my, mx] of moves) {
             let score = countNeighbors(my, mx, t);
             if (score > bestScore) { bestScore = score; best = [my, mx]; }
         }
+
+        // If still very isolated, just stay in place
         if (bestScore < 3) best = [y, x];
 
-        newWax[best[0]][best[1]] = 1; newHeat[best[0]][best[1]] = t;
+        // Place wax and carry over temperature
+        newWax[best[0]][best[1]] = 1;
+        newHeat[best[0]][best[1]] = t;
     }
-    wax = newWax; heat = newHeat;
+
+    // Update global wax and heat arrays
+    wax = newWax;
+    heat = newHeat;
 }
+
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -126,7 +202,11 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
 function draw() {
-    if (USE_UPSCALE_BLUR) drawSmoothRender();
+
+    if (USE_UPSCALE_BLUR)
+        setTimeout(() => {
+            drawSmoothRender();
+        }, 100);
     else drawPixelRender();
 }
 
@@ -141,6 +221,7 @@ function drawPixelRender() {
         for (let x = 0; x < W; x++) {
             let idx = (y * W + x) * 4;
             if (wax[y][x] === 1) {
+                // wax pixels: hot = red, cold = blue
                 img.data[idx] = heat[y][x] * 255;
                 img.data[idx + 2] = (1 - heat[y][x]) * 255;
                 img.data[idx + 3] = 255;
@@ -153,56 +234,67 @@ function drawPixelRender() {
     ctx.drawImage(off, 0, 0, canvas.width, canvas.height);
 }
 
+
 function drawSmoothRender() {
-    let mask = document.createElement('canvas');
-    mask.width = W; mask.height = H;
-    let maskCtx = mask.getContext('2d');
 
     //------------------------------------
     // HOT pass
     //------------------------------------
-    let hotData = maskCtx.createImageData(W, H);
-    for (let y = 0; y < H; y++)
-        for (let x = 0; x < W; x++) {
-            let idx = (y * W + x) * 4;
-            if (wax[y][x] === 1 && heat[y][x] > 0.51) {
-                hotData.data[idx] = 255; hotData.data[idx + 1] = 255; hotData.data[idx + 2] = 255; hotData.data[idx + 3] = 255;
-            }
-        }
-    maskCtx.putImageData(hotData, 0, 0);
-
-    // Direct upscale to final resolution like zoom
-    let largeHot = document.createElement('canvas');
+    const largeHot = document.createElement('canvas');
     largeHot.width = W * upscale;
     largeHot.height = H * upscale;
-    let largeHotCtx = largeHot.getContext('2d');
+    const largeHotCtx = largeHot.getContext('2d');
 
-    largeHotCtx.imageSmoothingEnabled = true; // replicate order=1 interpolation
-    largeHotCtx.filter = 'none';
-    largeHotCtx.drawImage(mask, 0, 0, W, H, 0, 0, largeHot.width, largeHot.height);
+    largeHotCtx.clearRect(0, 0, largeHot.width, largeHot.height);
+    largeHotCtx.imageSmoothingEnabled = true;
 
-    // Now blur like gaussian_filter
-    // 4 stages of small blur + dimming
-    for (let pass = 0; pass < 4; pass++) {
-        largeHotCtx.filter = 'blur(4px)';
-        largeHotCtx.drawImage(largeHot, 0, 0);
+    const texSize = 64; // assume your blurTex.png is 32×32
+    const texHalf = texSize / 2;
 
-        let imgHot = largeHotCtx.getImageData(0, 0, largeHot.width, largeHot.height);
-        for (let i = 0; i < imgHot.data.length; i += 4) {
-            imgHot.data[i] *= 0.9;     // R
-            imgHot.data[i + 1] *= 0.9;   // G
-            imgHot.data[i + 2] *= 0.9;   // B
-            imgHot.data[i + 3] *= 0.9;   // A 
+    const gradientImg = document.getElementById('blur-texture'); // must exist in DOM
+
+    // Stamp blur texture at each hot wax pixel
+    for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+            if (wax[y][x] === 1 && heat[y][x] > 0.51) {
+                const px = x * upscale;
+                const py = y * upscale;
+
+                /*
+                // Optional: use heat to modulate opacity
+                const strength = (heat[y][x] - 0.5) * 2; // normalize to [0,1]
+                const alpha = Math.max(0, Math.min(1, strength)); */
+
+                largeHotCtx.save();
+                //largeHotCtx.globalAlpha = alpha;
+                largeHotCtx.drawImage(
+                    gradientImg,
+                    px - texHalf,
+                    py - texHalf,
+                    texSize,
+                    texSize
+                );
+                largeHotCtx.restore();
+            }
         }
-        largeHotCtx.putImageData(imgHot, 0, 0);
     }
-    // Threshold
-    let imgHot = largeHotCtx.getImageData(0, 0, largeHot.width, largeHot.height);
-    for (let i = 0; i < imgHot.data.length; i += 4) {
-        if (imgHot.data[i + 3] > 150) { // threshold ~0.1
-            imgHot.data[i] = 255; imgHot.data[i + 1] = 0; imgHot.data[i + 2] = 0; imgHot.data[i + 3] = 255;
+
+    //Threshold
+    const imgHot = largeHotCtx.getImageData(0, 0, largeHot.width, largeHot.height);
+    const data = imgHot.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+        const brightness = data[i + 3]; // red channel, assuming grayscale
+
+        if (brightness > 150) {
+            const strength = brightness / 255;
+
+            data[i] = HOT_COLOR[0] * strength;
+            data[i + 1] = HOT_COLOR[1] * strength;
+            data[i + 2] = HOT_COLOR[2] * strength;
+            data[i + 3] = 255; // fully visible
         } else {
-            imgHot.data[i + 3] = 0;
+            data[i + 3] = 0; // fully transparent
         }
     }
     largeHotCtx.putImageData(imgHot, 0, 0);
@@ -210,48 +302,49 @@ function drawSmoothRender() {
     //------------------------------------
     // COLD pass (same multi-stage blur + dimming)
     //------------------------------------
-    maskCtx.clearRect(0, 0, W, H);
-    let coldData = maskCtx.createImageData(W, H);
-    for (let y = 0; y < H; y++)
-        for (let x = 0; x < W; x++) {
-            let idx = (y * W + x) * 4;
-            if (wax[y][x] === 1 && heat[y][x] <= 0.49) {
-                coldData.data[idx] = 255; coldData.data[idx + 1] = 255; coldData.data[idx + 2] = 255; coldData.data[idx + 3] = 255;
-            }
-        }
-    maskCtx.putImageData(coldData, 0, 0);
-
-    let largeCold = document.createElement('canvas');
+    const largeCold = document.createElement('canvas');
     largeCold.width = W * upscale;
     largeCold.height = H * upscale;
-    let largeColdCtx = largeCold.getContext('2d');
+    const largeColdCtx = largeCold.getContext('2d');
 
+    largeColdCtx.clearRect(0, 0, largeCold.width, largeCold.height);
     largeColdCtx.imageSmoothingEnabled = true;
-    largeColdCtx.filter = 'none';
-    largeColdCtx.drawImage(mask, 0, 0, W, H, 0, 0, largeCold.width, largeCold.height);
 
-    // Now apply the same multi-stage blur + dimming
-    for (let pass = 0; pass < 4; pass++) {
-        largeColdCtx.filter = 'blur(4px)';
-        largeColdCtx.drawImage(largeCold, 0, 0);
+    // Stamp blur texture at each cold wax pixel
+    for (let y = 0; y < H; y++) {
+        for (let x = 0; x < W; x++) {
+            if (wax[y][x] === 1 && heat[y][x] <= 0.49) {
+                const px = x * upscale;
+                const py = y * upscale;
 
-        let imgCold = largeColdCtx.getImageData(0, 0, largeCold.width, largeCold.height);
-        for (let i = 0; i < imgCold.data.length; i += 4) {
-            imgCold.data[i] *= 0.9;     // R
-            imgCold.data[i + 1] *= 0.9;   // G
-            imgCold.data[i + 2] *= 0.9;   // B
-            imgCold.data[i + 3] *= 0.9;   // A
+                largeColdCtx.save();
+                largeColdCtx.drawImage(
+                    gradientImg,
+                    px - texHalf,
+                    py - texHalf,
+                    texSize,
+                    texSize
+                );
+                largeColdCtx.restore();
+            }
         }
-        largeColdCtx.putImageData(imgCold, 0, 0);
     }
 
     // Threshold on alpha to get final solid blobs
-    let imgCold = largeColdCtx.getImageData(0, 0, largeCold.width, largeCold.height);
-    for (let i = 0; i < imgCold.data.length; i += 4) {
-        if (imgCold.data[i + 3] > 150) {
-            imgCold.data[i] = 0; imgCold.data[i + 1] = 0; imgCold.data[i + 2] = 255; imgCold.data[i + 3] = 255;
+    const imgCold = largeColdCtx.getImageData(0, 0, largeCold.width, largeCold.height);
+    const dataCold = imgCold.data;
+
+    for (let i = 0; i < dataCold.length; i += 4) {
+        const alpha = dataCold[i + 3];
+
+        if (alpha > 150) {
+            const strength = alpha / 255;
+            dataCold[i] = COLD_COLOR[0] * strength;
+            dataCold[i + 1] = COLD_COLOR[1] * strength;
+            dataCold[i + 2] = COLD_COLOR[2] * strength;
+            dataCold[i + 3] = 255;
         } else {
-            imgCold.data[i + 3] = 0;
+            dataCold[i + 3] = 0;
         }
     }
     largeColdCtx.putImageData(imgCold, 0, 0);
@@ -260,8 +353,9 @@ function drawSmoothRender() {
     //------------------------------------
     // Composite final image
     //------------------------------------
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.imageSmoothingEnabled = false;
+    ctx.imageSmoothingEnabled = true;
     ctx.drawImage(largeHot, 0, 0, canvas.width, canvas.height);
     ctx.drawImage(largeCold, 0, 0, canvas.width, canvas.height);
 }
@@ -271,10 +365,25 @@ document.getElementById('toggleMode').onclick = () => {
     USE_UPSCALE_BLUR = !USE_UPSCALE_BLUR;
 };
 
+
 function loop() {
     updateHeat();
     updateWax();
     draw();
     setTimeout(loop, 30);
 }
+
 loop();
+
+window.addEventListener('DOMContentLoaded', () => {
+    const hotPicker = document.getElementById('hotColor');
+    const coldPicker = document.getElementById('coldColor');
+
+    hotPicker.addEventListener('input', () => {
+        HOT_COLOR = hexToRGB(hotPicker.value);
+    });
+
+    coldPicker.addEventListener('input', () => {
+        COLD_COLOR = hexToRGB(coldPicker.value);
+    });
+});

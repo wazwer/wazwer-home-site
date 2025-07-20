@@ -43,7 +43,7 @@ with open("public/rss.html", "w", encoding="utf-8") as f:
 """)
     
     # Write the current fetch date
-    current_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    current_date = datetime.datetime.now().strftime("%Y-%m-%d")
     f.write(f"<p style='font-size: 0.9em; color: gray;'>rss last fetched: {current_date}</p>\n")
 
     for entry in feed.entries[:10]:
