@@ -291,8 +291,16 @@ function drawSmoothRender() {
             const strength = alpha / 255;
 
             // Fake top-down shadow: stronger when "facing down" (i.e. G is low)
-            const shadow = 1.0 - g; // G=1 → top → shadow=0, G=0 → bottom → shadow=1
-            const lit = strength * shadow;
+            const shadow = 2.0 - g; // G=1 → top → shadow=0, G=0 → bottom → shadow=1
+
+            // Vertical global overlay: 0 at top, 1 at bottom
+            const y = Math.floor(i / 4 / largeHot.width);
+            const vertical = y / largeHot.height;
+
+            // You can curve this if needed:
+            const vShadow = 0.2 + 0.8 * Math.pow(vertical, 1.0);
+
+            const lit = strength * shadow * vShadow;
 
             data[i] = HOT_COLOR[0] * lit;
             data[i + 1] = HOT_COLOR[1] * lit;
@@ -347,8 +355,16 @@ function drawSmoothRender() {
             const strength = alpha / 255;
 
             // Fake top-down shadow: stronger when "facing down" (i.e. G is low)
-            const shadow = 1.0 - g; // G=1 → top → shadow=0, G=0 → bottom → shadow=1
-            const lit = strength * shadow;
+            const shadow = 2.0 - g; // G=1 → top → shadow=0, G=0 → bottom → shadow=1
+
+            // Vertical global overlay: 0 at top, 1 at bottom
+            const y = Math.floor(i / 4 / largeCold.width);
+            const vertical = y / largeCold.height;
+
+            // You can curve this if needed:
+            const vShadow = 0.2 + 0.8 * Math.pow(vertical, 1.0);
+
+            const lit = strength * shadow * vShadow;
 
             dataCold[i] = COLD_COLOR[0] * lit;
             dataCold[i + 1] = COLD_COLOR[1] * lit;
