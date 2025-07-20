@@ -5,8 +5,10 @@ let wax = Array.from({ length: H }, () => Array(W).fill(0));
 let heat = Array.from({ length: H }, () => Array(W).fill(0));
 let frame = 0;
 
+
+
 let HOT_COLOR = [224, 71, 0];    // default: #e04700ff
-let COLD_COLOR = [143, 35, 0];  // default: #8f2300ff
+let COLD_COLOR = [180, 50, 0];  // default: #b43200ff
 
 // Helper: hex -> RGB array
 function hexToRGB(hex) {
@@ -287,7 +289,7 @@ function drawSmoothRender() {
         const alpha = data[i + 3]; // alpha channel
         const g = data[i + 1] / 255;       // green channel = Y up vector component (0 to 1)
 
-        if (alpha > 150) {
+        if (alpha > 200) {
             const strength = alpha / 255;
 
             // Fake top-down shadow: stronger when "facing down" (i.e. G is low)
@@ -351,7 +353,7 @@ function drawSmoothRender() {
         const alpha = dataCold[i + 3]; // alpha channel
         const g = dataCold[i + 1] / 255;       // green channel = Y up vector component (0 to 1)
 
-        if (alpha > 150) {
+        if (alpha > 200) {
             const strength = alpha / 255;
 
             // Fake top-down shadow: stronger when "facing down" (i.e. G is low)
