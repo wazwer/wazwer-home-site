@@ -1,4 +1,4 @@
-const W = 16, H = 32, upscale = 4;
+const W = 16, H = 32, upscale = 8;
 let USE_UPSCALE_BLUR = true;
 
 let wax = Array.from({ length: H }, () => Array(W).fill(0));
@@ -248,7 +248,7 @@ function drawSmoothRender() {
     largeHotCtx.clearRect(0, 0, largeHot.width, largeHot.height);
     largeHotCtx.imageSmoothingEnabled = true;
 
-    const texSize = 32; // assume your blurTex.png is 32×32
+    const texSize = 64; // assume your blurTex.png is 32×32
     const texHalf = texSize / 2;
 
     const gradientImg = document.getElementById('blur-texture'); // must exist in DOM
