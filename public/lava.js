@@ -5,10 +5,11 @@ let wax = Array.from({ length: H }, () => Array(W).fill(0));
 let heat = Array.from({ length: H }, () => Array(W).fill(0));
 let frame = 0;
 
-
-
 let HOT_COLOR = [224, 71, 0];    // default: #e04700ff
 let COLD_COLOR = [180, 50, 0];  // default: #b43200ff
+
+const simFPS = 10; //not used yet but thinking about doing movement smoothing
+const renderFPS = 60;
 
 // Helper: hex -> RGB array
 function hexToRGB(hex) {
@@ -203,14 +204,6 @@ function shuffle(array) {
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-function draw() {
-
-    if (USE_UPSCALE_BLUR)
-        setTimeout(() => {
-            drawSmoothRender();
-        }, 100);
-    else drawPixelRender();
-}
 
 function drawPixelRender() {
     let off = document.createElement('canvas');
@@ -235,7 +228,6 @@ function drawPixelRender() {
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(off, 0, 0, canvas.width, canvas.height);
 }
-
 
 function drawSmoothRender() {
 
@@ -389,16 +381,18 @@ function drawSmoothRender() {
     ctx.drawImage(largeCold, 0, 0, canvas.width, canvas.height);
 }
 
-
 document.getElementById('toggleMode').onclick = () => {
     USE_UPSCALE_BLUR = !USE_UPSCALE_BLUR;
 };
 
-
 function loop() {
     updateHeat();
     updateWax();
-    draw();
+
+    if (USE_UPSCALE_BLUR)
+        drawSmoothRender();
+    else drawPixelRender();
+    
     setTimeout(loop, 30);
 }
 
