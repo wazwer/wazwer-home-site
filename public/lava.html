@@ -11,7 +11,7 @@
             font-family: Verdana, Geneva, sans-serif;
             font-size: 16px;
             line-height: 1.6;
-            margin: 30px;
+            /*margin: 30px; */
         }
 
         a {
@@ -23,12 +23,32 @@
             text-decoration: underline;
         }
 
+        .scene {
+            position: relative;
+            width: 100%;
+            min-width: 800px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .image-cover {
+            position: fixed;
+            width: 100%;
+            min-width: 800px;
+            top: -50px;
+        }
+
         canvas {
-            height: 90vh;
+            position: fixed;
+            width: 21vw;
+            min-width: 170px;
             aspect-ratio: 0.5;
+            top: 25vw;
+            left: 50%;
+            transform: translateX(-54%);
             /* half of height*/
             /*image-rendering: pixelated; */
-
+            z-index: 1;
         }
 
         button {
@@ -42,7 +62,14 @@
     </style>
 </head>
 
-<body>
+<body onLoad="window.scrollBy(0,350)">
+
+    <div class="scene">
+        <img src="images/LavaRoomBG_1.png" class="image-cover" style="z-index: -1;">
+        <canvas id="canvas"></canvas>
+        <img src="images/LavaRoomBG_2.png" class="image-cover" style="z-index: 2;"> 
+    </div>
+
     <div
         style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;">
         <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
@@ -55,7 +82,7 @@
         const audio = document.getElementById('bg-audio');
         const img = document.getElementById('audio-toggle');
         let isPlaying = false;
-        audio.volume = 0.6;
+        audio.volume = 1.0;
         img.addEventListener('click', () => {
             if (!isPlaying) {
                 audio.play();
@@ -93,9 +120,8 @@
         </div>
     </div>
 
-    <div style="position: fixed; height: 90vh; left:50%; top:20px; transform: translateX(-200px); text-align: center;">
-        <canvas id="canvas"></canvas>
-    </div>
+
+
     <div style="position: fixed; right:100px; top:100px; width:400px; text-align: right;">
         <button id="toggleSettings">Settings</button>
         <div id="settingsPanel" class="hidden">
@@ -117,7 +143,10 @@
         });
     </script>
     <img id="blur-texture" src="images/blurTex_col.png" style="display: none; ">
+
+
     <script src="lava.js"></script>
+
 </body>
 
 </html>
