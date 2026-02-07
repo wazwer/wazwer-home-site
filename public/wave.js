@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
   out.height = H;
 
   // Compute at lower res
-  const scale = 0.4;
+  const scale = 0.15;
   const w = Math.round(W * scale);
   const h = Math.round(H * scale);
 
@@ -18,9 +18,9 @@ window.addEventListener("load", () => {
   work.height = h;
   const ctx = work.getContext("2d");
 
-  const amplitude = 2;
-  const wavelength = 120;
-  const speed = 1.5;
+  const amplitude = 1;
+  const wavelength = 60;
+  const speed = 1;
   const sliceH = 2;
 
   let t0 = performance.now();
