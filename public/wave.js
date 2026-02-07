@@ -1,5 +1,3 @@
-console.log("JavaScript loaded!");
-
 window.addEventListener("load", () => {
   const img = document.getElementById("lava-test-img");
   const out = document.getElementById("wave-canvas");
