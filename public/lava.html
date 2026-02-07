@@ -32,7 +32,7 @@
             transform: translateX(-50%);
         }
 
-        .image-cover {
+        .lava-overlays {
             position: fixed;
             min-height: 100vh;
             min-width: 800px;
@@ -40,7 +40,7 @@
             top: -50px;
         }
 
-        canvas {
+        #canvas {
             position: fixed;
             width: 20vw;
             min-width: 170px;
@@ -51,6 +51,14 @@
             /* half of height*/
             /*image-rendering: pixelated; */
             z-index: 1;
+        }
+
+        #wave-canvas {
+            position: fixed;
+            min-height: 100vh;
+            min-width: 800px;
+            max-width: 100%;
+            top: -50px;
         }
 
         button {
@@ -67,10 +75,11 @@
 <body onLoad="window.scrollBy(0,350)">
 
     <div class="scene">
-        <img src="images/lavaBG_bottom.png" class="image-cover" style="z-index: -1;">
-        <img src="images/lavaBG_middle.png" class="image-cover" style="z-index: 0;"> 
+        <img src="images/lavaBG_bottom.png" class="lava-overlays" style="z-index: -2;"> 
+        <canvas id="wave-canvas"></canvas>
+        <img src="images/lavaBG_middle.png" class="lava-overlays" style="z-index: 0;"> 
         <canvas id="canvas"></canvas>
-        <img src="images/lavaBG_top.png" class="image-cover" style="z-index: 2;"> 
+        <img src="images/lavaBG_top.png" class="lava-overlays" style="z-index: 2;"> 
     </div>
 
     <div
@@ -145,10 +154,12 @@
             document.getElementById('aboutPanel').classList.toggle('hidden');
         });
     </script>
-    <img id="blur-texture" src="images/blurTex_col.png" style="display: none; ">
 
+    <img id="blur-texture" src="images/blurTex_col.png" style="display: none; ">
+    <img id="lava-test-img" src="images/lavaBG_bottom.png"  style="display: none;">
 
     <script src="lava.js"></script>
+    <script src="wave.js" defer></script>
 
 </body>
 
