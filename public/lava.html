@@ -76,7 +76,7 @@
 
     <div class="scene">
         <img src="images/lavaBG_bottom.png" class="lava-overlays" style="z-index: -2;"> 
-        <canvas id="wave-canvas"></canvas>
+        <!-- <canvas id="wave-canvas"></canvas> uses too much cpu unfortunately-->
         <img src="images/lavaBG_middle.png" class="lava-overlays" style="z-index: 0;"> 
         <canvas id="canvas"></canvas>
         <img src="images/lavaBG_top.png" class="lava-overlays" style="z-index: 2;"> 
@@ -143,9 +143,7 @@
             <button id="toggleMode">Toggle Debug Mode</button>
         </div>
     </div>
-    <div style="position: fixed; bottom: 100px;">
-        <a href="art.html">Exit Lava Room</a>
-    </div>
+
     <script>
         document.getElementById('toggleSettings').addEventListener('click', () => {
             document.getElementById('settingsPanel').classList.toggle('hidden');
@@ -154,6 +152,11 @@
             document.getElementById('aboutPanel').classList.toggle('hidden');
         });
     </script>
+
+    <a href="art.html"><img src="images/exit_button_closed.png" style="position: fixed; bottom:0px; right:10px; height:250px;"
+            onmouseover="this.src='images/exit_button_open.png'"
+            onmouseout="this.src='images/exit_button_closed.png'"></a>
+
 
     <img id="blur-texture" src="images/blurTex_col.png" style="display: none; ">
     <img id="lava-test-img" src="images/lavaBG_bottom.png"  style="display: none;">
