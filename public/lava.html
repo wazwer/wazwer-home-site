@@ -184,7 +184,7 @@
 
 </head>
 
-<body onLoad="window.scrollBy(0,350)">
+<body>
 
     <!-- Background layering -->
     <div class="scene">
@@ -284,6 +284,40 @@
         document.getElementById('resetSimButton').addEventListener('click', () => {
             window.restartSimulation();
         });
+    </script>
+
+    <script>
+        window.onload = function () {
+            const target = 400;
+            const duration = 3000; // 3 seconds
+
+            const start = window.pageYOffset;
+            const distance = target - start;
+            let startTime = null;
+
+            function easeInOut(t) {
+                return t < 0.5
+                    ? 2 * t * t
+                    : 1 - Math.pow(-2 * t + 2, 2) / 2;
+            }
+
+            function animateScroll(currentTime) {
+                if (!startTime) startTime = currentTime;
+
+                const timeElapsed = currentTime - startTime;
+                const progress = Math.min(timeElapsed / duration, 1);
+
+                const easedProgress = easeInOut(progress);
+
+                window.scrollTo(0, start + distance * easedProgress);
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateScroll);
+                }
+            }
+
+            requestAnimationFrame(animateScroll);
+        };
     </script>
 
 </body>
