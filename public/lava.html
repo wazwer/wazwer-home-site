@@ -272,24 +272,6 @@
     </div>
 
     <!-- Scripts -->
-    <script>
-        document.getElementById("cornerUI").addEventListener("click", (e) => {
-            const btn = e.target.closest("[data-action]");
-            if (!btn) return;
-
-            const action = btn.dataset.action;
-            // Replace with your real page events:
-            if (action === "one") document.dispatchEvent(new CustomEvent("ui:one"));
-            if (action === "two") document.dispatchEvent(new CustomEvent("ui:two"));
-            if (action === "three") document.dispatchEvent(new CustomEvent("ui:three"));
-        });
-
-        // Example listeners
-        document.addEventListener("ui:one", () => console.log("Action one!"));
-        document.addEventListener("ui:two", () => console.log("Action two!"));
-        document.addEventListener("ui:three", () => console.log("Action three!"));
-    </script>
-
     <img id="blur-texture" src="images/blurTex_col.png" style="display: none; "> <!-- Used in lava.js -->
     <img id="lava-test-img" src="images/lavaBG_bottom.png" style="display: none;"> <!-- Used in wave.js -->
 
