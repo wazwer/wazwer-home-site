@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Lava Lamp Simulation - Smoother</title>
+    <title>The Lava Chamber</title>
     <style>
         body {
             background-color: #2c2935;
@@ -61,27 +61,142 @@
             top: -50px;
         }
 
-        button {
-            margin: 10px;
-            padding: 5px 10px;
-        }
-
         .hidden {
             display: none;
         }
     </style>
+    <style>
+        /* Fixed rig in the corner */
+        .corner-ui {
+            position: fixed;
+            left: 24px;
+            bottom: -200px;
+            width: 220px;
+            /* change to fit your artwork */
+            height: 220px;
+            z-index: 9999;
+            pointer-events: none;
+            /* allow clicks only on actual buttons */
+            transform: translateY(0);
+            transition: transform 800ms cubic-bezier(.2, .8, .2, 1);
+            will-change: transform;
+        }
+
+        /* Hovering anywhere over the rig lifts everything */
+        .corner-ui:hover {
+            transform: translateY(-200px);
+        }
+
+        /* Make the buttons clickable */
+        .corner-ui__base,
+        .corner-ui__btn {
+            position: absolute;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            cursor: pointer;
+            pointer-events: auto;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Base at bottom of rig */
+        .corner-ui__base {
+            left: 0;
+            bottom: 0;
+            width: 220px;
+            /* match base image size */
+            height: auto;
+        }
+
+        /* Attached buttons: place them relative to the rig */
+        .corner-ui__btn {
+            width: 110px;
+            height: 40px;
+            /* transition: transform 160ms cubic-bezier(.2,.8,.2,1), filter 160ms; */
+            background: url("images/lava_ui_button.png") center/contain no-repeat;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-family: inherit;
+            /* or your custom font */
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+
+            text-shadow:
+                0 1px 0 rgba(0, 0, 0, .8),
+                0 0 4px rgba(0, 0, 0, .6);
+        }
+
+        .corner-ui__btn:hover {
+            /* transform: translateY(-2px) scale(1.03); */
+            /* filter: drop-shadow(0 6px 10px rgba(0,0,0,.25)); */
+        }
+
+        .corner-ui__btn:active {
+            /* transform: translateY(0) scale(0.98); */
+            background-image: url("images/lava_ui_button_clicked.png");
+
+        }
+
+        .corner-ui__btn:active span {
+            transform: translateY(-2px);
+            /* move text up */
+        }
+
+        /* Example placements (tweak to match your artwork) */
+        .corner-ui__btn.b1 {
+            bottom: 150px;
+            left: 52px
+        }
+
+        .corner-ui__btn.b2 {
+            bottom: 120px;
+            left: 52px
+        }
+
+        .corner-ui__btn.b3 {
+            bottom: 90px;
+            left: 52px
+        }
+
+        .corner-ui__btn.b4 {
+            bottom: 60px;
+            left: 52px
+        }
+
+        .corner-ui__btn.b5 {
+            bottom: 30px;
+            left: 52px
+        }
+
+        /* Images fill their buttons cleanly */
+        .corner-ui img {
+            display: block;
+            width: 100%;
+            height: auto;
+            pointer-events: none;
+            /* click lands on button */
+        }
+    </style>
+
 </head>
 
 <body onLoad="window.scrollBy(0,350)">
 
+    <!-- Background layering -->
     <div class="scene">
-        <img src="images/lavaBG_bottom.png" class="lava-overlays" style="z-index: -2;"> 
+        <img src="images/lavaBG_bottom.png" class="lava-overlays" style="z-index: -2;">
         <!-- <canvas id="wave-canvas"></canvas> uses too much cpu unfortunately-->
-        <img src="images/lavaBG_middle.png" class="lava-overlays" style="z-index: 0;"> 
+        <img src="images/lavaBG_middle.png" class="lava-overlays" style="z-index: 0;">
         <canvas id="canvas"></canvas>
-        <img src="images/lavaBG_top.png" class="lava-overlays" style="z-index: 2;"> 
+        <img src="images/lavaBG_top.png" class="lava-overlays" style="z-index: 2;">
     </div>
 
+    <!-- Music Player -->>
     <div
         style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;">
         <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
@@ -107,8 +222,8 @@
         });
     </script>
 
-    <div style="position: relative; top: 100px; width:30%; ">
-        <button id="aboutButton">About</button>
+    <!-- About Panel -->
+    <div style="position: fixed; top: 100px; width:30%; ">
         <div id="aboutPanel" class="hidden" style="height:60vh; overflow-y:scroll; padding-right: 20px;">
 
             This is a lava lamp "simulation" I designed using cell automation. <br>
@@ -132,37 +247,63 @@
         </div>
     </div>
 
-
-
-    <div style="position: fixed; right:100px; top:100px; width:400px; text-align: right;">
-        <button id="toggleSettings">Settings</button>
-        <div id="settingsPanel" class="hidden">
-            <!-- background color -->
-            <label>Wax Hot Color: <input type="color" id="hotColor" value="#e04700"></label><br>
-            <label>Wax Cold Color: <input type="color" id="coldColor" value="#b43200"></label><br>
-            <button id="toggleMode">Toggle Debug Mode</button>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById('toggleSettings').addEventListener('click', () => {
-            document.getElementById('settingsPanel').classList.toggle('hidden');
-        });
-        document.getElementById('aboutButton').addEventListener('click', () => {
-            document.getElementById('aboutPanel').classList.toggle('hidden');
-        });
-    </script>
-
-    <a href="art.html"><img src="images/exit_button_closed.png" style="position: fixed; bottom:0px; right:10px; height:250px;"
+    <!-- Exit Button -->
+    <a href="art.html"><img src="images/exit_button_closed.png"
+            style="position: fixed; bottom:0px; right:10px; height:200px;"
             onmouseover="this.src='images/exit_button_open.png'"
             onmouseout="this.src='images/exit_button_closed.png'"></a>
 
+    <!-- Corner UI -->
+    <div class="corner-ui" id="cornerUI" aria-label="Corner controls">
+        <!-- Base image -->
+        <button class="corner-ui__base" type="button" aria-label="Open controls">
+            <img src="images/lava_ui_base.png" alt="" draggable="false" />
+        </button>
 
-    <img id="blur-texture" src="images/blurTex_col.png" style="display: none; ">
-    <img id="lava-test-img" src="images/lavaBG_bottom.png"  style="display: none;">
+        <!-- Attached buttons (positioned relative to the rig) -->
+        <button id="aboutButton" class="corner-ui__btn b1" type="button" data-action="one"> <span>ABOUT</span> </button>
+        <button id="resetSimButton" class="corner-ui__btn b2" type="button" data-action="two"> <span>RESET</span>
+        </button>
+        <button id="toggleDebugButton" class="corner-ui__btn b3" type="button" data-action="three"><span>DEBUG</span>
+        </button>
+        <!--
+        <button id="hotColorButton" class="corner-ui__btn b4" type="button" data-action="four"><span>COLOR</span> </button>
+        <button id="coldColorButton" class="corner-ui__btn b5" type="button" data-action="five"><span>COLOR</span> </button> -->
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        document.getElementById("cornerUI").addEventListener("click", (e) => {
+            const btn = e.target.closest("[data-action]");
+            if (!btn) return;
+
+            const action = btn.dataset.action;
+            // Replace with your real page events:
+            if (action === "one") document.dispatchEvent(new CustomEvent("ui:one"));
+            if (action === "two") document.dispatchEvent(new CustomEvent("ui:two"));
+            if (action === "three") document.dispatchEvent(new CustomEvent("ui:three"));
+        });
+
+        // Example listeners
+        document.addEventListener("ui:one", () => console.log("Action one!"));
+        document.addEventListener("ui:two", () => console.log("Action two!"));
+        document.addEventListener("ui:three", () => console.log("Action three!"));
+    </script>
+
+    <img id="blur-texture" src="images/blurTex_col.png" style="display: none; "> <!-- Used in lava.js -->
+    <img id="lava-test-img" src="images/lavaBG_bottom.png" style="display: none;"> <!-- Used in wave.js -->
 
     <script src="lava.js"></script>
     <script src="wave.js" defer></script>
+
+    <script>
+        document.getElementById('aboutButton').addEventListener('click', () => {
+            document.getElementById('aboutPanel').classList.toggle('hidden');
+        });
+        document.getElementById('resetSimButton').addEventListener('click', () => {
+            window.restartSimulation();
+        });
+    </script>
 
 </body>
 
