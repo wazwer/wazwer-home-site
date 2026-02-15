@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>The Lava Chamber</title>
     <style>
         body {
@@ -12,6 +13,7 @@
             font-size: 16px;
             line-height: 1.6;
             /*margin: 30px; */
+            margin: 0px;
         }
 
         a {
@@ -25,32 +27,29 @@
 
         .scene {
             position: relative;
-            min-height: 100vh;
-            min-width: 900px;
             max-width: 100%;
-            left: 50%;
-            transform: translateX(-50%);
+            min-height: 100vh;
         }
 
         .lava-overlays {
-            position: fixed;
-            min-height: 100vh;
-            min-width: 900px;
-            max-width: 100%;
-            top: -50px;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            overflow-y: visible;
+            object-fit: cover;
         }
 
-        #canvas {
-            position: fixed;
-            width: 20%;
-            min-width: 165px;
-            aspect-ratio: 0.5;
-            top: max(200px, 25vw);
+        #lava-canvas {
+            position: absolute;
             left: 50%;
             transform: translateX(-47%);
+            bottom: max(250px, 25vw);
+            width: max(200px, 20vw);
+            aspect-ratio: 0.5;
             /* half of height*/
             /*image-rendering: pixelated; */
-            z-index: 1;
+            z-index: -1;
         }
 
         #wave-canvas {
@@ -188,11 +187,11 @@
 
     <!-- Background layering -->
     <div class="scene">
-        <img src="images/lavaBG_bottom.png" class="lava-overlays" style="z-index: -2;">
+        <img src="images/lavaBG_bottom.png" class="scene" style="z-index: -3;">
         <!-- <canvas id="wave-canvas"></canvas> uses too much cpu unfortunately-->
-        <img src="images/lavaBG_middle.png" class="lava-overlays" style="z-index: 0;">
-        <canvas id="canvas"></canvas>
-        <img src="images/lavaBG_top.png" class="lava-overlays" style="z-index: 2;">
+        <img src="images/lavaBG_middle.png" class="lava-overlays" style="z-index: -2;">
+        <canvas id="lava-canvas"></canvas>
+        <img src="images/lavaBG_top.png" class="lava-overlays" style="z-index: 0;">
     </div>
 
     <!-- Music Player -->
@@ -248,7 +247,7 @@
 
     <!-- Exit Button -->
     <a href="art.html"><img src="images/exit_button_closed.png"
-            style="position: fixed; bottom:0px; right:10px; height:200px;"
+            style="position: fixed; bottom:0px; right:10px; height:200px; z-index: 900;"
             onmouseover="this.src='images/exit_button_open.png'"
             onmouseout="this.src='images/exit_button_closed.png'"></a>
 
