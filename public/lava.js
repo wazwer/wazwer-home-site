@@ -208,7 +208,7 @@ function startSimulation() {
         return array;
     }
 
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('lava-canvas');
     const ctx = canvas.getContext('2d');
 
 
