@@ -12,8 +12,12 @@
             font-family: Verdana, Geneva, sans-serif;
             font-size: 16px;
             line-height: 1.6;
-            /*margin: 30px; */
-            margin: 0px;
+
+            margin: 0;
+            height: 100%;
+            overflow-x: hidden;
+            /* never horizontal */
+            overflow-y: auto;
         }
 
         a {
@@ -26,30 +30,36 @@
         }
 
         .scene {
-            position: relative;
-            max-width: 100%;
-            min-height: 100vh;
+            width: 100vw;
+            overflow-x: hidden;
         }
 
-        .lava-overlays {
+        .rig {
+            position: relative;
+            width: 100vmax;
+            height: 100vmax;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* layers fill the square */
+        .layer {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
-            overflow-y: visible;
             object-fit: cover;
+            pointer-events: none;
         }
 
-        #lava-canvas {
+        .lava {
             position: absolute;
-            left: 50%;
-            transform: translateX(-47%);
-            bottom: max(250px, 25vw);
-            width: max(200px, 20vw);
-            aspect-ratio: 0.5;
-            /* half of height*/
-            /*image-rendering: pixelated; */
-            z-index: -1;
+            left: 51%;
+            top: 52%;
+            width: 22%;
+            aspect-ratio: 1 / 2.2;
+            transform: translate(-50%, -50%);
+            pointer-events: auto;
         }
 
         #wave-canvas {
@@ -187,11 +197,12 @@
 
     <!-- Background layering -->
     <div class="scene">
-        <img src="images/lavaBG_bottom.png" class="scene" style="z-index: -3;">
-        <!-- <canvas id="wave-canvas"></canvas> uses too much cpu unfortunately-->
-        <img src="images/lavaBG_middle.png" class="lava-overlays" style="z-index: -2;">
-        <canvas id="lava-canvas"></canvas>
-        <img src="images/lavaBG_top.png" class="lava-overlays" style="z-index: 0;">
+        <div class="rig">
+            <img class="layer" src="images/lavaBG_bottom.png" alt="">
+            <img class="layer" src="images/lavaBG_middle.png" alt="">
+            <canvas class="lava" id="lava-canvas"></canvas>
+            <img class="layer" src="images/lavaBG_top.png" alt="">
+        </div>
     </div>
 
     <!-- Music Player -->
