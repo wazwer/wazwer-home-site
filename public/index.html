@@ -12,7 +12,8 @@
             font-family: Verdana, Geneva, sans-serif;
             font-size: 16px;
             line-height: 1.6;
-            margin: 30px;
+            margin: 0px;
+            overflow-x: hidden;
         }
 
         a {
@@ -30,14 +31,13 @@
 
         .pixel-kascade-overlay {
             position: absolute;
-            /* or absolute if inside a wrapper */
-            bottom: -320px;
+            bottom: -280px;
             /* matches the height of the link bar so she sits on it */
             left: 80%;
-            transform: translateX(-400px);
-            height: 800px;
+            transform: translateX(-200px);
+            height: 700px;
             width: auto;
-            z-index: 11;
+            z-index: 100;
             pointer-events: none;
             /* avoid blocking links */
         }
@@ -51,7 +51,7 @@
             position: absolute;
             left: 0;
             width: 100%;
-            z-index: 2;
+
         }
 
         .link-bar-spacer {
@@ -72,7 +72,7 @@
             border-top: 12px solid transparent;
             border-bottom: 12px solid transparent;
             border-left: 12px solid #111;
-            z-index: 12;
+            z-index: 11;
         }
 
         .button {
@@ -124,11 +124,65 @@
             animation: slidePauseSlide 4s linear forwards;
         }
     </style>
+    <style>
+        /* Main UI Rig */
+        .main-ui {
+            position: relative;
+            height: 600px;
+            width: 100%;
+            min-width: 1500px;
+            z-index: 11;
+            display: flex;
+            align-items: flex-end;
+            justify-self: center; 
+        }
+
+        /* Attached buttons */
+        .main-ui__btn {
+            /* transition: transform 160ms cubic-bezier(.2,.8,.2,1), filter 160ms; */
+            /*background: url("images/lava_ui_button.png") center/contain no-repeat; */
+            /*display: flex;
+            align-items: center;
+            justify-content: center; */
+        }
+
+        .main-ui__btn.projector {}
+
+        .main-ui__btn:hover img{
+            /* transform: translateY(-2px) scale(1.03); */
+            filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+        }
+
+        .main-ui__btn:hover .globe {
+            filter: brightness(60%);
+        }
+
+        .main-ui__btn .dish {
+            animation: dishswivel 2s infinite;
+            animation-timing-function: linear;
+            animation-direction: alternate;
+        }
+
+        .main-ui__btn:hover .dish {
+            animation-play-state: paused;
+        }
+
+        @keyframes dishswivel {
+            from {
+                transform: rotate(-20deg) translateX(-20px) translateY(-30px);
+            }
+
+            to {
+                transform: rotate(0deg) translateX(0px) translateY(0px); 
+            }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Music Player -->
     <div
-        style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;">
+        style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px; z-index: 900;">
         <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
             style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
         playing: <a href="https://www.youtube.com/watch?v=023a0SVk4ZY" target="_blank"> FM Skyline - Subterranean</a>
@@ -154,44 +208,74 @@
         });
     </script>
 
-
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 770px; overflow: hidden; z-index: -1;">
+    <!-- BG -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 740px; overflow: hidden; z-index: -1;">
         <div
             style="position: absolute; top: -100px; left: 0; width: 100%; height: 100%; background: url('images/pipes_bg.png') center center; background-size: cover;">
         </div>
     </div>
-
+    <!-- Emblem -->
     <div style="text-align: center;">
         <img src="images/wazwer_emblem.png" alt="wazwer emblem" style="width: 400px; z-index: 4;">
     </div>
+
     <div style="height: 220px;"></div>
 
+    <!-- Kascade -->
     <div class="link-bar">
         <img src="images/PixelKascade.png" class="pixel-kascade-overlay">
-
         <div class="status-line" id="statusLine">
             <span class="status-text" id="statusText">STATUS</span>
         </div>
         <div class="status-triangle"></div>
     </div>
 
-    <div class="link-bar-spacer"></div>
-
-    <div style="max-width: 75%; ">
-        <a href="about.html"><img src="images/ui/about-button.png"></a>
-        <a href="games.html"><img src="images/ui/reviews-button.png"></a>
-        <a href="art.html"><img src="images/ui/art-button.png"></a>
-    </div>
-
-    <div style="display: flex; align-items: flex-start; gap: 10px;">
-        <div>
-            <a href="https://www.mabsland.com/Adoption.html">
-                <img src="images/buttons/Censor_Ma.gif">
+    <!-- UI -->
+    <div class="main-ui">
+        <!--<img src="images/LandingUI.png"
+            style="position: absolute; z-index: 0; bottom:-100px; width:100%;  pointer-events: none;"> -->
+        <div class="main-ui__btn">
+            <a href="games.html">
+                <img src="images/ui/dish-top.png" class="dish"
+                    style=" position: absolute; bottom:540px; left:330px; z-index: 0;  width:340px;">
+                <img src="images/ui/dish-base.png"
+                    style=" position: absolute; bottom:210px; left:320px; z-index: 1;  width:190px;">
+            </a>
+        </div>
+        <div class="main-ui__btn">
+            <a href="art.html">
+                <img src="images/ui/projector-base.png"
+                    style=" position: absolute; bottom:290px; left:750px; z-index: 2;  width:210px;">
+                <img src="images/ui/globe-projection.gif" class="globe"
+                    style=" position: absolute; bottom:642px; left:740px; z-index: 3;  width:240px;">
+            </a>
+        </div>
+        <img src="images/ui/server.png"
+            style=" position: absolute; bottom:200px; left:422px; z-index: 4;  width:295px; pointer-events:none;">
+        <div class="main-ui__btn">
+            <a href="about.html">
+                <img src="images/ui/monitor.png" 
+                    style=" position: absolute; bottom:60px; left:430px; z-index: 5;  width:405px;">
             </a>
         </div>
 
-        <!-- buttons grid -->
-        <div style="display: grid; grid-template-columns: repeat(4, auto); gap: 5px;">
+        <img src="images/ui/cable.png"
+            style=" position: absolute; bottom:180px; left:0px; z-index: 6;  width:820px; pointer-events: none;">
+    </div>
+
+    <div class="link-bar"></div>
+    <div class="link-bar-spacer"></div>
+    <div class="link-bar-spacer"></div>
+
+
+    <!-- buttons grid -->
+    <div style="display: flex; align-items: flex-start; gap: 10px; justify-self: center;">
+        <div>
+            <a href="https://www.mabsland.com/Adoption.html" target="_blank">
+                <img src="images/buttons/censor-ma.gif">
+            </a>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(5, auto); gap: 5px;">
             <a href="https://neocities.org/site/wazwer" target="_blank"><img class="button"
                     src="images/buttons/neocities-2.gif"></a>
             <a href="https://syntheticfruits.neocities.org/" target="_blank"><img class="button"
@@ -205,8 +289,11 @@
                     src="images/buttons/saturdaymorningsonic.png"></a>
             <a href="https://www.sonicgear.org/" target="_blank"><img class="button"
                     src="images/buttons/sonicgear.jpg"></a>
+            <a href="https://wraithcastle.neocities.org" target="_blank"><img class="button"
+                    src="images/buttons/wraithcastlebutton.gif"></a>
+            <a href="https://error-666.neocities.org/" target="_blank"><img class="button"
+                    src="images/buttons/error666.gif"></a>
         </div>
-
         <div>
             <a href="https://archive.org/" target="_blank">
                 <img class="double-height-button" src="images/buttons/internetarchive.jpg">
@@ -214,13 +301,20 @@
         </div>
     </div>
 
+    <!-- Footer -->
     <footer style="text-align: center; margin-top: 2em;">
+        <div class="link-bar-spacer"></div>
         <a href="sitemap.html">- Site Map -</a>
+        <br>
+        <div class="link-bar-spacer"></div>
+        <div style="font-family: 'Courier New', Courier, monospace; font-size: 18px; ">- © WAZWER 2026 - All rights
+            reserved - </div>
     </footer>
 
+    <!-- Scripts -->
     <script>
         const messages = [
-            "⚙️ Currently gearing up for AF 2025 ⚙️",
+            "⚙️ Currently gearing up for AF 2026 ⚙️",
             "I was on a snooze cruise I guess!",
             "Creepy 💀 and Cute 🎀 Parts Pack",
             "Genesis does what Nintendon't",
