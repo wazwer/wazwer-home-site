@@ -48,6 +48,7 @@ jobs:
         run: python scripts/fetch_rss.py  # Writes to public/rss.html
 
       - name: Upload RSS-enhanced public folder as artifact
+        if: ${{ github.event.inputs.fetch_rss_feeds == 'true' }}  # Only run if input is true
         uses: actions/upload-artifact@v4
         with:
           name: public-folder              # Artifact name
