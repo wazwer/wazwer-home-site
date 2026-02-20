@@ -6,6 +6,11 @@
     <title>WAZWER</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
+        html{
+            margin: 0px;
+            overflow-x: hidden;
+        }
+
         body {
             background-color: #2c2935;
             color: white;
@@ -51,7 +56,6 @@
             position: absolute;
             left: 0;
             width: 100%;
-
         }
 
         .link-bar-spacer {
@@ -134,7 +138,19 @@
             z-index: 11;
             display: flex;
             align-items: flex-end;
-            justify-self: center; 
+            justify-self: center;
+        }
+
+        .main-ui__bg {
+            position: absolute;
+            height: 600px;
+            width: 100vw;
+            z-index: -100;
+            background: url('images/ui/main-ui-bg.jpg') repeat-x center;
+            background-size: auto 100%;
+            top: 650px;
+            z-index: -50;
+            overflow-x: hidden;
         }
 
         /* Attached buttons */
@@ -146,9 +162,7 @@
             justify-content: center; */
         }
 
-        .main-ui__btn.projector {}
-
-        .main-ui__btn:hover img{
+        .main-ui__btn:hover img {
             /* transform: translateY(-2px) scale(1.03); */
             filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
         }
@@ -161,10 +175,42 @@
             animation: dishswivel 2s infinite;
             animation-timing-function: linear;
             animation-direction: alternate;
+            background: url("images/ui/dish-top.png") center;
+            width: 340px;
+            height: 285px;
+            background-size: contain;
+            background-repeat: no-repeat;
         }
 
         .main-ui__btn:hover .dish {
             animation-play-state: paused;
+            background: url("images/ui/dish-electric.gif") center;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .main-ui__btn .monitor {
+            background: url("images/ui/monitor-base-on.gif") center;
+            width: 405px;
+            height: 328px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .main-ui__btn:hover .monitor {
+            background: url("images/ui/monitor-base-off.gif") center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+        }
+
+        .monitor-light {
+            opacity: 1;
+            transition: opacity 0.2s;
+        }
+
+        .main-ui__btn:hover .monitor-light {
+            opacity: 0;
         }
 
         @keyframes dishswivel {
@@ -173,7 +219,13 @@
             }
 
             to {
-                transform: rotate(0deg) translateX(0px) translateY(0px); 
+                transform: rotate(0deg) translateX(0px) translateY(0px);
+            }
+        }
+
+        @keyframes monitoroff {
+            100% {
+                opacity: 0;
             }
         }
     </style>
@@ -216,7 +268,7 @@
     </div>
     <!-- Emblem -->
     <div style="text-align: center;">
-        <img src="images/wazwer_emblem.png" alt="wazwer emblem" style="width: 400px; z-index: 4;">
+        <img src="images/wazwer_emblem.png" alt="wazwer emblem" style="width: 400px; z-index: 4; pointer-events:none;">
     </div>
 
     <div style="height: 220px;"></div>
@@ -231,36 +283,44 @@
     </div>
 
     <!-- UI -->
+    <div class="main-ui__bg"></div>
     <div class="main-ui">
         <!--<img src="images/LandingUI.png"
-            style="position: absolute; z-index: 0; bottom:-100px; width:100%;  pointer-events: none;"> -->
+            style="position: absolute; z-index: 0; bottom:-150px; width:100%;  pointer-events: none;"> -->
         <div class="main-ui__btn">
             <a href="games.html">
-                <img src="images/ui/dish-top.png" class="dish"
-                    style=" position: absolute; bottom:540px; left:330px; z-index: 0;  width:340px;">
+                <div class="dish" style="position: absolute; bottom:490px; left:330px; z-index: 0;  ">
+                </div>
+                <!-- <img src="images/ui/dish-top.png" class="dish"
+                    style=" position: absolute; bottom:490px; left:330px; z-index: 0;  width:340px;"> -->
                 <img src="images/ui/dish-base.png"
-                    style=" position: absolute; bottom:210px; left:320px; z-index: 1;  width:190px;">
+                    style=" position: absolute; bottom:160px; left:320px; z-index: 1;  width:190px;">
             </a>
         </div>
         <div class="main-ui__btn">
             <a href="art.html">
                 <img src="images/ui/projector-base.png"
-                    style=" position: absolute; bottom:290px; left:750px; z-index: 2;  width:210px;">
+                    style=" position: absolute; bottom:240px; left:750px; z-index: 2;  width:210px;">
                 <img src="images/ui/globe-projection.gif" class="globe"
-                    style=" position: absolute; bottom:642px; left:740px; z-index: 3;  width:240px;">
+                    style=" position: absolute; bottom:592px; left:740px; z-index: 3;  width:240px;">
             </a>
         </div>
         <img src="images/ui/server.png"
-            style=" position: absolute; bottom:200px; left:422px; z-index: 4;  width:295px; pointer-events:none;">
+            style=" position: absolute; bottom:150px; left:422px; z-index: 4;  width:295px; pointer-events:none;">
         <div class="main-ui__btn">
             <a href="about.html">
-                <img src="images/ui/monitor.png" 
-                    style=" position: absolute; bottom:60px; left:430px; z-index: 5;  width:405px;">
+                <div class="monitor" style="position: absolute; bottom:10px; left:430px; z-index: 5;">
+                </div>
+                <!-- <img src="images/ui/monitor-base-on.gif"
+                    style=" position: absolute; bottom:10px; left:430px; z-index: 5;  width:405px;"> -->
+                <img src="images/ui/monitor-base-light.png"
+                    style=" position: absolute; bottom:10px; left:430px; z-index: 6;  width:405px;"
+                    class="monitor-light">
             </a>
         </div>
 
         <img src="images/ui/cable.png"
-            style=" position: absolute; bottom:180px; left:0px; z-index: 6;  width:820px; pointer-events: none;">
+            style=" position: absolute; bottom:130px; left:0px; z-index: 7;  width:820px; pointer-events: none;">
     </div>
 
     <div class="link-bar"></div>
