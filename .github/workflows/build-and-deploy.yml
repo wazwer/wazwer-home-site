@@ -4,15 +4,15 @@ name: Build and Deploy
 on:
   workflow_dispatch:
     inputs:
-      fetch_rss_feeds:
-        description: 'Fetch RSS Feeds?'
-        required: false
-        default: 'false'  # Optional toggle for getting RSS data
-
       deploy_to_neocities:
         description: 'Deploy to Neocities?'
         required: false
         default: 'false'  # Optional toggle for Neocities deploy
+
+      update_neocities_rss_feeds:
+        description: 'Update RSS Feeds on Neocities?'
+        required: false
+        default: 'false'  # Optional toggle for getting RSS data
 
 # Permissions required for Pages + deploy tooling
 permissions:
@@ -34,17 +34,14 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        if: ${{ github.event.inputs.fetch_rss_feeds == 'true' }}  # Only run if input is true
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
       - name: Install dependencies
-        if: ${{ github.event.inputs.fetch_rss_feeds == 'true' }}  # Only run if input is true
         run: pip install feedparser requests
 
       - name: Generate RSS snippet
-        if: ${{ github.event.inputs.fetch_rss_feeds == 'true' }}  # Only run if input is true
         run: python scripts/fetch_rss.py  # Writes to public/rss.html
 
       - name: Upload RSS-enhanced public folder as artifact
@@ -96,6 +93,10 @@ jobs:
         with:
           name: public-folder
           path: public
+      
+      - name: Remove RSS #remove public\rss.html
+        if: ${{ github.event.inputs.update_neocities_rss_feeds == 'false' }}  # Only run if input is false
+        run: rm -f public/rss.html
 
       - name: Deploy to Neocities
         uses: bcomnes/deploy-to-neocities@v3
