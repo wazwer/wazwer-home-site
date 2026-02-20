@@ -51,7 +51,6 @@
             position: absolute;
             left: 0;
             width: 100%;
-
         }
 
         .link-bar-spacer {
@@ -137,6 +136,18 @@
             justify-self: center;
         }
 
+        .main-ui__bg {
+            position: absolute;
+            height: 600px;
+            width: 100vw;
+            z-index: -100;
+            background: url('images/ui/main-ui-bg.jpg') repeat-x center;
+            background-size: auto 100%;
+            top: 650px;
+            z-index: -50;
+            overflow-x: hidden;
+        }
+
         /* Attached buttons */
         .main-ui__btn {
             /* transition: transform 160ms cubic-bezier(.2,.8,.2,1), filter 160ms; */
@@ -185,6 +196,7 @@
             background: url("images/ui/monitor-base-off.gif") center;
             background-size: contain;
             background-repeat: no-repeat;
+            filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
         }
 
         .monitor-light {
@@ -266,6 +278,7 @@
     </div>
 
     <!-- UI -->
+    <div class="main-ui__bg"></div>
     <div class="main-ui">
         <!--<img src="images/LandingUI.png"
             style="position: absolute; z-index: 0; bottom:-150px; width:100%;  pointer-events: none;"> -->
