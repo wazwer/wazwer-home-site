@@ -26,8 +26,65 @@
         .center {
             text-align: center;
         }
+
+
+        .nameplate {
+            font-family: Impact, Chicago, sans-serif;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 1px;
+            margin: 20px 0;
+        }
+
+        .chevron-block {
+            font-family: monospace;
+            display: inline-block;
+            background: repeating-linear-gradient(45deg,
+                    /* Angle of the stripes */
+                    #000000 0px,
+                    #000000 6px,
+                    #fcd063 6px,
+                    #fcd063 12px);
+            background-size: 200% 100%;
+            /* Wider than 100% for motion loop */
+            background-position: 100% 0%;
+            /* Start at right */
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: stripes-left-right 6s linear infinite;
+            letter-spacing: 0;
+        }
+
+        .nameplate .nameColor {
+            color: #bf006c;
+            margin: 0 8px;
+        }
+
+        @keyframes stripes-left-right {
+            0% {
+                background-position: 100% 0%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
+        }
     </style>
 </head>
+<header>
+    <div style="height: 50px;"></div>
+    <div class="nameplate">
+        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+        <span class="nameColor">_Kascade-wazwer-Em</span>
+        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+        <span class="nameColor">any pronouns</span>
+        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+        <span class="nameColor">1997</span>
+        <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
+    </div>
+    <div style="height: 10px;"></div>
+</header>
 
 <body>
     <p>
@@ -72,7 +129,7 @@
     <br>
     <h4>Q & A:</h4>
     > Do you take commissions?
-    <p> 
+    <p>
         At the moment I don't publicly advertise commissions, but if you have an interest shoot me a DM on social
         media
         (until I have time to set up an inbox connected to my domain name) and we can work something out. I'm pretty
