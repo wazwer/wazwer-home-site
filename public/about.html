@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>wazwer</title>
+    <title>About - WAZWER</title>
     <style>
         body {
             background-color: #2c2935;
@@ -23,56 +23,9 @@
             text-decoration: underline;
         }
 
-        .nameplate {
-            font-family: Impact, Chicago, sans-serif;
-            font-size: 24px;
-            text-align: center;
-            letter-spacing: 1px;
-            margin: 20px 0;
-        }
-
-        .nameplate .line {
-            color: #ffffff;
-        }
-
-        .chevron-block {
-            font-family: monospace;
-            display: inline-block;
-            background: repeating-linear-gradient(45deg,
-                    /* Angle of the stripes */
-                    #000000 0px,
-                    #000000 6px,
-                    #fcd063 6px,
-                    #fcd063 12px);
-            background-size: 200% 100%;
-            /* Wider than 100% for motion loop */
-            background-position: 100% 0%;
-            /* Start at right */
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            animation: stripes-left-right 6s linear infinite;
-            letter-spacing: 0;
-        }
-
-        .nameplate .nameColor {
-            color: #bf006c;
-            margin: 0 8px;
-        }
-
-        @keyframes stripes-left-right {
-            0% {
-                background-position: 100% 0%;
-            }
-
-            100% {
-                background-position: 0% 0%;
-            }
-        }
-
         main {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 3fr 1fr;
             gap: 1rem;
             padding: 1rem;
             min-height: 70vh;
@@ -116,7 +69,8 @@
             style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px;">
             <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
                 style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
-            playing: <a href="https://www.youtube.com/watch?v=eKpae_oto7s" target="_blank"> Falling Star - Flying Hands</a>
+            playing: <a href="https://www.youtube.com/watch?v=eKpae_oto7s" target="_blank"> Falling Star - Flying
+                Hands</a>
         </div>
         <audio id="bg-audio" src="https://wazwer.com/sounds/flyinghands.mp3" loop></audio>
         <script>
@@ -137,29 +91,18 @@
                 isPlaying = !isPlaying;
             });
         </script>
-
-        <div style="height: 50px;"></div>
-        <div class="nameplate">
-            <span class="line">◀</span>
-            <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-            <span class="nameColor">_Kascade-wazwer-Em</span>
-            <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-            <span class="nameColor">any pronouns</span>
-            <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-            <span class="nameColor">1997</span>
-            <span class="chevron-block">▒▒▒▒▒▒▒▒▒</span>
-            <span class="line">▶</span>
-        </div>
-        <div style="height: 10px;"></div>
     </header>
+
+    <div style="height:60px;"></div>
 
     <main>
         <iframe name="contentFrame" src="about:blank"></iframe>
         <div class="controls">
             <a href="about_this.html" target="contentFrame">>_Where am I? Who are you?</a>
-            <a href="cool_sites.html" target="contentFrame">Cool Sites</a>
-            <a href="shrines.html" target="contentFrame">Shrines</a>
-            <a href="resources.html" target="contentFrame">Resources</a>
+            <a href="shrines.html" target="contentFrame">>_ What inspires you?</a>
+            <a href="resources.html" target="contentFrame">>_How did you make this?</a>
+            <a href="cool_sites.html" target="contentFrame">>_Leave the brainframe?</a>
+            <!-- <a href="todo.txt" target="contentFrame">>_What's next?</a> -->
         </div>
     </main>
 
