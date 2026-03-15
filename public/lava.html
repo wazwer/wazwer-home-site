@@ -140,10 +140,11 @@
                 0 0 4px rgba(0, 0, 0, .6);
         }
 
+        /*
         .corner-ui__btn:hover {
-            /* transform: translateY(-2px) scale(1.03); */
-            /* filter: drop-shadow(0 6px 10px rgba(0,0,0,.25)); */
-        }
+            /* transform: translateY(-2px) scale(1.03); 
+            /* filter: drop-shadow(0 6px 10px rgba(0,0,0,.25)); 
+        }  */
 
         .corner-ui__btn:active {
             /* transform: translateY(0) scale(0.98); */
@@ -235,7 +236,7 @@
     <div style="position: fixed; top: 100px; width:max(300px, 35%); margin: 20px;">
         <div id="aboutPanel" class="hidden" style="height:60vh; overflow-y:scroll; padding-right: 20px;">
 
-            This is a lava lamp "simulation" I designed using cell automation. <br>
+            This is a lava lamp "simulation" thing I'm trying to make using cell automation. <br>
             Why? Because all the other ways of animating a lava effect I could find online were either: <br>
             <ul style="list-style-type: upper-alpha;">
                 <li> Just moving metaballs up and down with no interaction or</li>
@@ -257,7 +258,7 @@
     </div>
 
     <!-- Exit Button -->
-    <a href="art.html"><img src="images/exit_button_closed.png"
+    <a href="projects.html"><img src="images/exit_button_closed.png"
             style="position: fixed; bottom:0px; right:10px; height:180px; z-index: 900;"
             onmouseover="this.src='images/exit_button_open.png'"
             onmouseout="this.src='images/exit_button_closed.png'"></a>
@@ -298,7 +299,7 @@
 
     <script>
         window.onload = function () {
-            const target = 400;
+            const target = 500; //add check here about the window width vs height
             const duration = 3000; // 3 seconds
 
             const start = window.pageYOffset;
