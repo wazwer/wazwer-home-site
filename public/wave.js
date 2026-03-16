@@ -56,7 +56,7 @@ window.addEventListener("load", () => {
     requestAnimationFrame(frame);
   }
 
-  // ✅ Key change: if already loaded, start immediately
+  // If already loaded, start immediately
   if (img.complete && img.naturalWidth > 0) {
     start();
   } else {

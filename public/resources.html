@@ -26,48 +26,101 @@
         .center {
             text-align: center;
         }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .container div {
+            font-size: 16px;
+            text-align: center;
+            max-width: 30vw;
+
+        }
+
+        .container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            /*center image */
+        }
     </style>
 </head>
 
 <body>
 
     <h2> Tips & Tricks </h2>
-    Clip Studio Paint
-    <br>
-    Here are some cool things Clip Studio can do that Photoshop can't (that I use a lot!):
-    - Ribbon brushes
-    - limited color palette
-    - Lasso select across multiple layers and move that selection
-    - Fill line art that has gaps
-    <br>
-    Photoshop
+    <ul>
+        <li> Clip Studio Paint </li>
+        <ul>
+            Here are some cool things Clip Studio Paint can do that Photoshop can't (that I use a lot!):
+            <li> Ribbon brushes </li>
+            You can make a pattern warp to follow your brush path. <br>
+            <div class="container">
+                <div><img src="images/tips-tricks/ribbon-brush1.jpg" style="width:50%;">
+                    Stamp Texture
+                </div>
+                <div><img src="images/tips-tricks/ribbon-brush2.jpg">
+                    Clip Studio Ribbon Brush
+                </div>
+                <div><img src="images/tips-tricks/ribbon-brush3.jpg">
+                    Photoshop Brush</div>
+            </div>
+            <li> limited color palette </li>
+            Useful for pixel art
+            <li> Lasso select across multiple layers and move that selection </li>
+            <li> Bucket fill line art that has gaps </li>
+            <div class="container">
+                <div><img src="images/tips-tricks/bucket-fill-gap1.jpg">
+                    Fill Tool
+                </div>
+                <div><img src="images/tips-tricks/bucket-fill-gap2.jpg" style="width:50%;">
+                    Lineart with gaps
+                </div>
+                <div><img src="images/tips-tricks/bucket-fill-gap3.jpg" style="width:50%;">
+                    Filled</div>
+            </div>
+            <li> CSP can open .psd files! So you can somewhat switch between the programs (some functionality breaks).
+            </li>
+            <li> CSP offers a perpetual license on PC - not on mobile though :( </li>
+        </ul>
+        <li> Photoshop</li>
+        <ul>
+            <li> There are two types of timeline, one with a set frame rate and another with a variable framerate which is useful for gifs. </li>
+        </ul>
+        <li> Krita</li>
+        <ul>
+            <li> Comes with a shortcut to flip the canvas horizontally by default and it doesn't lag horrifically like
+                photoshop does when it does it. </li>
+        </ul>
+    </ul>
 
-    Krita
-    - Comes with a shortcut to flip the canvas horizontally by default and it doesn't lag horrifically like photoshop does when it does it.
     <h2> Assets </h2>
-
     <a href="https://gifcities.org/" target="_blank"> www.gifcities.org </a>
+    <br>
+    <a href="https://pinterest.com/wazwer/" target="_blank"> www.pinterest.com/wazwer </a>
+    - My pinterest where you'll find sources for any moodboards I've made (I know pinterest sucks with all the
+    censorship and AI spam, I'm looking for a good alternative)
+    <br>
+    <a href="https://https://pixabay.com/" target="_blank"> www.pixabay.com </a>
+    <br>
+    <a href="https://freesound.org/" target="_blank"> www.freesound.org </a>
 
-    - My pinterest where you'll find sources for any moodboards I've made (I know pinterest sucks with all the censorship bots and AI, I'm looking for a good alternative): 
-    - Pixabay
-    - Freesound
-    - Shutterstock
-
-    <h2> Tools </h2>
-
-    <h3> Site building</h3>
-
-
+    <h2> Tools/Widgets </h2>
     <a href="https://webamp.org/" target="_blank"> www.webamp.org </a>
     WinAmp on the web
     <br>
-    <h3>Art Related</h3>
     <a href="http://www.flat2d.com/pc98.html" target="_blank"> www.flat2d.com/pc98.html </a>
     Cool software and a cool archive of PC-98 art
     <br>
     <a href="https://www.povray.org/" target="_blank"> www.povray.org </a>
     Useful (though kinda obstuse) for making crusty looking renders in Blender.
     <br>
+    <a href="https://skissors.github.io/PetzPark/" target="_blank"> www.skissors.github.io/PetzPark </a>
+    Adorable Petz widget, one of my childhood favourite games.
+
 
     <!-- misc
  <a href ="https://anlucas.neocities.org/GifFiles" target="_blank"> www.anlucas.neocities.org/GifFiles </a>

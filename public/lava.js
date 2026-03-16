@@ -249,7 +249,7 @@ function startSimulation() {
         largeHotCtx.clearRect(0, 0, largeHot.width, largeHot.height);
         largeHotCtx.imageSmoothingEnabled = true;
 
-        const texSize = 64; // assume your blurTex.png is 32×32
+        const texSize = 64; // assume blurTex.png is 32×32
         const texHalf = texSize / 2;
 
         const gradientImg = document.getElementById('blur-texture'); // must exist in DOM
