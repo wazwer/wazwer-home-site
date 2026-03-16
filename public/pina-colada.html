@@ -6,7 +6,8 @@
     <style>
         body {
             background: linear-gradient(0deg, rgba(44, 160, 209, 1) 0%, rgba(32, 120, 128, 1) 11%, rgba(242, 218, 111, 1) 12%, rgba(255, 168, 92, 1) 23%, rgba(227, 145, 155, 1) 36%, rgba(147, 162, 194, 1) 57%, rgba(17, 91, 128, 1) 100%);
-            background-attachment: fixed; /* makes gradient fit screen size*/
+            background-attachment: fixed;
+            /* makes gradient fit screen size*/
             color: rgb(252, 252, 252);
             font-family: Verdana, Geneva, sans-serif;
             font-size: 18px;
@@ -43,7 +44,7 @@
 <body>
     <!-- Music Player -->
     <div
-        style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px; z-index: 900;">
+        style="position: fixed; top: 40px; left:120px; background-color: rgb(54, 40, 32); padding-left:10px; padding-right:10px; z-index: 900;">
         <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
             style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
         playing: <a href="https://www.youtube.com/watch?v=mXHnzyA0dUE" target="_blank"> FFVII - Costa del Sol</a>
@@ -70,52 +71,50 @@
     </script>
 
     <!-- BG -->
-
     <img src="images/pina-colada/palmtree-loop.gif" class="palmtree"
         style="height: 100vh; position: fixed; bottom:0; z-index: -1; filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px);">
 
-    <div style="height: 80px;"></div>
-    <div style="font-family: Tribeca; font-size: 40px; color:#ffffff; ">
-        The <img src="images/pina-colada/text-pina-colada.gif" style=" vertical-align: middle;"> Review!
-    </div>
-    <span style="background-color: rgb(54, 40, 32);">
-        I love them, and despite being made of only 4 ingredients (pineapple, coconut, rum, ice) - they are weirdly
-        variable!
-        <br>
-        I think this is due to a few factors:
-        <br>
-        <div style="background-color: rgb(75, 119, 160); width: 50%;">
-            <ul>
-                <li>Is the pineapple juice fresh or from concentrate?</li>
-                <li>Was coconut cream used or cream of coconut? coconut milk? </li>
-                <li>What kind of rum was used; dark, light?</li>
-                <li>Ice ratio?</li>
-                <li>Was anything additional added?</li>
-            </ul>
-        </div>
 
-        <div style="background-color: rgb(75, 119, 160);">
-            Supposedly, a "true" pina colada uses specifically <a href="https://cocolopez.com/about-us">"Coco Lopez"</a>
-            Cream of Coconut. Personally I don't think any one company should own a recipe. That said, this stuff is
-            delicious, unlike regular Coconut Cream (which is not sweet) it's 50% sugar cane, so it's more akin to
-            condensed
-            milk. That will
-            either be a pro or a con to you depending on your
-            personal taste.
-        </div>
-        <br>
-    </span>
-    <img src="images/pina-colada/coco-lopez.jpg" style="height: 500px;">
-    <img src="images/pina-colada/coco-lopez2.jpg">
+    <div style="height: 80px;"></div>
+    <div style="font-family: Tribeca; font-size: clamp(18px, 3vw, 40px); color:#ffffff; white-space: nowrap;">
+        The <img src="images/pina-colada/text-pina-colada.gif" style="vertical-align: middle; height: 3em;"> Review!
+    </div>
+    <div style="background-color: rgb(54, 40, 32);">
+        The Piña Colada; nemesis of bartenders everywhere. I love them, and despite being made of only 4 ingredients
+        (pineapple, coconut, rum, ice) - they are weirdly
+        variable!
+    </div>
     <br>
     <span style="background-color: rgb(75, 119, 160);">
-        <br>
-        The current can label seems to have been designed at some point in the 1990s (?) and it is a thing of beauty.
-        Just look at that mascot.
-        <br>
-        Anyway, on with the reviews!
-    </span>
+        I think this is due to a few factors:</span>
     <br>
+    <div style="background-color: rgb(75, 119, 160); width: 50%;">
+        <ul>
+            <li>Is the pineapple juice fresh or from concentrate?</li>
+            <li>Was coconut cream used or cream of coconut? coconut milk? </li>
+            <li>What kind of rum was used; dark, light?</li>
+            <li>Ice ratio?</li>
+            <li>Was anything additional added?</li>
+        </ul>
+    </div>
+
+    <div style="background-color: rgb(75, 119, 160);">
+        Supposedly, a "true" pina colada uses specifically <a href="https://cocolopez.com/about-us">"Coco Lopez"</a>
+        Cream of Coconut. Personally I don't think any one company should own a recipe. That said, this stuff is
+        delicious, unlike regular Coconut Cream (which is not sweet) it's 50% sugar cane, so it's more akin to
+        condensed milk. That will either be a pro or a con to you depending on your personal taste. Of course, you could
+        just add sugar to regular coconut cream to get the same effect.
+    </div>
+    <br>
+
+    <img src="images/pina-colada/coco-lopez.jpg" style="height: 500px;">
+    <img src="images/pina-colada/coco-lopez2.jpg" style="height: 500px;">
+    <br>
+    <div style="background-color: rgb(75, 119, 160);">
+        The current can label seems to have been designed at some point in the 1990s (?) and it is a thing of beauty. It
+        perfectly captures the tacky vintage charm of the Piña Colada, just look at that mascot. Anyway, on with the
+        reviews!
+    </div>
     <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> Where? </span>
     <span style="background-color: rgb(54, 40, 32);"> Giraffe - Heathrow Airport - London - England</span>
     <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> When? </span>
@@ -131,9 +130,25 @@
         </span>
     </p>
 
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> Where? </span>
+    <span style="background-color: rgb(54, 40, 32);"> Bingin Beach - Bali - Indonesia</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> When? </span>
+    <span style="background-color: rgb(54, 40, 32);"> February 2024</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> Verdict? </span>
+    <span style="background-color: rgb(54, 40, 32);"> Thumbs Down</span>
+    <br>
+    <img src="images/pina-colada/colada-bingin.jpg" style="width: 500px;">
+    <br>
+    <p>
+        <span style="background-color: rgb(75, 119, 160);">
+            Can't remember the name of the place but there was a two story surf shack type thing. The drink tasted like
+            drain cleaner (and I forgot to snap a pic!) but the view was amazing so I can't complain!
+        </span>
+    </p>
+
 </body>
 <footer>
-    <span style="background-color: rgb(46, 39, 54);">
+    <span style="background-color: rgb(54, 40, 32);">
         <a href="index.html">- Home Page -</a> <a href="sitemap.html">Site Map</a>
     </span>
 </footer>
