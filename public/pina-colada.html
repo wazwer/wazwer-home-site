@@ -6,7 +6,7 @@
     <style>
         body {
             background: linear-gradient(0deg, rgba(44, 160, 209, 1) 0%, rgba(32, 120, 128, 1) 11%, rgba(242, 218, 111, 1) 12%, rgba(255, 168, 92, 1) 23%, rgba(227, 145, 155, 1) 36%, rgba(147, 162, 194, 1) 57%, rgba(17, 91, 128, 1) 100%);
-            background-attachment: fixed;
+            background-attachment: fixed; /* makes gradient fit screen size*/
             color: rgb(252, 252, 252);
             font-family: Verdana, Geneva, sans-serif;
             font-size: 18px;
@@ -29,13 +29,13 @@
         }
 
         @font-face {
-            font-family: "BushmanDesigner";
-            src: url(fonts/bushman-designer.ttf);
-        }
-
-        @font-face {
             font-family: "Tribeca";
             src: url(fonts/tribeca.ttf);
+        }
+
+        .palmtree {
+            right: 0;
+            /* transform: translateX(min(500px, calc(100vw - 500px))); */
         }
     </style>
 </head>
@@ -71,14 +71,14 @@
 
     <!-- BG -->
 
-    <img src="images/pina-colada/palmtree-loop.gif"
-        style="height: 100vh; position: fixed; right: 0; bottom:0; z-index: -98; filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px);">
+    <img src="images/pina-colada/palmtree-loop.gif" class="palmtree"
+        style="height: 100vh; position: fixed; bottom:0; z-index: -1; filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px);">
 
     <div style="height: 80px;"></div>
-    <div style="font-family: Tribeca; font-size: 40px; color:#330f04; ">
+    <div style="font-family: Tribeca; font-size: 40px; color:#ffffff; ">
         The <img src="images/pina-colada/text-pina-colada.gif" style=" vertical-align: middle;"> Review!
     </div>
-    <span style="background-color: rgb(75, 119, 160);">
+    <span style="background-color: rgb(54, 40, 32);">
         I love them, and despite being made of only 4 ingredients (pineapple, coconut, rum, ice) - they are weirdly
         variable!
         <br>
@@ -88,14 +88,15 @@
             <ul>
                 <li>Is the pineapple juice fresh or from concentrate?</li>
                 <li>Was coconut cream used or cream of coconut? coconut milk? </li>
+                <li>What kind of rum was used; dark, light?</li>
                 <li>Ice ratio?</li>
                 <li>Was anything additional added?</li>
             </ul>
         </div>
 
         <div style="background-color: rgb(75, 119, 160);">
-            Supposedly, a "true" pina colada uses Specifically <a href="https://cocolopez.com/about-us">"Coco Lopez"</a>
-            Cream of Coconut. Personally I don't think any one company should own a recipie. That said, this stuff is
+            Supposedly, a "true" pina colada uses specifically <a href="https://cocolopez.com/about-us">"Coco Lopez"</a>
+            Cream of Coconut. Personally I don't think any one company should own a recipe. That said, this stuff is
             delicious, unlike regular Coconut Cream (which is not sweet) it's 50% sugar cane, so it's more akin to
             condensed
             milk. That will
@@ -115,12 +116,12 @@
         Anyway, on with the reviews!
     </span>
     <br>
-    <span style="font-family: Tribeca; font-size: 40px; color:#330f04; "> Where? </span>
-    <span style="background-color: rgb(75, 119, 160);"> Giraffe - Heathrow Airport - London - England</span>
-    <span style="font-family: Tribeca; font-size: 40px; color:#330f04; "> When? </span>
-    <span style="background-color: rgb(75, 119, 160);"> January 2024</span>
-    <span style="font-family: Tribeca; font-size: 40px; color:#330f04; "> Verdict? </span>
-    <span style="background-color: rgb(75, 119, 160);"> Thumbs Up</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> Where? </span>
+    <span style="background-color: rgb(54, 40, 32);"> Giraffe - Heathrow Airport - London - England</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> When? </span>
+    <span style="background-color: rgb(54, 40, 32);"> January 2024</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> Verdict? </span>
+    <span style="background-color: rgb(54, 40, 32);"> Thumbs Up</span>
     <br>
     <img src="images/pina-colada/colada-giraffe.jpg" style="height: 500px;">
     <br>
