@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PinaColada - WAZWER</title>
+    <style>
+        body {
+            background: linear-gradient(0deg, rgba(44, 160, 209, 1) 0%, rgba(32, 120, 128, 1) 11%, rgba(242, 218, 111, 1) 12%, rgba(255, 168, 92, 1) 23%, rgba(227, 145, 155, 1) 36%, rgba(147, 162, 194, 1) 57%, rgba(17, 91, 128, 1) 100%);
+            background-attachment: fixed;
+            color: rgb(252, 252, 252);
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 30px;
+        }
+
+        a {
+            color: #fcd063;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2em;
+        }
+
+        @font-face {
+            font-family: "BushmanDesigner";
+            src: url(fonts/bushman-designer.ttf);
+        }
+
+        @font-face {
+            font-family: "Tribeca";
+            src: url(fonts/tribeca.ttf);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Music Player -->
+    <div
+        style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px; z-index: 900;">
+        <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
+            style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
+        playing: <a href="https://www.youtube.com/watch?v=mXHnzyA0dUE" target="_blank"> FFVII - Costa del Sol</a>
+    </div>
+    <audio id="bg-audio" src="https://wazwer.com/sounds/costadelsol.mp3" loop></audio>
+
+    <script>
+        const audio = document.getElementById('bg-audio');
+        const img = document.getElementById('audio-toggle');
+        let isPlaying = false;
+
+        audio.volume = 0.5;
+
+        img.addEventListener('click', () => {
+            if (!isPlaying) {
+                audio.play();
+                img.src = 'images/ui/audio_play.png'; // change image to pause
+            } else {
+                audio.pause();
+                img.src = 'images/ui/audio_mute.png'; // change image to play
+            }
+            isPlaying = !isPlaying;
+        });
+    </script>
+
+    <!-- BG -->
+
+    <img src="images/pina-colada/palmtree-loop.gif"
+        style="height: 100vh; position: fixed; right: 0; bottom:0; z-index: -98; filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px);">
+
+    <div style="height: 80px;"></div>
+    <div style="font-family: Tribeca; font-size: 40px; color:#330f04; ">
+        The <img src="images/pina-colada/text-pina-colada.gif" style=" vertical-align: middle;"> Review!
+    </div>
+    <span style="background-color: rgb(75, 119, 160);">
+        I love them, and despite being made of only 4 ingredients (pineapple, coconut, rum, ice) - they are weirdly
+        variable!
+        <br>
+        I think this is due to a few factors:
+        <br>
+        <div style="background-color: rgb(75, 119, 160); width: 50%;">
+            <ul>
+                <li>Is the pineapple juice fresh or from concentrate?</li>
+                <li>Was coconut cream used or cream of coconut? coconut milk? </li>
+                <li>Ice ratio?</li>
+                <li>Was anything additional added?</li>
+            </ul>
+        </div>
+
+        <div style="background-color: rgb(75, 119, 160);">
+            Supposedly, a "true" pina colada uses Specifically <a href="https://cocolopez.com/about-us">"Coco Lopez"</a>
+            Cream of Coconut. Personally I don't think any one company should own a recipie. That said, this stuff is
+            delicious, unlike regular Coconut Cream (which is not sweet) it's 50% sugar cane, so it's more akin to
+            condensed
+            milk. That will
+            either be a pro or a con to you depending on your
+            personal taste.
+        </div>
+        <br>
+    </span>
+    <img src="images/pina-colada/coco-lopez.jpg" style="height: 500px;">
+    <img src="images/pina-colada/coco-lopez2.jpg">
+    <br>
+    <span style="background-color: rgb(75, 119, 160);">
+        <br>
+        The current can label seems to have been designed at some point in the 1990s (?) and it is a thing of beauty.
+        Just look at that mascot.
+        <br>
+        Anyway, on with the reviews!
+    </span>
+    <br>
+    <span style="font-family: Tribeca; font-size: 40px; color:#330f04; "> Where? </span>
+    <span style="background-color: rgb(75, 119, 160);"> Giraffe - Heathrow Airport - London - England</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#330f04; "> When? </span>
+    <span style="background-color: rgb(75, 119, 160);"> January 2024</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#330f04; "> Verdict? </span>
+    <span style="background-color: rgb(75, 119, 160);"> Thumbs Up</span>
+    <br>
+    <img src="images/pina-colada/colada-giraffe.jpg" style="height: 500px;">
+    <br>
+    <p>
+        <span style="background-color: rgb(75, 119, 160);">
+            Ordered the Mango Colada and it was delicious. The mango and lime gave it an unexpected tangy twist.
+        </span>
+    </p>
+
+</body>
+<footer>
+    <span style="background-color: rgb(46, 39, 54);">
+        <a href="index.html">- Home Page -</a> <a href="sitemap.html">Site Map</a>
+    </span>
+</footer>
+
+</html>
