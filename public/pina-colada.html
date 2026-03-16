@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>The Pina Colada Review - WAZWER</title>
+
+    <title>The Piña Colada Review - WAZWER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chicle&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,100..900&display=swap"
+        rel="stylesheet">
     <style>
         body {
             background: linear-gradient(0deg, rgba(44, 160, 209, 1) 0%, rgba(32, 120, 128, 1) 11%, rgba(242, 218, 111, 1) 12%, rgba(255, 168, 92, 1) 23%, rgba(227, 145, 155, 1) 36%, rgba(147, 162, 194, 1) 57%, rgba(17, 91, 128, 1) 100%);
             background-attachment: fixed;
+            /* makes gradient fit screen size*/
             color: rgb(252, 252, 252);
             font-family: Verdana, Geneva, sans-serif;
             font-size: 18px;
@@ -29,13 +36,53 @@
         }
 
         @font-face {
-            font-family: "BushmanDesigner";
-            src: url(fonts/bushman-designer.ttf);
-        }
-
-        @font-face {
             font-family: "Tribeca";
             src: url(fonts/tribeca.ttf);
+        }
+
+        .chicle-regular {
+            font-family: "Chicle", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .truculenta {
+            font-family: "Truculenta", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            font-variation-settings:
+                "wdth" 100;
+        }
+
+
+        .palmtree {
+            right: 0;
+            /* transform: translateX(min(500px, calc(100vw - 500px))); */
+        }
+
+        .bluetextpadding {
+            background-color: rgb(75, 119, 160);
+            background-image: url(images/pina-colada/smooth-sand-dunes.jpg);
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: 5px;
+            padding-top: 5px;
+            font-family: Chicle;
+            font-size: 24px;
+            color: rgb(0, 0, 0);
+        }
+
+        .bluetextpadding a {
+            color: rgb(12, 84, 192);
+        }
+
+        .browntextpadding {
+            background-color: rgb(54, 40, 32);
+            padding-left: 10px;
+            padding-right: 10px;
+            font-family: Truculenta;
+            font-size: 28px;
+            vertical-align: center; 
         }
     </style>
 </head>
@@ -43,7 +90,7 @@
 <body>
     <!-- Music Player -->
     <div
-        style="position: fixed; top: 40px; left:120px; background-color: #191525; padding-left:10px; padding-right:10px; z-index: 900;">
+        style="position: fixed; top: 40px; left:120px; background-color: rgb(54, 40, 32); padding-left:10px; padding-right:10px; z-index: 900;">
         <img id="audio-toggle" src="images/ui/audio_mute.png" alt="Play Audio"
             style="cursor: pointer; position: fixed; height:80px; top: 15px; left:0px;">Now
         playing: <a href="https://www.youtube.com/watch?v=mXHnzyA0dUE" target="_blank"> FFVII - Costa del Sol</a>
@@ -70,69 +117,85 @@
     </script>
 
     <!-- BG -->
+    <img src="images/pina-colada/palmtree-loop.gif" class="palmtree"
+        style="height: 100vh; position: fixed; bottom:0; z-index: -1; filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px);">
 
-    <img src="images/pina-colada/palmtree-loop.gif"
-        style="height: 100vh; position: fixed; right: 0; bottom:0; z-index: -98; filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px);">
 
     <div style="height: 80px;"></div>
-    <div style="font-family: Tribeca; font-size: 40px; color:#330f04; ">
-        The <img src="images/pina-colada/text-pina-colada.gif" style=" vertical-align: middle;"> Review!
+    <div style="font-family: Tribeca; font-size: clamp(18px, 3vw, 40px); color:#ffffff; white-space: nowrap;">
+        The <img src="images/pina-colada/text-pina-colada.gif" style="vertical-align: middle; height: 3em;"> Review!
     </div>
-    <span style="background-color: rgb(75, 119, 160);">
-        I love them, and despite being made of only 4 ingredients (pineapple, coconut, rum, ice) - they are weirdly
+    <div class="browntextpadding">
+        The Piña Colada; nemesis of bartenders everywhere. I love them, and despite being made of only 4 ingredients
+        (pineapple, coconut, rum, ice) - they are weirdly
         variable!
-        <br>
-        I think this is due to a few factors:
-        <br>
-        <div style="background-color: rgb(75, 119, 160); width: 50%;">
-            <ul>
-                <li>Is the pineapple juice fresh or from concentrate?</li>
-                <li>Was coconut cream used or cream of coconut? coconut milk? </li>
-                <li>Ice ratio?</li>
-                <li>Was anything additional added?</li>
-            </ul>
-        </div>
+    </div>
+    <br>
+    <span class="bluetextpadding">
+        I think this is due to a few factors:</span>
+    <br>
+    <div class="bluetextpadding" style="max-width: 600px;">
+        <ul>
+            <li>Is the pineapple juice fresh or from concentrate?</li>
+            <li>Was coconut cream used or cream of coconut? coconut milk? </li>
+            <li>What kind of rum was used; dark, light?</li>
+            <li>Ice ratio?</li>
+            <li>Was anything additional added?</li>
+        </ul>
+    </div>
 
-        <div style="background-color: rgb(75, 119, 160);">
-            Supposedly, a "true" pina colada uses Specifically <a href="https://cocolopez.com/about-us">"Coco Lopez"</a>
-            Cream of Coconut. Personally I don't think any one company should own a recipie. That said, this stuff is
-            delicious, unlike regular Coconut Cream (which is not sweet) it's 50% sugar cane, so it's more akin to
-            condensed
-            milk. That will
-            either be a pro or a con to you depending on your
-            personal taste.
-        </div>
-        <br>
-    </span>
-    <img src="images/pina-colada/coco-lopez.jpg" style="height: 500px;">
-    <img src="images/pina-colada/coco-lopez2.jpg">
+    <div class="bluetextpadding">
+        Supposedly, a "true" pina colada uses specifically <a href="https://cocolopez.com/about-us">"Coco Lopez"</a>
+        Cream of Coconut. Personally I don't think any one company should own a recipe. That said, this stuff is
+        delicious, unlike regular Coconut Cream (which is not sweet) it's 50% sugar cane, so it's more akin to
+        condensed milk. That will either be a pro or a con to you depending on your personal taste. Of course, you could
+        just add sugar to regular coconut cream to get the same effect.
+    </div>
     <br>
-    <span style="background-color: rgb(75, 119, 160);">
-        <br>
-        The current can label seems to have been designed at some point in the 1990s (?) and it is a thing of beauty.
-        Just look at that mascot.
-        <br>
-        Anyway, on with the reviews!
-    </span>
+
+    <img src="images/pina-colada/coco-lopez.jpg" style="max-height: 450px; max-width: 100%;">
+    <img src="images/pina-colada/coco-lopez2.jpg" style="max-height: 450px; max-width: 100%;">
     <br>
-    <span style="font-family: Tribeca; font-size: 40px; color:#330f04; "> Where? </span>
-    <span style="background-color: rgb(75, 119, 160);"> Giraffe - Heathrow Airport - London - England</span>
-    <span style="font-family: Tribeca; font-size: 40px; color:#330f04; "> When? </span>
-    <span style="background-color: rgb(75, 119, 160);"> January 2024</span>
-    <span style="font-family: Tribeca; font-size: 40px; color:#330f04; "> Verdict? </span>
-    <span style="background-color: rgb(75, 119, 160);"> Thumbs Up</span>
+    <div class="bluetextpadding ">
+        The current can label seems to have been designed at some point in the 1990s (?) and it is a thing of beauty. It
+        perfectly captures the tacky vintage charm of the Piña Colada, just look at that mascot. Anyway, on with the
+        reviews!
+    </div>
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> Where? </span>
+    <span class="browntextpadding"> Giraffe - Heathrow Airport - London - England</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> When? </span>
+    <span class="browntextpadding"> January 2024</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> Verdict? </span>
+    <span class="browntextpadding"> Thumbs Up</span>
     <br>
-    <img src="images/pina-colada/colada-giraffe.jpg" style="height: 500px;">
+    <img src="images/pina-colada/colada-giraffe.jpg" style="max-height: 500px; max-width: 100%;">
     <br>
     <p>
-        <span style="background-color: rgb(75, 119, 160);">
+        <span class="bluetextpadding">
             Ordered the Mango Colada and it was delicious. The mango and lime gave it an unexpected tangy twist.
+        </span>
+    </p>
+
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> Where? </span>
+    <span class="browntextpadding"> Bingin Beach - Bali - Indonesia</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> When? </span>
+    <span class="browntextpadding"> February 2024</span>
+    <span style="font-family: Tribeca; font-size: 40px; color:#ffffff; "> Verdict? </span>
+    <span class="browntextpadding"> Thumbs Down</span>
+    <br>
+    <img src="images/pina-colada/colada-bingin1.jpg" style="max-height: 280px; max-width: 100%;">
+    <img src="images/pina-colada/colada-bingin2.jpg" style="width: 500px; max-width: 100%;">
+    <br>
+    <p>
+        <span class="bluetextpadding">
+            Can't remember the name of the place, but there was a two story surf shack type thing. The drink tasted like
+            drain cleaner but the view was amazing so I can't complain!
         </span>
     </p>
 
 </body>
 <footer>
-    <span style="background-color: rgb(46, 39, 54);">
+    <span class="browntextpadding">
         <a href="index.html">- Home Page -</a> <a href="sitemap.html">Site Map</a>
     </span>
 </footer>
