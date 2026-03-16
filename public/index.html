@@ -381,7 +381,8 @@
             "Genesis does what Nintendon't",
             "The internet is a series of pipe dreams",
             "Find the nabisco thing on nabisco things",
-            "For the colony, and oppressed ants everywhere!"
+            "For the colony, and oppressed ants everywhere!",
+            'Do you like Piña Coladas? <a href="pina-colada.html" style="color: rgb(179, 255, 226);">(Link)</a>'
         ];
 
         function shuffle(array) {
@@ -398,7 +399,7 @@
         function showNextMessage() {
             statusText.style.animation = 'none'; // reset
             void statusText.offsetWidth; // reflow
-            statusText.textContent = messages[current];
+            statusText.innerHTML = messages[current];
             statusText.style.animation = 'slidePauseSlide 15s linear forwards';
             current = (current + 1) % messages.length;
         }
