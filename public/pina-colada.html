@@ -11,7 +11,8 @@
         rel="stylesheet">
     <style>
         body {
-
+            /*background: linear-gradient(0deg, rgba(44, 160, 209, 1) 0%, rgba(32, 120, 128, 1) 11%, rgba(242, 218, 111, 1) 12%, rgba(255, 168, 92, 1) 23%, rgba(227, 145, 155, 1) 36%, rgba(147, 162, 194, 1) 57%, rgba(17, 91, 128, 1) 100%); */
+            /* makes gradient fit screen size*/
             color: rgb(252, 252, 252);
             font-family: Verdana, Geneva, sans-serif;
             font-size: 18px;
@@ -19,12 +20,15 @@
             margin: 30px;
         }
 
-        body::before {
-            content: "";
+        .bg {
             position: fixed;
             inset: 0;
             z-index: -1;
-            background: linear-gradient(0deg, rgba(44, 160, 209, 1) 0%, rgba(32, 120, 128, 1) 11%, rgba(242, 218, 111, 1) 12%, rgba(255, 168, 92, 1) 23%, rgba(227, 145, 155, 1) 36%, rgba(147, 162, 194, 1) 57%, rgba(17, 91, 128, 1) 100%);
+            pointer-events: none;
+            background: linear-gradient(0deg, rgba(44, 160, 209, 1) 0%, rgba(32, 120, 128, 1) 11%, rgba(242, 218, 111, 1) 12%, rgba(255, 168, 92, 1) 23%, rgba(227, 145, 155, 1) 36%, rgba(147, 162, 194, 1) 57%, rgba(17, 91, 128, 1) 100%); 
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
         a {
@@ -87,12 +91,12 @@
 
         .palmtree {
             /* transform: translateX(min(500px, calc(100vw - 500px))); */
-            /* filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px); */
         }
     </style>
 </head>
 
 <body>
+    <div class="bg"></div>
     <!-- Music Player -->
     <div
         style="position: fixed; top: 40px; left:120px; background-color: rgb(54, 40, 32); padding-left:10px; padding-right:10px; z-index: 900;">
@@ -123,7 +127,7 @@
 
     <!-- BG -->
     <img src="images/pina-colada/palmtree-loop.gif" class="palmtree"
-        style="height: 100%; position: fixed; bottom:0; right: 0; z-index: -1; ">
+        style="height: 100%; position: fixed; bottom:0; right: 0; z-index: -1; filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px);">
 
 
     <div style="height: 80px;"></div>
