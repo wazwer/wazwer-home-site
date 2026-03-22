@@ -93,10 +93,10 @@
         .palmtree {
             height: 100%;
             position: fixed;
-            bottom: 0;
-            right: min(0px, calc(100vw - 1000px));
+            top: 50px;
+            right: min(-200px, calc(100vw - 1000px));
             z-index: -1;
-            filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px);
+            /*filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px); */
         }
     </style>
 </head>
@@ -131,7 +131,8 @@
     </script>
 
     <!-- BG -->
-    <img src="images/pina-colada/palmtree-loop.gif" class="palmtree">
+    <img src="images/pina-colada/palm-tree.png" class="palmtree">
+    <img src="images/pina-colada/palm-leaves.png" style="left:0px; top:0px; position: fixed; z-index: -1; width: 500px;;">
 
     <div style="height: 80px;"></div>
     <div style="font-family: Tribeca; font-size: clamp(18px, 4vw, 40px); color:#ffffff; white-space: nowrap;">
