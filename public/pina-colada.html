@@ -21,6 +21,7 @@
         }
 
         body::before {
+            /* this is the only way for fixed position backgrounds not to freak out on mobile*/
             content: '';
             position: fixed;
             top: 0;
@@ -30,19 +31,6 @@
             background: linear-gradient(0deg, rgba(44, 160, 209, 1) 0%, rgba(32, 120, 128, 1) 11%, rgba(242, 218, 111, 1) 12%, rgba(255, 168, 92, 1) 23%, rgba(227, 145, 155, 1) 36%, rgba(147, 162, 194, 1) 57%, rgba(17, 91, 128, 1) 100%);
             z-index: -1;
         }
-
-        /*
-        .bg {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            background: linear-gradient(0deg, rgba(44, 160, 209, 1) 0%, rgba(32, 120, 128, 1) 11%, rgba(242, 218, 111, 1) 12%, rgba(255, 168, 92, 1) 23%, rgba(227, 145, 155, 1) 36%, rgba(147, 162, 194, 1) 57%, rgba(17, 91, 128, 1) 100%);
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            height: 100vh;
-        } */
 
         a {
             color: #fcd063;
@@ -103,7 +91,12 @@
         }
 
         .palmtree {
-            /* transform: translateX(min(500px, calc(100vw - 500px))); */
+            height: 100%;
+            position: fixed;
+            bottom: 0;
+            right: min(0px, calc(100vw - 1000px));
+            z-index: -1;
+            filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px);
         }
     </style>
 </head>
@@ -137,10 +130,8 @@
         });
     </script>
 
-    <!-- BG 
-    <img src="images/pina-colada/palmtree-loop.gif" class="palmtree"
-        style="height: 100%; position: fixed; bottom:0; right: 0; z-index: -1; filter: brightness(40%) hue-rotate(10deg) saturate(60%) contrast(110%) blur(5px);">-->
-
+    <!-- BG -->
+    <img src="images/pina-colada/palmtree-loop.gif" class="palmtree">
 
     <div style="height: 80px;"></div>
     <div style="font-family: Tribeca; font-size: clamp(18px, 4vw, 40px); color:#ffffff; white-space: nowrap;">
