@@ -4,7 +4,6 @@
 <head>
 
     <title>The Piña Colada Review - WAZWER</title>
-    <meta name="viewport" content="height=device-height, width=device-width" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chicle&display=swap" rel="stylesheet">
@@ -27,8 +26,8 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             background: linear-gradient(0deg, rgba(44, 160, 209, 1) 0%, rgba(32, 120, 128, 1) 11%, rgba(242, 218, 111, 1) 12%, rgba(255, 168, 92, 1) 23%, rgba(227, 145, 155, 1) 36%, rgba(147, 162, 194, 1) 57%, rgba(17, 91, 128, 1) 100%);
             z-index: -1;
         }
@@ -92,7 +91,7 @@
         }
 
         .palmtree {
-            height: 100%;
+            height: 100vh;
             position: fixed;
             top: 50px;
             right: min(-200px, calc(100vw - 1000px));
@@ -134,7 +133,7 @@
     <!-- BG -->
     <img src="images/pina-colada/palm-tree.png" class="palmtree">
     <img src="images/pina-colada/palm-leaves.png"
-        style="left:0px; top:0px; position: fixed; z-index: -1; width: 500px;;">
+        style="left:0px; top:0px; position: fixed; z-index: -1; width: 500px;">
 
     <div style="height: 80px;"></div>
     <div style="font-family: Tribeca; font-size: clamp(18px, 4vw, 40px); color:#ffffff; white-space: nowrap;">
