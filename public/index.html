@@ -5,8 +5,11 @@
     <meta charset="UTF-8">
     <title>WAZWER</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Iso&display=swap" rel="stylesheet">
     <style>
-        html{
+        html {
             margin: 0px;
             overflow-x: hidden;
         }
@@ -126,6 +129,12 @@
             display: inline-block;
             padding-left: 12px;
             animation: slidePauseSlide 4s linear forwards;
+        }
+
+        .rubik-iso-regular {
+            font-family: "Rubik Iso", system-ui;
+            font-weight: 400;
+            font-style: normal;
         }
     </style>
     <style>
@@ -365,8 +374,9 @@
     <!-- Footer -->
     <footer style="text-align: center; margin-top: 2em;">
         <div class="link-bar-spacer"></div>
-        <a href="sitemap.html">- Site Map -</a>
-        <br>
+        <span style="font-family: Rubik Iso; font-size: 40px; ">
+            <a href="sitemap.html" style="color:#99ffcf;">- Site Map -</a>
+        </span>
         <div class="link-bar-spacer"></div>
         <div style="font-family: 'Courier New', Courier, monospace; font-size: 18px; ">- © WAZWER 2026 - All rights
             reserved - </div>
@@ -408,8 +418,6 @@
 
         showNextMessage();
     </script>
-
-
 
 </body>
 
