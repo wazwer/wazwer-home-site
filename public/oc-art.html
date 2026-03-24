@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>OC Art - WAZWER</title>
+    <style>
+        body {
+            background-color: #2c2935;
+            color: white;
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 30px;
+        }
+
+        a {
+            color: #fcd063;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 6fr 2fr;
+            gap: 1rem;
+            padding: 1rem;
+            min-height: 70vh;
+        }
+
+        iframe {
+            width: 100%;
+            height: 90vh;
+            border: 2px solid #83eec2;
+            background: url('character_pages/cast-ensemble.jpg') center center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-color: #1f1f1f;
+        }
+
+        .controls {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .button {
+            background-color: #04AA6D;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .icon {
+            height: 200px;
+        }
+
+        .icon:hover {
+            translate: 0px -10px;
+        }
+
+        .press-rig {
+            transform: translateX(calc(-100% - 128px));
+            pointer-events: none;
+        }
+
+        .press-rig.animate {
+            animation-name: press-activate;
+            animation-duration: 0.5s;
+            animation-direction: alternate;
+            animation-iteration-count: 2;
+            animation-timing-function: linear;
+        }
+
+        .press-body {
+            height: 256px;
+            /* Adjust to match image's height */
+            background: url('character_pages/ui/press-body.png') repeat-x left center;
+            background-size: auto 100%;
+            /* tile width-wise, scale to bar height */
+            position: absolute;
+            left: 0;
+            width: 100%;
+        }
+
+        .press-head {
+            height: 256px;
+            /* Adjust to match image's height */
+            background: url('character_pages/ui/press-head.png') no-repeat;
+            background-size: auto 100%;
+            /* tile width-wise, scale to bar height */
+            position: absolute;
+            left: 100%;
+            width: 100%;
+        }
+
+        @keyframes press-activate {
+            from {
+                transform: translateX(calc(-100% - 128px));
+            }
+
+            to {
+                transform: translateX(calc(0% - 128px));
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="press-rig">
+        <div class="press-body"></div>
+        <div class="press-head"></div>
+    </div>
+
+
+    <div id="welcome-select" style="height:220px;"></div>
+    <div id="character-select" class="hidden">
+        <div style="text-align: left;">Select Character</div>
+        <a href="character_pages/kascade.html" target="contentFrame"><img src="character_pages/Kascade_icon.jpg"
+                class="icon"></a>
+        <a href="character_pages/dice.html" target="contentFrame"><img src="character_pages/Dice_icon.jpg"
+                class="icon"></a>
+        <a href="character_pages/tanzanite.html" target="contentFrame"><img src="character_pages/tanzanite-icon.jpg"
+                class="icon"></a>
+        <a href="character_pages/jenny.html" target="contentFrame"><img src="character_pages/Jenny_icon.jpg"
+                class="icon"></a>
+        <a href="character_pages/obsidian.html" target="contentFrame"><img src="character_pages/obsidian-icon.jpg"
+                class="icon"></a>
+    </div>
+
+    <div id="location-select" class="hidden">
+        <div style="text-align: left;">Select Location</div>
+        <a href="location-pages/brainframe.html" target="contentFrame"><img src="location-pages/brainframe.jpg"
+                class="icon"></a>
+    </div>
+
+    <main>
+        <iframe name="contentFrame" src="about:blank"></iframe>
+        <div class="controls">
+            <button class="button" onclick="showMenu('character-select')">Characters</button>
+            <button class="button" onclick="showMenu('location-select')">Locations</button>
+        </div>
+    </main>
+
+
+    <footer style="text-align: center; margin-top: 2em;">
+        <a href="projects.html">- Return to Projects Page -</a> <a href="index.html">- Home Page -</a> <a
+            href="sitemap.html">- Site Map -</a>
+    </footer>
+
+    <script>
+        function showMenu(menuId) {
+            const menus = ['welcome-select', 'character-select', 'location-select'];
+
+            const pressRig = document.querySelector('.press-rig');
+            pressRig.classList.remove('animate');
+
+            // force reflow so animation resets
+            void pressRig.offsetWidth;
+            pressRig.classList.add('animate');
+
+            //add quarter second delay to mask transition
+            setTimeout(() => {
+                menus.forEach(id => {
+                    document.getElementById(id).classList.add('hidden');
+                });
+                document.getElementById(menuId).classList.remove('hidden');
+            }, 250);
+        }
+    </script>
+</body>
+
+</html>
