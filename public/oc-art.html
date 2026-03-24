@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>OC Art - WAZWER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2c2935;
+            color: white;
+            font-family: Odibee Sans;
+            font-size: 30px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        a {
+            color: #fcd063;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: 6fr 2fr;
+            gap: 1rem;
+            padding: 1rem;
+            min-height: 70vh;
+        }
+
+        .controls {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .button {
+            background-color: #505963;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 30px;
+            margin: 4px 2px;
+            cursor: pointer;
+            font-family: Odibee Sans;
+        }
+
+        iframe {
+            width: 100%;
+            height: 90vh;
+            border: 2px solid #83eec2;
+            background: url('character_pages/cast-ensemble.jpg') center center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-color: #1f1f1f;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .icon {
+            width: 100%;
+            max-height: 200px;
+            z-index: 2;
+            flex: 1 1 0;
+        }
+
+        .icon:hover {
+            translate: 0px -10px;
+        }
+
+        .press-rig {
+            transform: translateX(calc(-100% - 128px));
+            pointer-events: none;
+        }
+
+        .press-rig.animate {
+            animation-name: press-activate;
+            animation-duration: 0.5s;
+            animation-direction: alternate;
+            animation-iteration-count: 2;
+            animation-timing-function: linear;
+        }
+
+        .press-body {
+            top: 100px;
+            height: 256px;
+            /* Adjust to match image's height */
+            background: url('character_pages/ui/press-body.png') repeat-x left center;
+            background-size: auto 100%;
+            /* tile width-wise, scale to bar height */
+            position: absolute;
+            left: 0;
+            width: 100%;
+            z-index: 5;
+        }
+
+        .press-head {
+            top: 100px;
+            height: 256px;
+            /* Adjust to match image's height */
+            background: url('character_pages/ui/press-head.png') no-repeat;
+            background-size: auto 100%;
+            /* tile width-wise, scale to bar height */
+            position: absolute;
+            left: 100%;
+            width: 100%;
+            z-index: 5;
+        }
+
+        @keyframes press-activate {
+            0% {
+                transform: translateX(calc(-100% - 128px));
+            }
+
+            80%,
+            100% {
+                transform: translateX(calc(0% - 128px));
+            }
+        }
+
+        .odibee-sans-regular {
+            font-family: "Odibee Sans", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="press-rig">
+        <div class="press-body"></div>
+        <div class="press-head"></div>
+    </div>
+
+    <img src="character_pages/ui/message-bar.png" style="position: absolute; z-index: -1;"></img>
+    <div style="height:20px;"></div> <!-- spacer -->
+
+    <div id="welcome-select">
+        <div style="text-align: left; position: relative; left: 100px;">Awaiting Category Selection</div>
+        <div style="height:275px;"></div> <!-- spacer -->
+    </div>
+
+    <div id="character-select" class="hidden">
+        <div style="text-align: left; position: relative; left: 100px;">Select Character</div>
+        <div style="height:60px;"></div> <!-- spacer -->
+        <div style="margin-left: 30px; display: flex; gap: 1rem; width: 95%; height: 215px; align-items: center;">
+            <a href="character_pages/kascade.html" target="contentFrame"><img src="character_pages/Kascade_icon.jpg"
+                    class="icon"></a>
+            <a href="character_pages/dice.html" target="contentFrame"><img src="character_pages/Dice_icon.jpg"
+                    class="icon"></a>
+            <a href="character_pages/tanzanite.html" target="contentFrame"><img src="character_pages/tanzanite-icon.jpg"
+                    class="icon"></a>
+            <a href="character_pages/jenny.html" target="contentFrame"><img src="character_pages/Jenny_icon.jpg"
+                    class="icon"></a>
+            <a href="character_pages/obsidian.html" target="contentFrame"><img src="character_pages/obsidian-icon.jpg"
+                    class="icon"></a>
+        </div>
+    </div>
+
+    <div id="location-select" class="hidden">
+        <div style="text-align: left; position: relative; left: 100px;">Select Location</div>
+        <div style="height:60px;"></div> <!-- spacer -->
+        <div style="margin-left: 30px; display: flex; gap: 1rem; width: 95%; height: 215px; align-items: center;">
+            <a href="location-pages/brainframe.html" target="contentFrame"><img src="location-pages/brainframe.jpg"
+                    class="icon"></a>
+        </div>
+    </div>
+
+    <main>
+        <iframe name="contentFrame" src="about:blank"></iframe>
+        <div class="controls">
+            <button class="button" onclick="showMenu('character-select')">Characters</button>
+            <button class="button" onclick="showMenu('location-select')">Locations</button>
+        </div>
+    </main>
+
+
+    <footer style="text-align: center; margin-top: 2em;">
+        <a href="projects.html">- Return to Projects Page -</a> <a href="index.html">- Home Page -</a> <a
+            href="sitemap.html">- Site Map -</a>
+    </footer>
+
+    <script>
+        function showMenu(menuId) {
+            const menus = ['welcome-select', 'character-select', 'location-select'];
+
+            const pressRig = document.querySelector('.press-rig');
+            pressRig.classList.remove('animate');
+
+            // force reflow so animation resets
+            void pressRig.offsetWidth;
+            pressRig.classList.add('animate');
+
+            //add half second delay to mask transition
+            setTimeout(() => {
+                menus.forEach(id => {
+                    document.getElementById(id).classList.add('hidden');
+                });
+                document.getElementById(menuId).classList.remove('hidden');
+            }, 400);
+        }
+    </script>
+</body>
+
+</html>
