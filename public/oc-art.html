@@ -81,52 +81,54 @@
         }
 
         .press-rig {
-            transform: translateX(calc(-100% - 128px));
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 400px;
+            overflow: hidden;
             pointer-events: none;
+            z-index: 5;
         }
 
-        .press-rig.animate {
-            animation-name: press-activate;
-            animation-duration: 0.5s;
-            animation-direction: alternate;
-            animation-iteration-count: 2;
-            animation-timing-function: linear;
+        .press-rig-inner {
+            position: absolute;
+            inset: 0;
+            transform: translateX(calc(-100% - 128px));
+        }
+
+        .press-rig.animate .press-rig-inner {
+            animation: press-activate 0.5s linear 2 alternate;
         }
 
         .press-body {
+            position: absolute;
             top: 100px;
+            left: 0;
             height: 256px;
-            /* Adjust to match image's height */
+            width: 100vw;
             background: url('character_pages/ui/press-body.png') repeat-x left center;
             background-size: auto 100%;
-            /* tile width-wise, scale to bar height */
-            position: absolute;
-            left: 0;
-            width: 100%;
-            z-index: 5;
         }
 
         .press-head {
+            position: absolute;
             top: 100px;
+            left: 100vw;
             height: 256px;
-            /* Adjust to match image's height */
+            width: 256px;
             background: url('character_pages/ui/press-head.png') no-repeat;
             background-size: auto 100%;
-            /* tile width-wise, scale to bar height */
-            position: absolute;
-            left: 100%;
-            width: 100%;
-            z-index: 5;
         }
 
         @keyframes press-activate {
             0% {
-                transform: translateX(calc(-100% - 128px));
+                transform: translateX(calc(-100vw - 128px));
             }
 
             80%,
             100% {
-                transform: translateX(calc(0% - 128px));
+                transform: translateX(-128px);
             }
         }
 
@@ -139,21 +141,23 @@
 </head>
 
 <body>
-    
+
     <div class="press-rig">
-        <div class="press-body"></div>
-        <div class="press-head"></div>
+        <div class="press-rig-inner">
+            <div class="press-body"></div>
+            <div class="press-head"></div>
+        </div>
     </div>
 
     <img src="character_pages/ui/message-bar.png" style="position: absolute; z-index: -1;"></img>
-    <div style="height:20px;"></div> <!-- spacer -->
+    <div style="height:20px;"></div>
 
-    <div id="welcome-select">
+    <div id="welcome-select" style="overflow-x: hidden;">
         <div style="text-align: left; position: relative; left: 100px;">Awaiting Category Selection</div>
-        <div style="height:275px;"></div> <!-- spacer -->
+        <div style="height:275px;"></div>
     </div>
 
-    <div id="character-select" class="hidden">
+    <div id="character-select" class="hidden" style="overflow-x: hidden;">
         <div style="text-align: left; position: relative; left: 100px;">Select Character</div>
         <div style="height:60px;"></div> <!-- spacer -->
         <div style="margin-left: 30px; display: flex; gap: 1rem; width: 95%; height: 215px; align-items: center;">
@@ -170,7 +174,7 @@
         </div>
     </div>
 
-    <div id="location-select" class="hidden">
+    <div id="location-select" class="hidden" style="overflow-x: hidden;">
         <div style="text-align: left; position: relative; left: 100px;">Select Location</div>
         <div style="height:60px;"></div> <!-- spacer -->
         <div style="margin-left: 30px; display: flex; gap: 1rem; width: 95%; height: 215px; align-items: center;">
