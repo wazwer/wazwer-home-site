@@ -9,6 +9,8 @@
     <style>
         body {
             background-color: #2c2935;
+            background-image: url("images/pipes-texture.jpg");
+            background-size: 200px;
             color: white;
             font-family: Odibee Sans;
             font-size: 30px;
@@ -101,9 +103,20 @@
             animation: press-activate 0.5s linear 2 alternate;
         }
 
-        .press-body {
+        .press-channel {
             position: absolute;
             top: 100px;
+            left: 0;
+            height: 320px;
+            width: 100vw;
+            background: url('character_pages/ui/press-channel.jpg') repeat-x left center;
+            background-size: auto 100%;
+            z-index: -1;
+        }
+
+        .press-body {
+            position: absolute;
+            top: 132px;
             left: 0;
             height: 256px;
             width: 100vw;
@@ -113,7 +126,7 @@
 
         .press-head {
             position: absolute;
-            top: 100px;
+            top: 132px;
             left: 100vw;
             height: 256px;
             width: 256px;
@@ -142,6 +155,7 @@
 
 <body>
 
+    <div class="press-channel"></div>
     <div class="press-rig">
         <div class="press-rig-inner">
             <div class="press-body"></div>
@@ -154,12 +168,12 @@
 
     <div id="welcome-select" style="overflow-x: hidden;">
         <div style="text-align: left; position: relative; left: 100px;">Awaiting Category Selection</div>
-        <div style="height:275px;"></div>
+        <div style="height:307px;"></div>
     </div>
 
     <div id="character-select" class="hidden" style="overflow-x: hidden;">
         <div style="text-align: left; position: relative; left: 100px;">Select Character</div>
-        <div style="height:60px;"></div> <!-- spacer -->
+        <div style="height:92px;"></div> <!-- spacer -->
         <div style="margin-left: 30px; display: flex; gap: 1rem; width: 95%; height: 215px; align-items: center;">
             <a href="character_pages/kascade.html" target="contentFrame"><img src="character_pages/Kascade_icon.jpg"
                     class="icon"></a>
@@ -176,13 +190,14 @@
 
     <div id="location-select" class="hidden" style="overflow-x: hidden;">
         <div style="text-align: left; position: relative; left: 100px;">Select Location</div>
-        <div style="height:60px;"></div> <!-- spacer -->
+        <div style="height:92px;"></div> <!-- spacer -->
         <div style="margin-left: 30px; display: flex; gap: 1rem; width: 95%; height: 215px; align-items: center;">
             <a href="location-pages/brainframe.html" target="contentFrame"><img src="location-pages/brainframe.jpg"
                     class="icon"></a>
         </div>
     </div>
 
+    <div style="height:60px;"></div>
     <main>
         <iframe name="contentFrame" src="about:blank"></iframe>
         <div class="controls">
@@ -197,6 +212,7 @@
             href="sitemap.html">- Site Map -</a>
     </footer>
 
+    <div style="height:40px;"></div>
     <script>
         function showMenu(menuId) {
             const menus = ['welcome-select', 'character-select', 'location-select'];
