@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Fan Art - WAZWER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #2c2935;
+            color: white;
+            font-family: Verdana, Geneva, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 30px;
+            background-image: url("images/pipes-texture.jpg");
+            background-size: 200px;
+        }
+
+        a {
+            color: #fcd063;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .block {
+            display: inline-block;
+            width: 40%;
+            min-width: 600px;
+        }
+
+        .odibee-sans-regular {
+            font-family: "Odibee Sans", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .thumb {
+            max-width: 500px;
+            max-height: 400px;
+            cursor: pointer;
+        }
+
+        .image-dialog {
+            width: 100vw;
+            height: 100vh;
+            max-width: none;
+            max-height: none;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .image-dialog img {
+            display: block;
+            max-width: 95vw;
+            max-height: 95vh;
+            margin: auto;
+            object-fit: contain;
+        }
+
+        #closeDialog {
+            position: absolute;
+            top: 2rem;
+            right: 4rem;
+            font-size: 4rem;
+            width: 4rem;
+            background: none;
+            color: white;
+            background-color: #272727;
+            border: 0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    This is a small selection of fan art I've made over the years :) You
+    can click on a thumbnail to view the larger image
+    <br>
+    <br>
+
+    <div class="block">
+        <div style="display: grid; grid-template-columns: 1fr 1fr;">
+            <div>2025 - A pixel art piece I made for <a href="https://artfight.net/~McArthur"> McArthur</a> of their OCs
+                on
+                Artfight.
+            </div>
+            <div><img src="images/fan-art/kyra.jpg" class="thumb"></div>
+            <div>2024 - Looping gif I made of Nicole from Archie sonic. The gif itself is pretty huge to host here so
+                I'm
+                just linking out to a video I made of it (warning there is ambient audio).</div>
+            <div> <iframe width="300" height="540"
+                    src="https://www.youtube.com/embed/qijEVcWG3CM?si=9P-yHVTrry2RGzCK&amp;controls=0"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+        </div>
+    </div>
+
+    <div class="block">
+        <div style="display: grid; grid-template-columns: 1fr 1fr;">
+            <div>2024 - A rendered piece I made for <a href="https://artfight.net/~HoloLynx"> HoloLynx </a> on Artfight.
+            </div>
+            <div><img src="images/fan-art/moonlitgrotto.jpg" class="thumb" style="height:300px;"></div>
+            <div>2025 - A piece I made for <a href="https://artfight.net/~TibetSunaTsune"> TibetSunaTsune </a> of their
+                OCs
+                on Artfight. I like how the poses turned out :D</div>
+            <div><img src="images/fan-art/sakura-cold.jpg" class="thumb"></div>
+            <div>2024 - A clean sketch I made for <a href="https://artfight.net/~Aeroxoxo"> Aeroxoxo </a> of their OCs
+                on
+                Artfight. I like the design of this pair.</div>
+            <div><img src="images/fan-art/raspberry.jpg" class="thumb"></div>
+        </div>
+    </div>
+
+    <dialog class="image-dialog" id="imageDialog">
+        <button id="closeDialog" aria-label="Close">X</button>
+        <img id="dialogImage" alt="Large view">
+    </dialog>
+
+    <footer style="text-align: center; margin-top: 2em; font-family: Odibee Sans; font-size: 30px;">
+        <a href="projects.html">- Return to Projects Page -</a> <a href="index.html">- Home Page -</a> <a
+            href="sitemap.html">- Site Map -</a>
+    </footer>
+</body>
+
+<script>
+    const dialog = document.getElementById("imageDialog");
+    const dialogImage = document.getElementById("dialogImage");
+    const closeDialog = document.getElementById("closeDialog");
+
+    document.querySelectorAll(".thumb").forEach((thumb) => {
+        thumb.addEventListener("click", () => {
+            dialogImage.src = thumb.src;
+            dialog.showModal();
+        });
+    });
+
+    closeDialog.addEventListener("click", () => {
+        dialog.close();
+    });
+</script>
+
+</html>
