@@ -11,7 +11,7 @@ rss_data = requests.get(rss_url).text
 try:
     root = ET.fromstring(rss_data)
 except ET.ParseError:
-    print("RSS fetch did not return valid XML. Keeping existing public/rss.html")
+    print("::warning file=scripts/fetch_rss.py,line=1,title=RSS fallback::RSS fetch did not return valid XML. Keeping existing public/rss.html")
     raise SystemExit(0)
 
 # Parse the standard parts using feedparser
