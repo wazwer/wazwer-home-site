@@ -8,7 +8,11 @@ rss_url = "https://backloggd.com/u/wazwer/reviews/rss/"
 rss_data = requests.get(rss_url).text
 
 # Parse the XML to access custom tags (like <image><url>)
-root = ET.fromstring(rss_data)
+try:
+    root = ET.fromstring(rss_data)
+except ET.ParseError:
+    print("::warning file=scripts/fetch_rss.py,line=1,title=RSS fallback::RSS fetch did not return valid XML. Keeping existing public/rss.html")
+    raise SystemExit(0)
 
 # Parse the standard parts using feedparser
 feed = feedparser.parse(rss_data)
